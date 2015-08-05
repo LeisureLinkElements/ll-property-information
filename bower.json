@@ -1,0 +1,29 @@
+{
+  "name": "ll-property-information-view",
+  "version": "1.0.0",
+  "authors": [
+    "Zack Smith <zsmith@leisurelink.com>"
+  ],
+  "description": "An element providing the view for property information such as property name, address, description, etc.",
+  "keywords": [
+    "property",
+    "leisurelink",
+    "view"
+  ],
+  "main": "ll-property-information-view.html",
+  "license": "http://polymer.github.io/LICENSE.txt",
+  "homepage": "https://github.com/LeisureLinkElements/ll-property-information-view",
+  "ignore": [
+    "/.*",
+    "/test/",
+    "/demo/"
+  ],
+  "dependencies": {
+    "polymer": "Polymer/polymer#^1.0.0",
+    "ll-theme": "LeisureLinkElements/ll-theme#~0.0.1"
+  },
+  "devDependencies": {
+    "iron-component-page": "PolymerElements/iron-component-page#^1.0.0",
+    "web-component-tester": "*"
+  }
+}
