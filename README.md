@@ -1,4 +1,4 @@
-# ll-property-information-view
+# ll-property-information
 
 An element providing a starting point for your own reusable Polymer elements.
 
@@ -28,13 +28,13 @@ And you can run it via:
     polyserve
 
 Once running, you can preview your element at
-`http://localhost:8080/components/ll-property-information-view/`, where `ll-property-information-view` is the name of the directory containing it.
+`http://localhost:8080/components/ll-property-information/`, where `ll-property-information` is the name of the directory containing it.
 
 
 ## Testing Your Element
 
 Simply navigate to the `/test` directory of your element to run its tests. If
-you are using Polyserve: `http://localhost:8080/components/ll-property-information-view/test/`
+you are using Polyserve: `http://localhost:8080/components/ll-property-information/test/`
 
 ### web-component-tester
 

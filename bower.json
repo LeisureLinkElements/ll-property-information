@@ -4,7 +4,7 @@
   "authors": [
     "Zack Smith <zsmith@leisurelink.com>"
   ],
-  "description": "An element providing the view for property information such as property name, address, description, etc.",
+  "description": "An element providing the capabilities for viewing and editing property information such as property name, address, description, etc.",
   "keywords": [
     "property",
     "leisurelink",
