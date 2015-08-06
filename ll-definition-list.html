@@ -1,0 +1,61 @@
+<link rel="import" href="../polymer/polymer.html">
+<link rel="import" href="../ll-theme/ll-theme.html">
+
+A helper element for defining definiton lists in a consistent manner
+
+<!--
+Example
+
+    <ll-definition-list></ll-definition-list>
+
+@demo
+-->
+
+<dom-module id="ll-definition-list">
+
+    <style>
+
+        :host {
+            display: block;
+            box-sizing: border-box;
+        }
+
+        div.dl-horizontal dt {
+            text-overflow: initial;
+            font-size: 14px;
+            text-align: left;
+        }
+
+        div.dl-horizontal dd {
+            font-size: 14px;
+        }
+
+    </style>
+
+    <template>
+
+        <div class="dl-horizontal">
+            <dt>
+                <label>{{title}}</label>
+            </dt>
+            <dd>
+                <content></content>
+            </dd>
+        </div>
+
+    </template>
+
+    <script>
+        Polymer({
+            is: 'll-definition-list',
+            properties: {
+                /**
+                 * The title of the definition list to show up on the left hand side
+                 */
+                title: {
+                    type: String
+                }
+            }
+        });
+    </script>
+</dom-module>

@@ -1,0 +1,252 @@
+<link rel="import" href="../polymer/polymer.html">
+<link rel="import" href="../ll-theme/ll-theme.html">
+<link rel="import" href="./ll-definition-list.html">
+
+An element providing the view for property information such as property name, address, description, etc.
+
+<!--
+Example:
+
+    <ll-property-information-view></ll-property-information-view>
+
+@demo
+-->
+<dom-module id="ll-property-information-view">
+
+  <style>
+    :host {
+      display: block;
+      box-sizing: border-box;
+    }
+
+    div.dl-horizontal dt {
+      text-overflow: initial;
+      font-size: 14px;
+      text-align: left;
+    }
+
+    div.dl-horizontal dd {
+      font-size: 14px;
+    }
+
+    .entypo {
+      font-size: 3em;
+    }
+
+    .entypo.check {
+      color: yellowgreen;
+    }
+
+    .entypo.cross {
+      color: red;
+    }
+
+  </style>
+
+  <template>
+    <div>
+
+      <ll-definition-list title="PROPERTY NAME:">
+        <p>{{name}}</p>
+      </ll-definition-list>
+
+      <ll-definition-list title="ADDRESS:">
+        <address>
+          <div>{{address.address1}}</div>
+          <div>{{address.address2}}</div>
+          <div>{{_locale}}</div>
+        </address>
+      </ll-definition-list>
+
+      <ll-definition-list title="DESCRIPTION">
+        <p>
+          Situated behind the private gates of Knoll Estates in the heart of Silver Lake Village, this 7391 sq ft classic estate enjoys one of the most picturesque lots in all of Deer Valley. Only steps from Deer Valley Ski Resort and a short walk from Utah's only Forbes Five-Star, AAA Five Diamond hotel Stein Erikson Lodge, the romantic AAA Four Diamond hotel Chateaux and access to eleven restaurants including the charming Goldener Hirsch, this 5BR, 7BA mountain retreat is ideal for entertainment and relaxation.
+        </p>
+      </ll-definition-list>
+
+    </div>
+  </template>
+
+</dom-module>
+
+<script>
+
+  Polymer({
+
+    is: 'll-property-information-view',
+
+    properties: {
+
+      /**
+       * The name of the listing for viewing purposes
+       */
+      name: {
+        type: String,
+        value: ''
+      },
+
+      /**
+       * Whether or not the booking is available for rental
+       * @default false
+       */
+      isBookingAvailable: {
+        type: Boolean,
+        value: false
+      },
+
+      buildingCategory: {
+        type: String,
+        value: ''
+      },
+
+      buildingType: {
+        type: String,
+        value: ''
+      },
+
+      /**
+       * Geolocation of a property
+       * @property {float} geoLocation.latitude
+       * @property {float} geoLocation.longitude
+       * @default { latitude: 0, longitude: 0 }
+       */
+      geoLocation: {
+        type: Object,
+        value: function() {
+          return {
+            latitude: 0,
+            longitude: 0
+          };
+        }
+      },
+
+      /**
+       * Number of bedrooms in the property
+       * @default 0
+       */
+      bedroomCount: {
+        type: Number,
+        value: 0
+      },
+
+      /**
+       * Number of total bathrooms in the property
+       * @default 0
+       */
+      bathroomCount: {
+        type: Number,
+        value: 0
+      },
+
+      /**
+       * Number of full bathrooms in the property
+       * @default 0
+       */
+      fullBathrooms: {
+        type: Number,
+        value: 0
+      },
+
+      /**
+       * Number of three-quarter bathrooms in the property
+       * @default 0
+       */
+      threeQuarterBathrooms: {
+        type: Number,
+        value: 0
+      },
+
+      /**
+       * Number of half bathrooms in the property
+       * @default 0
+       */
+      halfBathrooms: {
+        type: Number,
+        value: 0
+      },
+
+      /**
+       * Maximum number of people allowed in the property
+       * @default 0
+       */
+      occupancy: {
+        type: Number,
+        value: 0
+      },
+
+      /**
+       * A description of the property
+       */
+      description: {
+        type: String,
+        value: ''
+      },
+
+      /**
+       * A string array of amenities the property offers
+       * @type {string[]}
+       * @default []
+       */
+      amenities: {
+        type: Array,
+        value: []
+      },
+
+      /**
+       * Address of the property.
+       * @property {string} address.address1 - Primary street address
+       * @property {string} address.address2 - Secondary street address
+       * @property {string} address.city - City of property
+       * @property {string} address.stateCode - Two letter representation of a state
+       * @property {string} address.postalCode - Five digit United States postal code
+       * @property {string} address.countryCode - Two letter representation of country
+       * @default {}
+       */
+      address: {
+        type: Object,
+        value: function() {
+          return {};
+        }
+      },
+
+      /**
+       * The currency for this property as a three digit code
+       * @default 'USD'
+       */
+      currencyCode: {
+        type: String,
+        value: 'USD'
+      },
+
+      /**
+       * Private helper function for concatenating properties of the address into a single string value
+       * @readonly
+       * @private
+       */
+      _locale: {
+        type: String,
+        computed: '_computeLocale(address)'
+      },
+
+      _bookingAvailableIcon: {
+        type: String,
+        computed: '_computeBookingAvailableIcon(isBookingAvailable)'
+      }
+    },
+
+    // Element Lifecycle
+
+    // Element Behavior
+
+    _computeLocale: function(address) {
+      return (address.city + ' ' + address.state + ' ' + address.zipCode);
+    },
+
+    _computeBookingAvailableIcon: function(isAvailable) {
+      return isAvailable
+              ? 'entypo check'
+              : 'entypo cross';
+    }
+  });
+
+</script>

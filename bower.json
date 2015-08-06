@@ -1,5 +1,5 @@
 {
-  "name": "ll-property-information-view",
+  "name": "ll-property-information",
   "version": "1.0.0",
   "authors": [
     "Zack Smith <zsmith@leisurelink.com>"
@@ -10,9 +10,9 @@
     "leisurelink",
     "view"
   ],
-  "main": "ll-property-information-view.html",
+  "main": "ll-property-information.html",
   "license": "http://polymer.github.io/LICENSE.txt",
-  "homepage": "https://github.com/LeisureLinkElements/ll-property-information-view",
+  "homepage": "https://github.com/LeisureLinkElements/ll-property-information",
   "ignore": [
     "/.*",
     "/test/",

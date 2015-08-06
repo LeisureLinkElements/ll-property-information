@@ -14,14 +14,15 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
     <title>ll-property-information-view Demo</title>
     <script src="../../webcomponentsjs/webcomponents-lite.js"></script>
-    <link rel="import" href="../ll-property-information-view.html">
+    <link rel="import" href="../ll-property-information.html">
   </head>
   <body style="margin: 30px;">
 
-    <p>An example of <code>&lt;ll-property-information-view&gt;</code>:</p>
+    <p>An example of <code>&lt;ll-property-information-view&gt;</code></p>
 
-    <ll-property-information-view name='7858 Aster Lane' address='{"address1": "7858 Aster Lane", "address2": "", "city": "Park City", "state": "UT", "zipCode": "84060"}'></ll-property-information-view>
-
+    <div class="col-md-8">
+      <ll-property-information name='7858 Aster Lane' is-booking-available address='{"address1": "7858 Aster Lane", "address2": "", "city": "Park City", "state": "UT", "zipCode": "84060"}'></ll-property-information>
+    </div>
 
   </body>
 </html>
