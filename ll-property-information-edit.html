@@ -1,0 +1,164 @@
+<link rel="import" href="../polymer/polymer.html">
+<link rel="import" href="../ll-token-field/ll-token-field.html">
+
+An element for editing property information
+
+<!--
+Example
+
+  <ll-property-information-edit></ll-property-information-edit>
+
+@demo
+-->
+
+<dom-module id="ll-property-information-edit">
+
+  <style>
+    .help-block {
+      display: inline-block;
+      margin: 5px 0px;
+      font-color: #737373;
+      font-weight: 100;
+    }
+
+    #amenities-input {
+      border: 1px solid #ccc;
+      -webkit-border-radius: 4px;
+      -moz-border-radius: 4px;
+      border-radius: 4px;
+      padding: 6px 12px;
+      cursor: text;
+    }
+  </style>
+
+  <template>
+    <form>
+      <div class="row">
+        <div class="form-group col-md-12">
+          <label for="name-input" class="required">Property Name <span class="entypo circled-help" data-toggle="tooltip" data-content="Property name will be the identifying name distributed to all marketing channels. For a single property, the address will suffice, or a more creative name may be used."></span></label>
+          <input type="text" value="{{property.name}}" id="name-input" class="form-control" required placeholder="Property Name"/>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="form-group col-md-6">
+          <label for="address1-input" class="required">Address 1</label>
+          <input type="text" value="{{property.address.address1}}" id="address1-input" class="form-control" required placeholder="Enter street address"/>
+        </div>
+
+        <div class="form-group col-md-6">
+          <label for="address2-input">Address 2 <span class="help-block">(Optional)</span></label>
+          <input type="text" value="{{property.address.address2}}" id="address2-input" class="form-control" placeholder="Additional address"/>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="form-group col-md-4">
+          <label for="city-input" class="required">City</label>
+          <input type="text" value="{{property.address.city}}" id="city-input" class="form-control" required placeholder="Enter city name"/>
+        </div>
+
+        <div class="form-group col-md-4">
+          <label for="state-input" class="required">State</label>
+          <select id="state-input" class="form-control">
+            <option value="" disabled selected>Select</option>
+            <template is="dom-repeat" items="{{_states}}">
+              <option value="{{item}}">{{item}}</option>
+            </template>
+          </select>
+        </div>
+
+        <div class="form-group col-md-4">
+          <label for="zip-code-input" class="required">Zip Code</label>
+          <input type="text" value="{{property.address.postalCode}}" id="zip-code-input" class="form-control" required pattern="[0-9]{5}" placeholder="Enter zip code"/>
+        </div>
+
+      </div>
+
+      <div class="row">
+        <div class="form-group col-md-12">
+          <label for="description-input" class="required">Description <span class="entypo circled-help" data-toggle="tooltip" data-content="TBD"></span></label>
+          <textarea class="form-control" id="description-input" rows="5" required placeholder="Enter short description of property">{{property.description}}</textarea>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="form-group col-md-6">
+          <label for="bedroom-count-input" class="required">Bedrooms</label>
+          <input type="number" min="0" class="form-control" value="{{property.bedroomCount}}" id="bedroom-count-input" required placeholder="Number of bedrooms" />
+        </div>
+
+        <div class="form-group col-md-6">
+          <label for="bathroom-count-input" class="required">Bathrooms</label>
+          <input type="number" min="0" step=".25" value="{{property.bathroomCount}}" id="bathroom-count-input" class="form-control" required placeholder="Total number of bathrooms" />
+        </div>
+
+      </div>
+
+      <div class="row">
+        <div class="form-group col-md-4">
+          <label for="full-bathroom-input" class="required">Full Bathrooms</label>
+          <input type="number" min="0" value="{{property.fullBathrooms}}" id="full-bathroom-input" class="form-control" required placeholder="Total number of full bathrooms" />
+        </div>
+
+        <div class="form-group col-md-4">
+          <label for="three-quarter-bathroom-input" class="required">3/4 Bathrooms</label>
+          <input type="number" min="0" value="{{property.threeQuarterBathrooms}}" id="three-quarter-bathroom-input" class="form-control" required placeholder="Total number of 3/4 bathrooms" />
+        </div>
+
+        <div class="form-group col-md-4">
+          <label for="half-bathroom-input" class="required">1/2 Bathrooms</label>
+          <input type="number" min="0" value="{{property.halfBathrooms}}" id="half-bathroom-input" class="form-control" required placeholder="Total number of 1/2 bathrooms" />
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="form-group col-md-12">
+          <label for="amenities-input">Amenities</label>
+          <ll-token-field id="amenities-input"></ll-token-field>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="form-group col-md-4">
+          <label for="occupancy-input" class="required">Occupancy</label>
+          <input type="number" min="0" value="{{property.occupancy}}" id="occupancy-input" class="form-control" required placeholder="Maximum occupancy" />
+        </div>
+
+        <div class="form-group col-md-4">
+          <label for="currency-code-input" class="required">Currency</label>
+          <input type="text" maxlength="3" value="{{property.currencyCode}}" id="currency-code-input" class="form-control" required placeholder="Allowed Currency" />
+        </div>
+
+
+        <div class="form-group col-md-4">
+          <label class="required"></label>
+          <label for="available-input" class="required"><input type="checkbox" id="available-input" value="{{property.isBookingAvailable}}" /> Available for booking?</label>
+
+        </div>
+      </div>
+
+    </form>
+  </template>
+
+  <script>
+    Polymer({
+      is: 'll-property-information-edit',
+      properties: {
+        property: {
+          type: Object,
+          value: function() {
+            return {};
+          },
+          _states: {
+            type: Array,
+            value: function() {
+              return ['AL', 'AK', 'AR', 'AK', 'CA', 'CO', 'CT', 'DE', 'FL', 'GA', 'HI', 'ID', 'IL', 'IN', 'IA', 'KA', 'KY', 'LA', 'MA', 'MD', 'MS', 'MI', 'MN', 'MS', 'MI', 'MN', 'NE', 'NV'];
+            }
+          }
+        }
+      }
+    });
+  </script>
+
+</dom-module>

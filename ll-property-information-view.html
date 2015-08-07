@@ -47,23 +47,83 @@ Example:
     <div>
 
       <ll-definition-list title="PROPERTY NAME:">
-        <p>{{name}}</p>
+        <p>{{property.name}}</p>
       </ll-definition-list>
 
       <ll-definition-list title="ADDRESS:">
         <address>
-          <div>{{address.address1}}</div>
-          <div>{{address.address2}}</div>
+          <div>{{property.address.address1}}</div>
+          <div>{{property.address.address2}}</div>
           <div>{{_locale}}</div>
         </address>
       </ll-definition-list>
 
       <ll-definition-list title="DESCRIPTION">
-        <p>
-          Situated behind the private gates of Knoll Estates in the heart of Silver Lake Village, this 7391 sq ft classic estate enjoys one of the most picturesque lots in all of Deer Valley. Only steps from Deer Valley Ski Resort and a short walk from Utah's only Forbes Five-Star, AAA Five Diamond hotel Stein Erikson Lodge, the romantic AAA Four Diamond hotel Chateaux and access to eleven restaurants including the charming Goldener Hirsch, this 5BR, 7BA mountain retreat is ideal for entertainment and relaxation.
-        </p>
-        <p>{{description}}</p>
+        <p>{{property.description}}</p>
 
+      </ll-definition-list>
+
+      <ll-definition-list title="BEDROOMS:">
+        <p>{{property.bedroomCount}}</p>
+      </ll-definition-list>
+
+      <ll-definition-list title="TOTAL BATHROOMS:">
+        <p>{{property.bathroomCount}}</p>
+      </ll-definition-list>
+
+      <ll-definition-list title="FULL BATHROOMS:">
+        <p>{{property.fullBathrooms}}</p>
+      </ll-definition-list>
+
+      <ll-definition-list title="3/4 BATHROOMS:">
+        <p>{{property.threeQuarterBathrooms}}</p>
+      </ll-definition-list>
+
+      <ll-definition-list title="1/2 BATHROOMS:">
+        <p>{{property.halfBathrooms}}</p>
+      </ll-definition-list>
+
+      <ll-definition-list title="IS BOOKING AVAILABLE:">
+        <p>
+          <template is="dom-if" if="{{property.isBookingAvailable}}">
+            <span class="entypo check"></span>
+          </template>
+
+          <template is="dom-if" if="{{!property.isBookingAvailable}}">
+            <span class="entypo cross"></span>
+          </template>
+        </p>
+      </ll-definition-list>
+
+      <ll-definition-list title="CATEGORY:">
+        <p>{{property.buildingCategory}}</p>
+      </ll-definition-list>
+
+      <ll-definition-list title="TYPE:">
+        <p>{{property.buildingType}}</p>
+      </ll-definition-list>
+
+      <ll-definition-list title="LOCATION:">
+        <p>
+          <span>{{property.geoLocation.latitude}}</span> lat.
+          <span>{{property.geoLocation.longitude}}</span> long.
+        </p>
+      </ll-definition-list>
+
+      <ll-definition-list title="OCCUPANCY:">
+        <p>{{property.occupancy}}</p>
+      </ll-definition-list>
+
+      <ll-definition-list title="AMENITIES:">
+        <ul class="list-inline">
+          <template is="dom-repeat" items="{{property.amenities}}">
+            <li>{{item}}</li>
+          </template>
+        </ul>
+      </ll-definition-list>
+
+      <ll-definition-list title="CURRENCY:">
+        <p>{{property.currencyCode}}</p>
       </ll-definition-list>
 
     </div>
@@ -80,144 +140,37 @@ Example:
     properties: {
 
       /**
-       * The name of the listing for viewing purposes
+       * A property object as defined by the LeisureLink API for rental units.
+       * @type {Object}
+       * @property {String} name
+       * @property {Boolean} isAvailableForBooking
+       * @property {String} buildingCategory
+       * @property {String} buildingType
+       * @property {Object} geoLocation
+       * @property {Number} geoLocation.latitude
+       * @property {Number} geoLocation.longitude
+       * @property {Number} bedroomCount
+       * @property {Number} bathroomCount
+       * @property {Number} fullBathrooms
+       * @property {Number} threeQuarterBathrooms
+       * @property {Number} halfBathrooms
+       * @property {Number} occupancy
+       * @property {String} description
+       * @property {Array.<String>} amenities
+       * @property {Object} address
+       * @property {String} address.address1
+       * @property {String} address.address2
+       * @property {String} address.city
+       * @property {String} address.stateCode
+       * @property {String} address.postalCode
+       * @property {String} address.countryCode
+       * @property {String} currencyCode
        */
-      name: {
-        type: String,
-        value: ''
-      },
-
-      /**
-       * Whether or not the booking is available for rental
-       * @default false
-       */
-      isBookingAvailable: {
-        type: Boolean,
-        value: false
-      },
-
-      buildingCategory: {
-        type: String,
-        value: ''
-      },
-
-      buildingType: {
-        type: String,
-        value: ''
-      },
-
-      /**
-       * Geolocation of a property
-       * @property {float} geoLocation.latitude
-       * @property {float} geoLocation.longitude
-       * @default { latitude: 0, longitude: 0 }
-       */
-      geoLocation: {
-        type: Object,
-        value: function() {
-          return {
-            latitude: 0,
-            longitude: 0
-          };
-        }
-      },
-
-      /**
-       * Number of bedrooms in the property
-       * @default 0
-       */
-      bedroomCount: {
-        type: Number,
-        value: 0
-      },
-
-      /**
-       * Number of total bathrooms in the property
-       * @default 0
-       */
-      bathroomCount: {
-        type: Number,
-        value: 0
-      },
-
-      /**
-       * Number of full bathrooms in the property
-       * @default 0
-       */
-      fullBathrooms: {
-        type: Number,
-        value: 0
-      },
-
-      /**
-       * Number of three-quarter bathrooms in the property
-       * @default 0
-       */
-      threeQuarterBathrooms: {
-        type: Number,
-        value: 0
-      },
-
-      /**
-       * Number of half bathrooms in the property
-       * @default 0
-       */
-      halfBathrooms: {
-        type: Number,
-        value: 0
-      },
-
-      /**
-       * Maximum number of people allowed in the property
-       * @default 0
-       */
-      occupancy: {
-        type: Number,
-        value: 0
-      },
-
-      /**
-       * A description of the property
-       */
-      description: {
-        type: String,
-        value: ''
-      },
-
-      /**
-       * A string array of amenities the property offers
-       * @type {string[]}
-       * @default []
-       */
-      amenities: {
-        type: Array,
-        value: []
-      },
-
-      /**
-       * Address of the property.
-       * @property {string} address.address1 - Primary street address
-       * @property {string} address.address2 - Secondary street address
-       * @property {string} address.city - City of property
-       * @property {string} address.stateCode - Two letter representation of a state
-       * @property {string} address.postalCode - Five digit United States postal code
-       * @property {string} address.countryCode - Two letter representation of country
-       * @default {}
-       */
-      address: {
+      property: {
         type: Object,
         value: function() {
           return {};
         }
-      },
-
-      /**
-       * The currency for this property as a three digit code
-       * @default 'USD'
-       */
-      currencyCode: {
-        type: String,
-        value: 'USD'
       },
 
       /**
@@ -227,12 +180,7 @@ Example:
        */
       _locale: {
         type: String,
-        computed: '_computeLocale(address)'
-      },
-
-      _bookingAvailableIcon: {
-        type: String,
-        computed: '_computeBookingAvailableIcon(isBookingAvailable)'
+        computed: '_computeLocale(property.address)'
       }
     },
 
@@ -241,14 +189,9 @@ Example:
     // Element Behavior
 
     _computeLocale: function(address) {
-      return (address.city + ' ' + address.state + ' ' + address.zipCode);
-    },
-
-    _computeBookingAvailableIcon: function(isAvailable) {
-      return isAvailable
-              ? 'entypo check'
-              : 'entypo cross';
+      return (address.city + ' ' + address.stateCode + ' ' + address.postalCode);
     }
+
   });
 
 </script>

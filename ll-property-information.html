@@ -1,6 +1,7 @@
 <link rel="import" href="../polymer/polymer.html">
 <link rel="import" href="../ll-theme/ll-theme.html">
 <link rel="import" href="ll-property-information-view.html">
+<link rel="import" href="ll-property-information-edit.html">
 
 The containing component for viewing and editing property information
 
@@ -15,16 +16,132 @@ Example
 <dom-module id="ll-property-information">
 
     <style>
-
     </style>
 
     <template>
-        <ll-property-information-view name='7858 Aster Lane' address='{"address1": "7858 Aster Lane", "address2": "", "city": "Park City", "state": "UT", "zipCode": "84060"}'></ll-property-information-view>
+
+        <template is="dom-if" if="{{_inViewMode}}" restamp>
+            <ll-property-information-view property="{{_property}}"></ll-property-information-view>
+
+            <hr/>
+
+            <select>
+                <option value="">More Actions</option>
+            </select>
+
+            <div class="actions pull-right">
+                <button type="button" class="btn btn-primary" on-tap="_editInformation">Edit information <span class="entypo pencil"></span></button>
+                <button type="button" class="btn btn-primary" on-tap="_createInformation">Create a new property  <span class="entypo circled-right"></span></button>
+            </div>
+
+        </template>
+
+        <template is="dom-if" id="view-mode" if="{{_inEditMode}}" restamp>
+            <ll-property-information-edit property="{{_property}}"></ll-property-information-edit>
+
+              <hr/>
+
+              <div class="actions pull-right">
+                  <button type="button" class="btn btn-default" on-tap="_viewInformation">Cancel</button>
+                  <button type="button" class="btn btn-primary" on-tap="_createInformation">Create new property <span class="entypo circled-right"></span></button>
+              </div>
+        </template>
+
+        <template is="dom-if" id="create-mode" if="{{_inCreateMode}}" restamp>
+          <ll-property-information-edit></ll-property-information-edit>
+
+          <div class="col-md-12">
+              <hr/>
+
+              <div class="actions pull-right">
+                  <button type="button" class="btn btn-default" on-tap="_viewInformation">Cancel</button>
+              </div>
+          </div>
+        </template>
     </template>
 
     <script>
+        var property = {
+            name: '7858 Aster Lane',
+            isBookingAvailable: true,
+            buildingCategory: 'condo',
+            buildingType: 'townhome',
+            geoLocation: {
+                latitude: 49.235,
+                longitude: 23.246
+            },
+            bedroomCount: 5,
+            bathroomCount: 5,
+            fullBathrooms: 3,
+            threeQuarterBathrooms: 0,
+            halfBathrooms: 2,
+            occupancy: 12,
+            description: 'This should be a long description but nah',
+            amenities: ['fireplace', 'jacuzzi', 'steam shower'],
+            address: {
+                address1: '7857 Aster Lane',
+                address2: '',
+                city: 'Park City',
+                stateCode: 'UT',
+                postalCode: '84060',
+                countyCode: 'US'
+            },
+            currencyCode: 'USD'
+        };
+
         Polymer({
-            is: 'll-property-information'
+            is: 'll-property-information',
+            properties: {
+                _editMode: {
+                    type: Boolean,
+                    value: true
+                },
+                _createMode: {
+                    type: Boolean,
+                    value: false
+                },
+                _property: {
+                    type: Object,
+                    value: function() {
+                        return property;
+                    }
+                },
+                _inEditMode: {
+                    type: Boolean,
+                    computed: '_isInEditMode(_editMode, _createMode)'
+                },
+                _inViewMode: {
+                    type: Boolean,
+                    computed: '_isInViewMode(_editMode, _createMode)'
+                },
+                _inCreateMode: {
+                    type: Boolean,
+                    computed: '_isInCreateMode(_editMode, _createMode)'
+                }
+            },
+
+            _viewInformation: function() {
+                this._editMode = this._createMode = false;
+            },
+
+            _editInformation: function() {
+                this._editMode = true;
+                this._createMode = false;
+            },
+
+            _createInformation: function() {
+                this._editMode = false;
+                this._createMode = true;
+            },
+            _isInEditMode: function(editMode, createMode) {
+                return editMode && !createMode;
+            },
+            _isInViewMode: function(editMode, createMode) {
+                return !editMode && !createMode;
+            },
+            _isInCreateMode: function(editMode, createMode) {
+                return !editMode && createMode;
+            }
         });
     </script>
 </dom-module>
