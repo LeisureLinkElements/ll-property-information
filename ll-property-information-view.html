@@ -45,7 +45,6 @@ Example:
 
   <template>
     <div>
-
       <ll-definition-list title="PROPERTY NAME:">
         <p>{{property.name}}</p>
       </ll-definition-list>
@@ -127,6 +126,18 @@ Example:
       </ll-definition-list>
 
     </div>
+
+    <hr/>
+
+    <select>
+      <option value="">More Actions</option>
+    </select>
+
+    <div class="actions pull-right">
+      <button type="button" class="btn btn-primary" on-tap="_editProperty">Edit information <span class="entypo pencil"></span></button>
+      <button type="button" class="btn btn-primary" on-tap="_createProperty">Create new property  <span class="entypo circled-right"></span></button>
+    </div>
+
   </template>
 
 </dom-module>
@@ -187,6 +198,16 @@ Example:
     // Element Lifecycle
 
     // Element Behavior
+
+    _editProperty: function() {
+      console.log('Firing edit property');
+      this.fire('ll-property-information-view-edit-property');
+    },
+
+    _createProperty: function() {
+      console.log('Firing create property');
+      this.fire('ll-property-information-view-create-property');
+    },
 
     _computeLocale: function(address) {
       return (address.city + ' ' + address.stateCode + ' ' + address.postalCode);

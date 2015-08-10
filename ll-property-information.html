@@ -21,47 +21,20 @@ Example
     <template>
 
         <template is="dom-if" if="{{_inViewMode}}" restamp>
-            <ll-property-information-view property="{{_property}}"></ll-property-information-view>
-
-            <hr/>
-
-            <select>
-                <option value="">More Actions</option>
-            </select>
-
-            <div class="actions pull-right">
-                <button type="button" class="btn btn-primary" on-tap="_editInformation">Edit information <span class="entypo pencil"></span></button>
-                <button type="button" class="btn btn-primary" on-tap="_createInformation">Create a new property  <span class="entypo circled-right"></span></button>
-            </div>
-
+            <ll-property-information-view property="{{property}}"></ll-property-information-view>
         </template>
 
         <template is="dom-if" id="view-mode" if="{{_inEditMode}}" restamp>
-            <ll-property-information-edit property="{{_property}}"></ll-property-information-edit>
-
-              <hr/>
-
-              <div class="actions pull-right">
-                  <button type="button" class="btn btn-default" on-tap="_viewInformation">Cancel</button>
-                  <button type="button" class="btn btn-primary" on-tap="_createInformation">Create new property <span class="entypo circled-right"></span></button>
-              </div>
+            <ll-property-information-edit property="{{property}}" is-edit></ll-property-information-edit>
         </template>
 
         <template is="dom-if" id="create-mode" if="{{_inCreateMode}}" restamp>
           <ll-property-information-edit></ll-property-information-edit>
-
-          <div class="col-md-12">
-              <hr/>
-
-              <div class="actions pull-right">
-                  <button type="button" class="btn btn-default" on-tap="_viewInformation">Cancel</button>
-              </div>
-          </div>
         </template>
     </template>
 
     <script>
-        var property = {
+        var testProperty = {
             name: '7858 Aster Lane',
             isBookingAvailable: true,
             buildingCategory: 'condo',
@@ -91,20 +64,40 @@ Example
 
         Polymer({
             is: 'll-property-information',
+
+            listeners: {
+                'll-property-information-view-edit-property': '_editProperty',
+                'll-property-information-view-create-property': '_createProperty',
+                'll-property-information-edit-view-property': '_viewInformation',
+                'll-property-information-edit-create-property': '_createProperty',
+                'll-property-information-edit-post-edit': '_postEdit',
+                'll-property-information-edit-post-create': '_postCreate'
+            },
+
             properties: {
+                /**
+                 *
+                 */
+                property: {
+                    type: Object,
+                    value: function() {
+                        return testProperty;
+                    }
+                },
+                /**
+                 * The property id of an existing property for editing and viewing
+                 */
+                propertyId: {
+                    type: String,
+                    value: ''
+                },
                 _editMode: {
                     type: Boolean,
-                    value: true
+                    value: false
                 },
                 _createMode: {
                     type: Boolean,
                     value: false
-                },
-                _property: {
-                    type: Object,
-                    value: function() {
-                        return property;
-                    }
                 },
                 _inEditMode: {
                     type: Boolean,
@@ -124,21 +117,32 @@ Example
                 this._editMode = this._createMode = false;
             },
 
-            _editInformation: function() {
+            _editProperty: function() {
                 this._editMode = true;
                 this._createMode = false;
             },
 
-            _createInformation: function() {
+            _postEdit: function(e) {
+              console.log(e);
+            },
+
+            _createProperty: function() {
                 this._editMode = false;
                 this._createMode = true;
             },
+
+            _postCreate: function(e) {
+                console.log(e);
+            },
+
             _isInEditMode: function(editMode, createMode) {
                 return editMode && !createMode;
             },
+
             _isInViewMode: function(editMode, createMode) {
                 return !editMode && !createMode;
             },
+
             _isInCreateMode: function(editMode, createMode) {
                 return !editMode && createMode;
             }
