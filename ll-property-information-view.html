@@ -19,18 +19,9 @@ Example:
       box-sizing: border-box;
     }
 
-    div.dl-horizontal dt {
-      text-overflow: initial;
-      font-size: 14px;
-      text-align: left;
-    }
-
-    div.dl-horizontal dd {
-      font-size: 14px;
-    }
-
     .entypo {
       font-size: 3em;
+      vertical-align: middle;
     }
 
     .entypo.check {
@@ -59,7 +50,6 @@ Example:
 
       <ll-definition-list title="DESCRIPTION">
         <p>{{property.description}}</p>
-
       </ll-definition-list>
 
       <ll-definition-list title="BEDROOMS:">
@@ -84,11 +74,11 @@ Example:
 
       <ll-definition-list title="IS BOOKING AVAILABLE:">
         <p>
-          <template is="dom-if" if="{{property.isBookingAvailable}}">
+          <template is="dom-if" if="{{property.isBookingAvailable}}" restamp>
             <span class="entypo check"></span>
           </template>
 
-          <template is="dom-if" if="{{!property.isBookingAvailable}}">
+          <template is="dom-if" if="{{!property.isBookingAvailable}}" restamp>
             <span class="entypo cross"></span>
           </template>
         </p>
@@ -134,6 +124,7 @@ Example:
     </select>
 
     <div class="actions pull-right">
+      <button type="button" class="btn btn-default" on-tap="_backToProperties">Back to properties <span class="entypo circled-left"></span></button>
       <button type="button" class="btn btn-primary" on-tap="_editProperty">Edit information <span class="entypo pencil"></span></button>
       <button type="button" class="btn btn-primary" on-tap="_createProperty">Create new property  <span class="entypo circled-right"></span></button>
     </div>
@@ -144,9 +135,16 @@ Example:
 
 <script>
 
-  Polymer({
+  LLPropertyInformationView = Polymer({
 
     is: 'll-property-information-view',
+
+    factoryImpl: function(property) {
+      if(!property) {
+        throw new Error('Must supply a property');
+      }
+      this.property = property;
+    },
 
     properties: {
 
@@ -185,7 +183,7 @@ Example:
       },
 
       /**
-       * Private helper function for concatenating properties of the address into a single string value
+       * Private helper property for concatenating properties of the address into a single string value
        * @readonly
        * @private
        */
@@ -199,17 +197,20 @@ Example:
 
     // Element Behavior
 
+    _backToProperties: function() {
+      this.fire('ll-property-information-view-back-to-properties');
+    },
+
     _editProperty: function() {
-      console.log('Firing edit property');
       this.fire('ll-property-information-view-edit-property');
     },
 
     _createProperty: function() {
-      console.log('Firing create property');
       this.fire('ll-property-information-view-create-property');
     },
 
     _computeLocale: function(address) {
+      if(!address) return '';
       return (address.city + ' ' + address.stateCode + ' ' + address.postalCode);
     }
 

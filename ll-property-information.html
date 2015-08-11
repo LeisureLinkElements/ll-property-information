@@ -62,7 +62,7 @@ Example
             currencyCode: 'USD'
         };
 
-        Polymer({
+        LLPropertyInformation = Polymer({
             is: 'll-property-information',
 
             listeners: {
@@ -88,6 +88,27 @@ Example
                  * The property id of an existing property for editing and viewing
                  */
                 propertyId: {
+                    type: String,
+                    value: ''
+                },
+                /**
+                 * Url for retrieving a property based on its id
+                 */
+                getUrl: {
+                    type: String,
+                    value: ''
+                },
+                /**
+                 * Url for submitting updated property information
+                 */
+                editUrl: {
+                    type: String,
+                    value: ''
+                },
+                /**
+                 * Url for creating a new property listing
+                 */
+                createUrl: {
                     type: String,
                     value: ''
                 },
@@ -123,7 +144,8 @@ Example
             },
 
             _postEdit: function(e) {
-              console.log(e);
+                console.log(e);
+                this._viewInformation();
             },
 
             _createProperty: function() {
@@ -133,6 +155,7 @@ Example
 
             _postCreate: function(e) {
                 console.log(e);
+                //TODO: Go back to all listing.
             },
 
             _isInEditMode: function(editMode, createMode) {

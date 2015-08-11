@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
+
+  <script src="../../webcomponentsjs/webcomponents-lite.js"></script>
+  <script src="../../web-component-tester/browser.js"></script>
+
+  <link rel="import" href="../ll-property-information-view.html">
+
+</head>
+<body>
+
+  <script>
+    var property = {
+      name: '7858 Aster Lane',
+      isBookingAvailable: true,
+      buildingCategory: 'condo',
+      buildingType: 'townhome',
+      geoLocation: {
+        latitude: 49.235,
+        longitude: 23.246
+      },
+      bedroomCount: 5,
+      bathroomCount: 5,
+      fullBathrooms: 3,
+      threeQuarterBathrooms: 0,
+      halfBathrooms: 2,
+      occupancy: 12,
+      description: 'This should be a long description but nah',
+      amenities: ['fireplace', 'jacuzzi', 'steam shower'],
+      address: {
+        address1: '7857 Aster Lane',
+        address2: '',
+        city: 'Park City',
+        stateCode: 'UT',
+        postalCode: '84060',
+        countyCode: 'US'
+      },
+      currencyCode: 'USD'
+    };
+
+    var myEl = new LLPropertyInformationView(property);
+
+    describe('ll-property-information-view', function() {
+
+      it('should compute locale', function() {
+        expect(myEl._locale).to.eql('Park City UT 84060');
+      });
+
+      it('should return empty string when address is not supplied to compute locale', function() {
+        expect(myEl._computeLocale()).to.eql('');
+      });
+
+      it('should fire an event when edit button is clicked', function(done) {
+        myEl.addEventListener('ll-property-information-view-edit-property', function(event) {
+          expect(event).to.be.ok;
+          done();
+        });
+
+        myEl._editProperty();
+      });
+
+      it('should fire an event when create button is clicked', function(done) {
+        myEl.addEventListener('ll-property-information-view-create-property', function(event) {
+          expect(event).to.be.ok;
+          done();
+        });
+
+        myEl._createProperty();
+      });
+
+      it('should fire an event when back to properties button is clicked', function(done) {
+        myEl.addEventListener('ll-property-information-view-back-to-properties', function(event) {
+          expect(event).to.be.ok;
+          done();
+        });
+
+        myEl._backToProperties();
+      });
+
+      it('should throw an error when constructing without a property', function() {
+        expect(function() {
+          new LLPropertyInformationView();
+        }).to.throw('Must supply a property');
+      });
+
+    });
+  </script>
+
+</body>
+</html>

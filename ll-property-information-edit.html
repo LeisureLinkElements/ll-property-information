@@ -4,9 +4,11 @@
 An element for editing property information
 
 <!--
-Example
+Example:
 
-  <ll-property-information-edit></ll-property-information-edit>
+    <ll-property-information-edit></ll-property-information-edit>
+
+The `ll-property-information-edit` handles creating and editing of property information.
 
 @demo
 -->
@@ -17,7 +19,6 @@ Example
     .help-block {
       display: inline-block;
       margin: 5px 0px;
-      font-color: #737373;
       font-weight: 100;
     }
 
@@ -28,6 +29,19 @@ Example
       border-radius: 4px;
       padding: 6px 12px;
       cursor: text;
+    }
+
+    .entypo {
+      font-size: 3em;
+      vertical-align: middle;
+    }
+
+    .entypo.check {
+      color: yellowgreen;
+    }
+
+    .entypo.cross {
+      color: red;
     }
   </style>
 
@@ -116,7 +130,7 @@ Example
       <div class="row">
         <div class="form-group col-md-12">
           <label for="amenities-input">Amenities</label>
-          <ll-token-field id="amenities-input" tags={{property.amenities::input}}></ll-token-field>
+          <ll-token-field id="amenities-input" tags={{property.amenities}}></ll-token-field>
         </div>
       </div>
 
@@ -134,7 +148,7 @@ Example
 
         <div class="form-group col-md-4">
           <label class="required"></label>
-          <label for="available-input" class="required"><input type="checkbox" id="available-input" checked="{{property.isBookingAvailable::input}}" /> Available for booking?</label>
+          <label for="available-input" class="required"><input type="checkbox" id="available-input" checked="{{property.isBookingAvailable::change}}" /> Available for booking?</label>
 
         </div>
       </div>
@@ -143,15 +157,15 @@ Example
         <hr/>
 
         <div class="actions pull-right">
+          <button type="button" class="btn btn-default" on-tap="_cancelClicked">Cancel</button>
+
           <template is="dom-if" if="{{isEdit}}" restamp>
-            <button type="button" class="btn btn-default" on-tap="_cancelClicked">Cancel</button>
             <button type="submit" class="btn btn-primary">Edit property <span class="entypo pencil"></span></button>
             <button type="button" class="btn btn-primary" on-tap="_createPropertyClicked">Create new property <span class="entypo circled-right"></span></button>
           </template>
 
           <template is="dom-if" if="{{!isEdit}}" restamp>
-            <button type="button" class="btn btn-default" on-tap="_cancelClicked">Cancel</button>
-            <button type="submit" class="btn btn-primary">Create property</button>
+            <button type="submit" class="btn btn-primary">Create property <span class="entypo circled-right"></span></button>
           </template>
         </div>
 
@@ -162,13 +176,52 @@ Example
   </template>
 
   <script>
-    Polymer({
+    LLPropertyInformationEdit = Polymer({
       is: 'll-property-information-edit',
+
+      factoryImpl: function(property, isEdit) {
+        if(!property && isEdit) {
+          throw new Error('Cannot be in edit mode without a property supplied');
+        }
+
+        this.property = property || {};
+        this.isEdit = isEdit || false;
+      },
+
       ready: function() {
         this.property.description = this.property.description || '';
         this.$['post-form'].onsubmit = this._handlePost.bind(this);
       },
+
+      /**
+       * Fired when cancel button is clicked
+       *
+       * @event ll-property-information-edit-view-information
+       */
+
+      /**
+       * Fired when Create button is clicked on edit form
+       *
+       * @event ll-property-information-edit-create-property
+       */
+
+      /**
+       * Fired when Edit button is clicked on edit form
+       *
+       * @event ll-property-information-edit-post-edit
+       */
+
+      /**
+       * Fired when Create button is clicked on create form
+       *
+       * @event ll-property-information-edit-post-create
+       */
+
       properties: {
+        /**
+         * Existing property to edit
+         * @default {}
+         */
         property: {
           type: Object,
           reflectToAttribute: true,
@@ -176,6 +229,10 @@ Example
             return {};
           }
         },
+        /**
+         * Whether or not the view should render in edit mode from the @prop property
+         * @default false
+         */
         isEdit: {
           type: Boolean,
           value: false
@@ -201,12 +258,21 @@ Example
         this.fire('ll-property-information-edit-view-property');
       },
       _postEditClicked: function(e) {
+        if(!this.isEdit) {
+          throw new Error('Cannot post edit when not in edit mode');
+        }
         this.fire('ll-property-information-edit-post-edit', {property: this.property});
       },
       _createPropertyClicked: function() {
+        if(!this.isEdit) {
+          throw new Error('Cannot view create mode when not in edit mode');
+        }
         this.fire('ll-property-information-edit-create-property');
       },
       _postCreateClicked: function(e) {
+        if(this.isEdit) {
+          throw new Error('Cannot post create in edit mode');
+        }
         this.fire('ll-property-information-edit-post-create', {property: this.property});
       },
       _isState: function(stateCode) {
