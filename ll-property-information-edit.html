@@ -257,7 +257,7 @@ The `ll-property-information-edit` handles creating and editing of property info
       _cancelClicked: function() {
         this.fire('ll-property-information-edit-view-property');
       },
-      _postEditClicked: function(e) {
+      _postEditClicked: function() {
         if(!this.isEdit) {
           throw new Error('Cannot post edit when not in edit mode');
         }
@@ -269,7 +269,7 @@ The `ll-property-information-edit` handles creating and editing of property info
         }
         this.fire('ll-property-information-edit-create-property');
       },
-      _postCreateClicked: function(e) {
+      _postCreateClicked: function() {
         if(this.isEdit) {
           throw new Error('Cannot post create in edit mode');
         }

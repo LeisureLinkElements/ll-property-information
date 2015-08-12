@@ -1,5 +1,6 @@
 <link rel="import" href="../polymer/polymer.html">
 <link rel="import" href="../ll-theme/ll-theme.html">
+<link rel="import" href="../iron-ajax/iron-ajax.html">
 <link rel="import" href="ll-property-information-view.html">
 <link rel="import" href="ll-property-information-edit.html">
 
@@ -20,12 +21,16 @@ Example
 
     <template>
 
+        <iron-ajax id="get" url="{{getUrl}}" handle-as="json" on-response="_handleGet"></iron-ajax>
+        <iron-ajax id="create" url="{{createUrl}}" method="POST" body="{{_property}}" handle-as="json" on-response="_handleCreate"></iron-ajax>
+        <iron-ajax id="edit" url="{{editUrl}}" method="PUT" body="{{_property}}" handle-as="json" on-response="_handleEdit"></iron-ajax>
+
         <template is="dom-if" if="{{_inViewMode}}" restamp>
-            <ll-property-information-view property="{{property}}"></ll-property-information-view>
+            <ll-property-information-view property="{{_property}}"></ll-property-information-view>
         </template>
 
         <template is="dom-if" id="view-mode" if="{{_inEditMode}}" restamp>
-            <ll-property-information-edit property="{{property}}" is-edit></ll-property-information-edit>
+            <ll-property-information-edit property="{{_property}}" is-edit></ll-property-information-edit>
         </template>
 
         <template is="dom-if" id="create-mode" if="{{_inCreateMode}}" restamp>
@@ -34,40 +39,18 @@ Example
     </template>
 
     <script>
-        var testProperty = {
-            name: '7858 Aster Lane',
-            isBookingAvailable: true,
-            buildingCategory: 'condo',
-            buildingType: 'townhome',
-            geoLocation: {
-                latitude: 49.235,
-                longitude: 23.246
-            },
-            bedroomCount: 5,
-            bathroomCount: 5,
-            fullBathrooms: 3,
-            threeQuarterBathrooms: 0,
-            halfBathrooms: 2,
-            occupancy: 12,
-            description: 'This should be a long description but nah',
-            amenities: ['fireplace', 'jacuzzi', 'steam shower'],
-            address: {
-                address1: '7857 Aster Lane',
-                address2: '',
-                city: 'Park City',
-                stateCode: 'UT',
-                postalCode: '84060',
-                countyCode: 'US'
-            },
-            currencyCode: 'USD'
-        };
 
         LLPropertyInformation = Polymer({
             is: 'll-property-information',
 
+            ready: function() {
+                this.$.get.generateRequest();
+            },
+
             listeners: {
                 'll-property-information-view-edit-property': '_editProperty',
                 'll-property-information-view-create-property': '_createProperty',
+                'll-property-information-view-back-to-properties': '_backToProperties',
                 'll-property-information-edit-view-property': '_viewInformation',
                 'll-property-information-edit-create-property': '_createProperty',
                 'll-property-information-edit-post-edit': '_postEdit',
@@ -78,19 +61,6 @@ Example
                 /**
                  *
                  */
-                property: {
-                    type: Object,
-                    value: function() {
-                        return testProperty;
-                    }
-                },
-                /**
-                 * The property id of an existing property for editing and viewing
-                 */
-                propertyId: {
-                    type: String,
-                    value: ''
-                },
                 /**
                  * Url for retrieving a property based on its id
                  */
@@ -111,6 +81,12 @@ Example
                 createUrl: {
                     type: String,
                     value: ''
+                },
+                _property: {
+                    type: Object,
+                    value: function() {
+                        return {};
+                    }
                 },
                 _editMode: {
                     type: Boolean,
@@ -134,6 +110,16 @@ Example
                 }
             },
 
+            _handleGet: function(res) {
+                this._property = res.data;
+            },
+            _handleEdit: function(res) {
+                this._viewInformation();
+            },
+            _handleCreate: function(res) {
+                this._backToProperties();
+            },
+
             _viewInformation: function() {
                 this._editMode = this._createMode = false;
             },
@@ -144,8 +130,7 @@ Example
             },
 
             _postEdit: function(e) {
-                console.log(e);
-                this._viewInformation();
+                this.$.edit.generateRequest();
             },
 
             _createProperty: function() {
@@ -154,8 +139,11 @@ Example
             },
 
             _postCreate: function(e) {
-                console.log(e);
-                //TODO: Go back to all listing.
+                this.$.create.generateRequest();
+            },
+
+            _backToProperties: function() {
+                this.fire('ll-property-information-back-to-properties');
             },
 
             _isInEditMode: function(editMode, createMode) {

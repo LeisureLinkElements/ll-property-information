@@ -119,14 +119,13 @@ Example:
 
     <hr/>
 
-    <select>
-      <option value="">More Actions</option>
-    </select>
+    <div class="pull-left">
+      <button type="button" class="btn btn-default" on-tap="_backToProperties"><span class="entypo circled-left"></span> Back to all properties</button>
+    </div>
 
     <div class="actions pull-right">
-      <button type="button" class="btn btn-default" on-tap="_backToProperties">Back to properties <span class="entypo circled-left"></span></button>
-      <button type="button" class="btn btn-primary" on-tap="_editProperty">Edit information <span class="entypo pencil"></span></button>
-      <button type="button" class="btn btn-primary" on-tap="_createProperty">Create new property  <span class="entypo circled-right"></span></button>
+      <button type="button" class="btn btn-primary" on-tap="_editProperty">Edit Property <span class="entypo pencil"></span></button>
+      <button type="button" class="btn btn-primary" on-tap="_createProperty">Create new Property <span class="entypo pencil"></span></button>
     </div>
 
   </template>

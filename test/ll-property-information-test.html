@@ -7,18 +7,86 @@
     <script src="../../webcomponentsjs/webcomponents-lite.js"></script>
     <script src="../../web-component-tester/browser.js"></script>
 
-    <!-- Step 1: import the element to test -->
     <link rel="import" href="../ll-property-information.html">
   </head>
   <body>
 
-    <!-- You can use the document as a place to set up your fixtures. -->
-    <ll-property-information></ll-property-information>
 
     <script>
-      var myEl = document.querySelector('ll-property-information');
+
+      describe('ll-property-information', function() {
+
+        var myEl = new LLPropertyInformation();
+
+        describe('visual states', function() {
+
+          it('should transition to view mode when ll-property-information-edit-view-property is fired', function() {
+            myEl.fire('ll-property-information-edit-view-property');
+
+            expect(myEl._inViewMode).to.be.true;
+          });
+
+          it('transitions into view mode after ll-property-information-edit-post-edit is fired', function() {
+            myEl.fire('ll-property-information-edit-post-edit');
+
+            expect(myEl._inViewMode).to.be.true;
+          });
+
+          it('should transition to edit mode when ll-property-information-view-edit-property is fired', function() {
+            myEl.fire('ll-property-information-view-edit-property');
+
+            expect(myEl._inEditMode).to.be.true;
+          });
+
+          it('should transition to create mode when ll-property-information-view-create-property is fired', function() {
+            myEl.fire('ll-property-information-view-create-property');
+
+            expect(myEl._inCreateMode).to.be.true;
+          });
+
+          it('should transition to create mode when ll-property-information-edit-create-property is fired', function() {
+            myEl.fire('ll-property-information-edit-create-property');
+
+            expect(myEl._inCreateMode).to.be.true;
+          });
+
+        });
+
+        describe('requests', function() {
+
+          it('fires get request on ready', function(done) {
+            myEl.$.get.generateRequest = function() {
+              // Test will not finish execution unless done is invoked. Passing criteria is test finishing
+              done();
+            };
+
+            myEl.ready();
+          });
+
+          it('fires edit request when ll-property-information-edit-post-edit is fired', function(done) {
+            myEl.$.edit.generateRequest = function() {
+              // Test will not finish execution unless done is invoked. Passing criteria is test finishing
+              done();
+            };
+
+            myEl.fire('ll-property-information-edit-post-edit');
+          });
+
+
+          it('fires create request when ll-property-information-edit-post-create is fired', function(done) {
+            myEl.$.create.generateRequest = function() {
+              // Test will not finish execution unless done is invoked. Passing criteria is test finishing
+              done();
+            };
+
+            myEl.fire('ll-property-information-edit-post-create');
+          });
+
+        });
+
+      });
 
     </script>
-
+L
   </body>
 </html>
