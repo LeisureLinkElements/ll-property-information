@@ -50,6 +50,25 @@
             expect(myEl._inCreateMode).to.be.true;
           });
 
+          it('should switch to view mode when mode is "view"', function() {
+            var el = new LLPropertyInformation('view');
+
+            expect(el._inViewMode).to.be.true;
+          });
+
+          it('should switch to edit mode when mode is "edit"', function() {
+            var el = new LLPropertyInformation('edit');
+
+            expect(el._inEditMode).to.be.true;
+          });
+
+          it('should switch to create mode when mode is "create"', function() {
+            var el = new LLPropertyInformation('create');
+
+            expect(el._inCreateMode).to.be.true;
+          });
+
+
         });
 
         describe('requests', function() {
@@ -80,6 +99,16 @@
             };
 
             myEl.fire('ll-property-information-edit-post-create');
+          });
+
+        });
+
+        describe('validation', function() {
+
+          it('should throw an error when mode is not one of view, edit, or create', function() {
+            expect(function() {
+              new LLPropertyInformation('fail');
+            }).to.throw('Mode must be one of');
           });
 
         });

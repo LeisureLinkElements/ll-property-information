@@ -40,11 +40,38 @@ Example
 
     <script>
 
+        var viewMap = {
+            "view": function(component) { component._viewInformation(); },
+            "edit": function(component) { component._editProperty(); },
+            "create": function(component) { component._createProperty(); }
+        };
+
         LLPropertyInformation = Polymer({
             is: 'll-property-information',
 
+            factoryImpl: function(mode, getUrl, editUrl, createUrl) {
+                this.mode = mode || this.mode;
+                this.getUrl = getUrl || this.getUrl;
+                this.editUrl = editUrl || this.editUrl;
+                this.createUrl = createUrl || this.createUrl;
+
+                this.validateAndSetMode();
+            },
+
             ready: function() {
+                console.log('ready');
+                console.log(this.mode);
                 this.$.get.generateRequest();
+
+                this.validateAndSetMode();
+            },
+
+            validateAndSetMode: function() {
+                if(['view', 'edit', 'create'].indexOf(this.mode) < 0) {
+                    throw new Error('Mode must be one of: "view", "edit", or "create"');
+                }
+
+                viewMap[this.mode](this);
             },
 
             listeners: {
@@ -81,6 +108,14 @@ Example
                 createUrl: {
                     type: String,
                     value: ''
+                },
+                /**
+                 * The view mode to start the manager in. Must be one of: view, edit, or create.
+                 * Must be all lowercase
+                 */
+                mode: {
+                    type: String,
+                    value: 'view'
                 },
                 _property: {
                     type: Object,
