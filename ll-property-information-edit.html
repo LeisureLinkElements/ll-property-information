@@ -1,5 +1,8 @@
 <link rel="import" href="../polymer/polymer.html">
 <link rel="import" href="../ll-token-field/ll-token-field.html">
+<link rel="import" href="../iron-input/iron-input.html">
+<link rel="import" href="../iron-autogrow-textarea/iron-autogrow-textarea.html">
+<link rel="import" href="../lodash/lodash.js">
 
 An element for editing property information
 
@@ -31,18 +34,14 @@ The `ll-property-information-edit` handles creating and editing of property info
       cursor: text;
     }
 
+    iron-autogrow-textarea {
+      /*height: 10em;*/
+    }
+
     .entypo {
       font-size: 3em;
       vertical-align: middle;
-    }
-
-    .entypo.check {
-      color: yellowgreen;
-    }
-
-    .entypo.cross {
-      color: red;
-    }
+   }
   </style>
 
   <template>
@@ -51,26 +50,26 @@ The `ll-property-information-edit` handles creating and editing of property info
       <div class="row">
         <div class="form-group col-md-12">
           <label for="name-input" class="required">Property Name <span class="entypo circled-help" data-toggle="tooltip" data-content="Property name will be the identifying name distributed to all marketing channels. For a single property, the address will suffice, or a more creative name may be used."></span></label>
-          <input type="text" value="{{property.name::input}}" id="name-input" class="form-control" required placeholder="Property Name"/>
+          <input is="iron-input" type="text" bind-value="{{property.name}}"  id="name-input" class="form-control" required placeholder="Property Name" />
         </div>
       </div>
 
       <div class="row">
         <div class="form-group col-md-6">
           <label for="address1-input" class="required">Address 1</label>
-          <input type="text" value="{{property.address.address1::input}}" id="address1-input" class="form-control" required placeholder="Enter street address"/>
+          <input is="iron-input"type="text" bind-value="{{property.address.address1}}" id="address1-input" class="form-control" required placeholder="Enter street address"/>
         </div>
 
         <div class="form-group col-md-6">
           <label for="address2-input">Address 2 <span class="help-block">(Optional)</span></label>
-          <input type="text" value="{{property.address.address2::input}}" id="address2-input" class="form-control" placeholder="Additional address"/>
+          <input is="iron-input" type="text" value="{{property.address.address2}}" id="address2-input" class="form-control" placeholder="Additional address"/>
         </div>
       </div>
 
       <div class="row">
         <div class="form-group col-md-4">
           <label for="city-input" class="required">City</label>
-          <input type="text" value="{{property.address.city::input}}" id="city-input" class="form-control" required placeholder="Enter city name"/>
+          <input is="iron-input" type="text" value="{{property.address.city}}" id="city-input" class="form-control" required placeholder="Enter city name"/>
         </div>
 
         <div class="form-group col-md-4">
@@ -85,7 +84,7 @@ The `ll-property-information-edit` handles creating and editing of property info
 
         <div class="form-group col-md-4">
           <label for="zip-code-input" class="required">Zip Code</label>
-          <input type="text" value="{{property.address.postalCode::input}}" id="zip-code-input" class="form-control" required pattern="[0-9]{5}" placeholder="Enter zip code"/>
+          <input is="iron-input" type="text" value="{{property.address.postalCode}}" id="zip-code-input" class="form-control" required pattern="[0-9]{5}" placeholder="Enter zip code"/>
         </div>
 
       </div>
@@ -93,19 +92,19 @@ The `ll-property-information-edit` handles creating and editing of property info
       <div class="row">
         <div class="form-group col-md-12">
           <label for="description-input" class="required">Description <span class="entypo circled-help" data-toggle="tooltip" data-content="TBD"></span></label>
-          <textarea class="form-control" id="description-input" rows="5" value="{{property.description}}" required placeholder="Enter short description of property"></textarea>
+          <textarea id="description-input" class="form-control" placeholder="Enter short description of property" va>{{property.description::changed}}</textarea>
         </div>
       </div>
 
       <div class="row">
         <div class="form-group col-md-6">
           <label for="bedroom-count-input" class="required">Bedrooms</label>
-          <input type="number" min="0" class="form-control" value="{{property.bedroomCount::input}}" id="bedroom-count-input" required placeholder="Number of bedrooms" />
+          <input is="iron-input" type="number" min="0" class="form-control" value="{{property.bedroomCount}}" id="bedroom-count-input" required placeholder="Number of bedrooms" />
         </div>
 
         <div class="form-group col-md-6">
           <label for="bathroom-count-input" class="required">Bathrooms</label>
-          <input type="number" min="0" step=".25" value="{{property.bathroomCount::input}}" id="bathroom-count-input" class="form-control" required placeholder="Total number of bathrooms" />
+          <input is="iron-input" type="number" min="0" step=".25" value="{{property.bathroomCount}}" id="bathroom-count-input" class="form-control" required placeholder="Total number of bathrooms" />
         </div>
 
       </div>
@@ -113,17 +112,17 @@ The `ll-property-information-edit` handles creating and editing of property info
       <div class="row">
         <div class="form-group col-md-4">
           <label for="full-bathroom-input" class="required">Full Bathrooms</label>
-          <input type="number" min="0" value="{{property.fullBathrooms::input}}" id="full-bathroom-input" class="form-control" required placeholder="Total number of full bathrooms" />
+          <input is="iron-input" type="number" min="0" value="{{property.fullBathrooms}}" id="full-bathroom-input" class="form-control" required placeholder="Total number of full bathrooms" />
         </div>
 
         <div class="form-group col-md-4">
           <label for="three-quarter-bathroom-input" class="required">3/4 Bathrooms</label>
-          <input type="number" min="0" value="{{property.threeQuarterBathrooms::input}}" id="three-quarter-bathroom-input" class="form-control" required placeholder="Total number of 3/4 bathrooms" />
+          <input is="iron-input" type="number" min="0" value="{{property.threeQuarterBathrooms}}" id="three-quarter-bathroom-input" class="form-control" required placeholder="Total number of 3/4 bathrooms" />
         </div>
 
         <div class="form-group col-md-4">
           <label for="half-bathroom-input" class="required">1/2 Bathrooms</label>
-          <input type="number" min="0" value="{{property.halfBathrooms::input}}" id="half-bathroom-input" class="form-control" required placeholder="Total number of 1/2 bathrooms" />
+          <input is="iron-input" type="number" min="0" value="{{property.halfBathrooms}}" id="half-bathroom-input" class="form-control" required placeholder="Total number of 1/2 bathrooms" />
         </div>
       </div>
 
@@ -137,20 +136,20 @@ The `ll-property-information-edit` handles creating and editing of property info
       <div class="row">
         <div class="form-group col-md-4">
           <label for="occupancy-input" class="required">Occupancy</label>
-          <input type="number" min="0" value="{{property.occupancy::input}}" id="occupancy-input" class="form-control" required placeholder="Maximum occupancy" />
+          <input is="iron-input" type="number" min="0" value="{{property.occupancy}}" id="occupancy-input" class="form-control" required placeholder="Maximum occupancy" />
         </div>
 
         <div class="form-group col-md-4">
           <label for="currency-code-input" class="required">Currency</label>
-          <input type="text" maxlength="3" value="{{property.currencyCode::input}}" id="currency-code-input" class="form-control" required placeholder="Allowed Currency" />
+          <input is="iron-input" type="text" maxlength="3" value="{{property.currencyCode}}" id="currency-code-input" class="form-control" required placeholder="Allowed Currency" />
         </div>
 
 
         <div class="form-group col-md-4">
-          <label class="required"></label>
-          <label for="available-input" class="required"><input type="checkbox" id="available-input" checked="{{property.isBookingAvailable::change}}" /> Available for booking?</label>
-
-        </div>
+          <label class="required">Available for booking?</label>
+          <div class="checkbox">
+            <label for="available-input"><input is="iron-input" type="checkbox" id="available-input" checked="{{property.isBookingAvailable}}" /> Booking Available</label> </div>
+          </div>
       </div>
 
       <div class="col-md-12">
@@ -160,7 +159,7 @@ The `ll-property-information-edit` handles creating and editing of property info
           <button type="button" class="btn btn-default" on-tap="_cancelClicked">Cancel</button>
 
           <template is="dom-if" if="{{isEdit}}" restamp>
-            <button type="submit" class="btn btn-primary">Edit property <span class="entypo pencil"></span></button>
+            <button type="submit" class="btn btn-primary">Save edits <span class="entypo check"></span></button>
           </template>
 
           <template is="dom-if" if="{{!isEdit}}" restamp>
@@ -175,6 +174,9 @@ The `ll-property-information-edit` handles creating and editing of property info
   </template>
 
   <script>
+
+    var originalProperty = {};
+
     LLPropertyInformationEdit = Polymer({
       is: 'll-property-information-edit',
 
@@ -188,7 +190,7 @@ The `ll-property-information-edit` handles creating and editing of property info
       },
 
       ready: function() {
-        this.property.description = this.property.description || '';
+        originalProperty = _.assign({}, this.property);
         this.$['post-form'].onsubmit = this._handlePost.bind(this);
       },
 
@@ -240,7 +242,7 @@ The `ll-property-information-edit` handles creating and editing of property info
           type: Array,
           readOnly: true,
           value: function() {
-            return ['AL', 'AK', 'AZ', 'AK', 'CA', 'CO', 'CT', 'DE', 'FL', 'GA', 'HI', 'ID', 'IL', 'IN', 'IA', 'KS', 'KY', 'LA', 'ME', 'MD', 'MA', 'MI', 'MN', 'MS', 'MO', 'MT', 'NE', 'NV', 'NH', 'NJ', 'NM', 'NY', 'NC', 'ND', 'OH', 'OK', 'OR', 'PA', 'RI', 'SC', 'SD', 'TN', 'TX', 'UT', 'VT', 'VA', 'WA', 'WV', 'WI', 'WY'];
+            return ['AL', 'AK', 'AZ', 'AR', 'CA', 'CO', 'CT', 'DE', 'FL', 'GA', 'HI', 'ID', 'IL', 'IN', 'IA', 'KS', 'KY', 'LA', 'ME', 'MD', 'MA', 'MI', 'MN', 'MS', 'MO', 'MT', 'NE', 'NV', 'NH', 'NJ', 'NM', 'NY', 'NC', 'ND', 'OH', 'OK', 'OR', 'PA', 'RI', 'SC', 'SD', 'TN', 'TX', 'UT', 'VT', 'VA', 'WA', 'WV', 'WI', 'WY'];
           }
         }
       },
@@ -254,7 +256,9 @@ The `ll-property-information-edit` handles creating and editing of property info
         }
       },
       _cancelClicked: function() {
-        this.fire('ll-property-information-edit-view-property');
+        this.property = originalProperty;
+        console.log(this.property);
+        this.fire('ll-property-information-edit-view-property', {property: this.property});
       },
       _postEditClicked: function() {
         if(!this.isEdit) {
@@ -273,6 +277,9 @@ The `ll-property-information-edit` handles creating and editing of property info
           throw new Error('Cannot post create in edit mode');
         }
         this.fire('ll-property-information-edit-post-create', {property: this.property});
+      },
+      _computeDescription: function(description) {
+        return description || '';
       },
       _isState: function(stateCode) {
         return this.property.address

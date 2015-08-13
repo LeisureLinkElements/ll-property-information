@@ -17,6 +17,7 @@ Example:
     :host {
       display: block;
       box-sizing: border-box;
+      cursor: pointer;
     }
 
     .entypo {
@@ -35,7 +36,7 @@ Example:
   </style>
 
   <template>
-    <div>
+    <div on-tap="_editProperty">
       <ll-definition-list title="PROPERTY NAME:">
         <p>{{property.name}}</p>
       </ll-definition-list>
@@ -120,12 +121,11 @@ Example:
     <hr/>
 
     <div class="pull-left">
-      <button type="button" class="btn btn-default" on-tap="_backToProperties"><span class="entypo circled-left"></span> Back to all properties</button>
+      <a href="#" on-tap="_backToProperties">BACK TO ALL PROPERTIES</a>
     </div>
 
     <div class="actions pull-right">
-      <button type="button" class="btn btn-primary" on-tap="_editProperty">Edit Property <span class="entypo pencil"></span></button>
-      <button type="button" class="btn btn-primary" on-tap="_createProperty">Create new Property <span class="entypo pencil"></span></button>
+      <a href="#" on-tap="_goToPropertyPhotos">GO TO PROPERTY PHOTOS &gt;</a>
     </div>
 
   </template>
@@ -206,6 +206,10 @@ Example:
 
     _createProperty: function() {
       this.fire('ll-property-information-view-create-property');
+    },
+
+    _goToPropertyPhotos: function() {
+      this.fire('ll-property-information-view-property-photos');
     },
 
     _computeLocale: function(address) {
