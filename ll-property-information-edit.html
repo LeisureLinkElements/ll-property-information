@@ -35,7 +35,7 @@ The `ll-property-information-edit` handles creating and editing of property info
     }
 
     iron-autogrow-textarea {
-      /*height: 10em;*/
+      height: 10em;
     }
 
     .entypo {
@@ -92,7 +92,7 @@ The `ll-property-information-edit` handles creating and editing of property info
       <div class="row">
         <div class="form-group col-md-12">
           <label for="description-input" class="required">Description <span class="entypo circled-help" data-toggle="tooltip" data-content="TBD"></span></label>
-          <textarea id="description-input" class="form-control" placeholder="Enter short description of property" va>{{property.description::changed}}</textarea>
+          <iron-autogrow-textarea id="description-input" class="form-control" placeholder="Enter short description of property" bind-value="{{property.description}}"></iron-autogrow-textarea>
         </div>
       </div>
 
@@ -156,13 +156,14 @@ The `ll-property-information-edit` handles creating and editing of property info
         <hr/>
 
         <div class="actions pull-right">
-          <button type="button" class="btn btn-default" on-tap="_cancelClicked">Cancel</button>
 
           <template is="dom-if" if="{{isEdit}}" restamp>
+            <button type="button" class="btn btn-default" on-tap="_editCancelClicked">Cancel</button>
             <button type="submit" class="btn btn-primary">Save edits <span class="entypo check"></span></button>
           </template>
 
           <template is="dom-if" if="{{!isEdit}}" restamp>
+            <button type="button" class="btn btn-default" on-tap="_createCancelClicked">Cancel</button>
             <button type="submit" class="btn btn-primary">Create property <span class="entypo circled-right"></span></button>
           </template>
         </div>
@@ -255,10 +256,12 @@ The `ll-property-information-edit` handles creating and editing of property info
           this._postCreateClicked(e);
         }
       },
-      _cancelClicked: function() {
+      _editCancelClicked: function() {
         this.property = originalProperty;
-        console.log(this.property);
         this.fire('ll-property-information-edit-view-property', {property: this.property});
+      },
+      _createCancelClicked: function() {
+        this.fire('ll-property-information-edit-back-to-properties');
       },
       _postEditClicked: function() {
         if(!this.isEdit) {

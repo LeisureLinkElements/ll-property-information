@@ -1,6 +1,6 @@
 {
   "name": "ll-property-information",
-  "version": "1.1.1",
+  "version": "1.2.0",
   "authors": [
     "Zack Smith <zsmith@leisurelink.com>"
   ],
@@ -21,7 +21,10 @@
   "dependencies": {
     "polymer": "Polymer/polymer#^1.0.0",
     "ll-theme": "LeisureLinkElements/ll-theme#~0.0.1",
-    "ll-token-field": "LeisureLinkElements/ll-token-field"
+    "ll-token-field": "LeisureLinkElements/ll-token-field",
+    "iron-input": "PolymerElements/iron-input#~1.0.5",
+    "iron-autogrow-textarea": "PolymerElements/iron-autogrow-textarea#~1.0.4",
+    "lodash": "~3.10.1"
   },
   "devDependencies": {
     "iron-component-page": "PolymerElements/iron-component-page#^1.0.0",

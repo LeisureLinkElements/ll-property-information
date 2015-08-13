@@ -63,12 +63,12 @@
       describe('events', function() {
 
         it('should fire an event when cancel is clicked', function(done) {
-          myEl.addEventListener('ll-property-information-edit-view-property', function(event) {
+          myEl.addEventListener('ll-property-information-edit-back-to-properties', function(event) {
             expect(event).to.be.ok;
             done();
           });
 
-          myEl._cancelClicked();
+          myEl._createCancelClicked();
         });
 
         it('should fire an event when edit button is clicked in edit mode', function(done) {
@@ -126,7 +126,7 @@
             done();
           });
 
-          myEl._cancelClicked();
+          myEl._editCancelClicked();
         });
 
         it('should throw an error when clicking post edit in create mode', function() {
