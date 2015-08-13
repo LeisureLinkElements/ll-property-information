@@ -39,34 +39,6 @@ Example
     </template>
 
     <script>
-        var testProperty = {
-            name: '7858 Aster Lane',
-            isBookingAvailable: true,
-            buildingCategory: 'condo',
-            buildingType: 'townhome',
-            geoLocation: {
-                latitude: 49.235,
-                longitude: 23.246
-            },
-            bedroomCount: 5,
-            bathroomCount: 5,
-            fullBathrooms: 3,
-            threeQuarterBathrooms: 0,
-            halfBathrooms: 2,
-            occupancy: 12,
-            description: "Situated behind the private gates of Knoll Estates in the heart of Silver Lake Village, this 7391 sq ft classic estate enjoys one of the most picturesque lots in all of Deer Valley. Only steps from Deer Valley Ski Resort and a short walk from Utah's only Forbes Five-Star, AAA Five-Diamond hotel Stein Erikson Lodge, the romantic AAA Four Diamond hotel Chateaux and access to eleven restaurants including the charming Goldener Hirsch, this 5BR, 7BA mountain retreat is ideal for entertainment and relaxation. Featuring high vaulted ceilings with large timber trusses, hardwood, slate and travertine flooring, this light and expansive home boasts a warm and inviting, open great room floor plan with stunning views of the ski runs and Bald Mountain. A gourmet chef's kitchen with granite counter tops and GE Monogram appliances, luxurious master bedroom with fire place, spacious lower level family/media room with wet bar, access to a patio and hot tub, mud room and direct ski access through the back of the lot to Silver Lake compliment this must see, elegant mountain retreat, a perfect family gatherings spot for creating ski vacation memories that will last a lifetime.",
-            amenities: ['fireplace', 'jacuzzi', 'steam shower'],
-            address: {
-                address1: '7857 Aster Lane',
-                address2: '',
-                city: 'Park City',
-                stateCode: 'UT',
-                postalCode: '84060',
-                countyCode: 'US'
-            },
-            currencyCode: 'USD'
-        };
-
         var viewMap = {
             "view": function(component) { component._viewInformation(); },
             "edit": function(component) { component._editProperty(); },
@@ -173,7 +145,7 @@ Example
             },
 
             _handleGet: function(res) {
-                this._property = res.data || testProperty;
+                this._property = res.data;
             },
             _handleEdit: function(res) {
                 this._viewInformation();
