@@ -43,8 +43,8 @@ Example:
 
       <ll-definition-list title="ADDRESS:">
         <address>
-          <div>{{property.address.address1}}</div>
-          <div>{{property.address.address2}}</div>
+          <div>{{property.location.address}}</div>
+          <div>{{property.location.address2}}</div>
           <div>{{_locale}}</div>
         </address>
       </ll-definition-list>
@@ -53,23 +53,23 @@ Example:
         <p>{{property.description}}</p>
       </ll-definition-list>
 
-      <ll-definition-list title="BEDROOMS:">
+      <ll-definition-list title="BEDROOMS:" hidden$="{{!property.bedroomCount}}">
         <p>{{property.bedroomCount}}</p>
       </ll-definition-list>
 
-      <ll-definition-list title="TOTAL BATHROOMS:">
+      <ll-definition-list title="TOTAL BATHROOMS:" hidden$="{{!property.bathroomCount}}">
         <p>{{property.bathroomCount}}</p>
       </ll-definition-list>
 
-      <ll-definition-list title="FULL BATHROOMS:">
+      <ll-definition-list title="FULL BATHROOMS:" hidden$="{{!property.fullBathrooms}}">
         <p>{{property.fullBathrooms}}</p>
       </ll-definition-list>
 
-      <ll-definition-list title="3/4 BATHROOMS:">
+      <ll-definition-list title="3/4 BATHROOMS:" hidden$="{{!property.threeQuarterBathrooms}}">
         <p>{{property.threeQuarterBathrooms}}</p>
       </ll-definition-list>
 
-      <ll-definition-list title="1/2 BATHROOMS:">
+      <ll-definition-list title="1/2 BATHROOMS:" hidden$="{{!property.halfBathrooms}}">
         <p>{{property.halfBathrooms}}</p>
       </ll-definition-list>
 
@@ -85,26 +85,26 @@ Example:
         </p>
       </ll-definition-list>
 
-      <ll-definition-list title="CATEGORY:">
+      <ll-definition-list title="CATEGORY:" hidden$="{{!property.buildingCategory}}">
         <p>{{property.buildingCategory}}</p>
       </ll-definition-list>
 
-      <ll-definition-list title="TYPE:">
+      <ll-definition-list title="TYPE:" hidden$="{{!property.buildingType}}">
         <p>{{property.buildingType}}</p>
       </ll-definition-list>
 
-      <ll-definition-list title="LOCATION:">
+      <ll-definition-list title="LOCATION:" hidden$="{{!property.geoLocation}}">
         <p>
           <span>{{property.geoLocation.latitude}}</span> lat.
           <span>{{property.geoLocation.longitude}}</span> long.
         </p>
       </ll-definition-list>
 
-      <ll-definition-list title="OCCUPANCY:">
+      <ll-definition-list title="OCCUPANCY:" hidden$="{{!property.occupancy}}">
         <p>{{property.occupancy}}</p>
       </ll-definition-list>
 
-      <ll-definition-list title="AMENITIES:">
+      <ll-definition-list title="AMENITIES:" hidden$="{{!property.amenities}}">
         <ul class="list-inline">
           <template is="dom-repeat" items="{{property.amenities}}">
             <li>{{item}}</li>
@@ -112,7 +112,7 @@ Example:
         </ul>
       </ll-definition-list>
 
-      <ll-definition-list title="CURRENCY:">
+      <ll-definition-list title="CURRENCY:" hidden$="{{!property.currencyCode}}">
         <p>{{property.currencyCode}}</p>
       </ll-definition-list>
 
@@ -165,13 +165,13 @@ Example:
        * @property {Number} occupancy
        * @property {String} description
        * @property {Array.<String>} amenities
-       * @property {Object} address
-       * @property {String} address.address1
-       * @property {String} address.address2
-       * @property {String} address.city
-       * @property {String} address.stateCode
-       * @property {String} address.postalCode
-       * @property {String} address.countryCode
+       * @property {Object} location
+       * @property {String} location.address
+       * @property {String} location.address2
+       * @property {String} location.city
+       * @property {String} location.subdivision
+       * @property {String} location.postal
+       * @property {String} location.country
        * @property {String} currencyCode
        */
       property: {
@@ -188,7 +188,7 @@ Example:
        */
       _locale: {
         type: String,
-        computed: '_computeLocale(property.address)'
+        computed: '_computeLocale(property.location)'
       }
     },
 
@@ -212,9 +212,9 @@ Example:
       this.fire('ll-property-information-view-property-photos');
     },
 
-    _computeLocale: function(address) {
-      if(!address) return '';
-      return (address.city + ' ' + address.stateCode + ' ' + address.postalCode);
+    _computeLocale: function(location) {
+      if(!location) return '';
+      return (location.city + ' ' + location.subdivision + ' ' + location.postal);
     }
 
   });
