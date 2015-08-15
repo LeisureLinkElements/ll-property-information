@@ -211,8 +211,10 @@ Example
                 return !editMode && createMode;
             },
           _buildPutBody: function(property) {
-            property.pmcId = this.pmcId;
-            property.unitId = this.unitId;
+            if(property) {
+              property.pmcId = this.pmcId;
+              property.unitId = this.unitId;
+            }
             return property;
           }
         });
