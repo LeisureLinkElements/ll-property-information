@@ -96,6 +96,15 @@ Example
                     value: ''
                 },
                 /**
+                 * This is required for PUT/POST
+                 * TODO: Need a test around passing in the attribute.
+                 * TODO: Might be good to make it a required field.
+                 */
+                pmcId: {
+                  type: String,
+                  value: ''
+                },
+                /**
                  * Url for submitting updated property information
                  */
                 editUrl: {
@@ -146,12 +155,12 @@ Example
             },
 
             _handleGet: function(res) {
-                this._property = res.data;
+                this._property = res.target.lastResponse;
             },
-            _handleEdit: function(res) {
+            _handleEdit: function() {
                 this._viewInformation();
             },
-            _handleCreate: function(res) {
+            _handleCreate: function() {
                 this._backToProperties();
             },
 
@@ -167,7 +176,7 @@ Example
                 this._createMode = false;
             },
 
-            _postEdit: function(e) {
+            _postEdit: function() {
                 this.$.edit.generateRequest();
             },
 
@@ -176,7 +185,7 @@ Example
                 this._createMode = true;
             },
 
-            _postCreate: function(e) {
+            _postCreate: function() {
                 this.$.create.generateRequest();
             },
 
