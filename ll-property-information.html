@@ -22,8 +22,8 @@ Example
     <template>
 
         <iron-ajax id="get" url="{{getUrl}}" handle-as="json" on-response="_handleGet"></iron-ajax>
-        <iron-ajax id="create" url="{{createUrl}}" method="POST" body="{{_property}}" handle-as="json" on-response="_handleCreate"></iron-ajax>
-        <iron-ajax id="edit" url="{{editUrl}}" method="PUT" body="{{_property}}" handle-as="json" on-response="_handleEdit"></iron-ajax>
+        <iron-ajax id="create" url="{{createUrl}}" method="POST" body="{{_property}}" handle-as="json" content-type="application/json" on-response="_handleCreate"></iron-ajax>
+        <iron-ajax id="edit" url="{{editUrl}}" method="PUT" body="{{_buildPutBody(_property)}}" content-type="application/json" handle-as="json" on-response="_handleEdit"></iron-ajax>
 
         <template is="dom-if" if="{{_inViewMode}}" restamp>
             <ll-property-information-view property="{{_property}}"></ll-property-information-view>
@@ -101,6 +101,12 @@ Example
                  * TODO: Might be good to make it a required field.
                  */
                 pmcId: {
+                  type: String,
+                  value: ''
+                },
+                /** Required for a PUT
+                 */
+                unitId: {
                   type: String,
                   value: ''
                 },
@@ -203,7 +209,12 @@ Example
 
             _isInCreateMode: function(editMode, createMode) {
                 return !editMode && createMode;
-            }
+            },
+          _buildPutBody: function(property) {
+            property.pmcId = this.pmcId;
+            property.unitId = this.unitId;
+            return property;
+          }
         });
     </script>
 </dom-module>
