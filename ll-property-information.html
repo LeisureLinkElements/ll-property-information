@@ -164,9 +164,11 @@ Example
                 this._property = res.target.lastResponse || {location: {}};
             },
             _handleEdit: function() {
+                this.fire('ll-property-information-edited', {property: this._property});
                 this._viewInformation();
             },
             _handleCreate: function() {
+              this.fire('ll-property-information-created', {property: this._property});
                 this._backToProperties();
             },
 

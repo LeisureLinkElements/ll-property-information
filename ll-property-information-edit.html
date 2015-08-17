@@ -230,7 +230,11 @@ The `ll-property-information-edit` handles creating and editing of property info
           type: Object,
           reflectToAttribute: true,
           value: function() {
-            return { location: {} };
+            return {
+              location: {
+                country: 'US'
+              }
+            };
           }
         },
         /**
