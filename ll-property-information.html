@@ -22,8 +22,8 @@ Example
     <template>
 
         <iron-ajax id="get" url="{{getUrl}}" handle-as="json" on-response="_handleGet"></iron-ajax>
-        <iron-ajax id="create" url="{{createUrl}}" method="POST" body="{{_property}}" handle-as="json" content-type="application/json" on-response="_handleCreate"></iron-ajax>
-        <iron-ajax id="edit" url="{{editUrl}}" method="PUT" body="{{_buildPutBody(_property)}}" content-type="application/json" handle-as="json" on-response="_handleEdit"></iron-ajax>
+        <iron-ajax id="create" url="{{createUrl}}" method="POST" handle-as="json" content-type="application/json" on-response="_handleCreate"></iron-ajax>
+        <iron-ajax id="edit" url="{{editUrl}}" method="PUT" body="{{_property}}" content-type="application/json" handle-as="json" on-response="_handleEdit"></iron-ajax>
 
         <template is="dom-if" if="{{_inViewMode}}" restamp>
             <ll-property-information-view property="{{_property}}"></ll-property-information-view>
@@ -161,7 +161,7 @@ Example
             },
 
             _handleGet: function(res) {
-                this._property = res.target.lastResponse;
+                this._property = res.target.lastResponse || {location: {}};
             },
             _handleEdit: function() {
                 this._viewInformation();
@@ -183,6 +183,8 @@ Example
             },
 
             _postEdit: function() {
+                this._property.pmcId = this.pcmId;
+                this._property.unitId = this.unitId;
                 this.$.edit.generateRequest();
             },
 
@@ -191,8 +193,10 @@ Example
                 this._createMode = true;
             },
 
-            _postCreate: function() {
-                this.$.create.generateRequest();
+            _postCreate: function(evt) {
+                var create = this.$.create;
+                create.body = evt.detail.property;
+                create.generateRequest();
             },
 
             _backToProperties: function() {
@@ -210,13 +214,6 @@ Example
             _isInCreateMode: function(editMode, createMode) {
                 return !editMode && createMode;
             },
-          _buildPutBody: function(property) {
-            if(property) {
-              property.pmcId = this.pmcId;
-              property.unitId = this.unitId;
-            }
-            return property;
-          }
         });
     </script>
 </dom-module>
