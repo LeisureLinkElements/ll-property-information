@@ -2,7 +2,10 @@
 <link rel="import" href="../ll-token-field/ll-token-field.html">
 <link rel="import" href="../iron-input/iron-input.html">
 <link rel="import" href="../iron-autogrow-textarea/iron-autogrow-textarea.html">
+<link rel="import" href="../paper-tooltip/paper-tooltip.html">
 <link rel="import" href="../lodash/lodash.js">
+<!-- using shared styles in an element -->
+<link rel="import" href="../ll-theme/shared-styles.html">
 
 An element for editing property information
 
@@ -21,7 +24,7 @@ The `ll-property-information-edit` handles creating and editing of property info
   <style>
     .help-block {
       display: inline-block;
-      margin: 5px 0px;
+      margin: 5px 0;
       font-weight: 100;
     }
 
@@ -35,7 +38,7 @@ The `ll-property-information-edit` handles creating and editing of property info
     }
 
     iron-autogrow-textarea {
-      height: 10em;
+      height: auto;
     }
 
     .entypo {
@@ -43,13 +46,18 @@ The `ll-property-information-edit` handles creating and editing of property info
       vertical-align: middle;
    }
   </style>
+  <style include="shared-styles"></style>
 
   <template>
     <form id="post-form" autocomplete="off">
 
       <div class="row">
         <div class="form-group col-md-12">
-          <label for="name-input" class="required">Property Name <span class="entypo circled-help" data-toggle="tooltip" data-content="Property name will be the identifying name distributed to all marketing channels. For a single property, the address will suffice, or a more creative name may be used."></span></label>
+          <label for="name-input" class="required">Property Name
+            <span id="name-tooltip" class="entypo circled-help"></span>
+            <paper-tooltip for="name-tooltip" class="tooltip">Property name will be the identifying name distributed to all marketing channels.
+              For a single property, the address will suffice, or a more creative name may be used.</paper-tooltip>
+          </label>
           <input is="iron-input" type="text" bind-value="{{property.name}}" id="name-input" autocomplete="off" class="form-control" required placeholder="Property Name" />
         </div>
       </div>
@@ -91,8 +99,11 @@ The `ll-property-information-edit` handles creating and editing of property info
 
       <div class="row">
         <div class="form-group col-md-12">
-          <label for="description-input" class="required">Description <span class="entypo circled-help" data-toggle="tooltip" data-content="TBD"></span></label>
-          <iron-autogrow-textarea id="description-input" class="form-control" placeholder="Enter short description of property" bind-value="{{property.description}}"></iron-autogrow-textarea>
+          <label for="description-input" class="required">Description
+            <span id="description-tooltip" class="entypo circled-help"></span>
+            <paper-tooltip for="description-tooltip" class="tooltip">There is a tooltip in the mock, but no text.</paper-tooltip>
+          </label>
+          <iron-autogrow-textarea id="description-input" class="form-control" placeholder="Enter short description of property" bind-value="{{property.description}}" rows="2" max-rows="6"></iron-autogrow-textarea>
         </div>
       </div>
 
