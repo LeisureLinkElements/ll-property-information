@@ -160,15 +160,15 @@ Example
                 }
             },
 
-            _handleGet: function(res) {
-                this._property = res.target.lastResponse || {location: {}};
+            _handleGet: function(e, detail) {
+                this._property = detail.response || {location: {}};
             },
             _handleEdit: function() {
                 this.fire('ll-property-information-edited', {property: this._property});
                 this._viewInformation();
             },
-            _handleCreate: function() {
-              this.fire('ll-property-information-created', {property: this._property});
+            _handleCreate: function(e, detail) {
+              this.fire('ll-property-information-created', {property: detail.response});
                 this._backToProperties();
             },
 
