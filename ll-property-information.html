@@ -187,7 +187,7 @@ Example
             _postEdit: function(evt) {
                 var property = evt.detail.property;
                 var edit = this.$.edit;
-                property.pmcId = this.pcmId;
+                property.pmcId = this.pmcId;
                 property.unitId = this.unitId;
                 edit.body = property;
                 edit.generateRequest();
@@ -199,8 +199,10 @@ Example
             },
 
             _postCreate: function(evt) {
+                var property = evt.detail.property;
                 var create = this.$.create;
-                create.body = evt.detail.property;
+                property.pmcId = this.pmcId;
+                create.body = property;
                 create.generateRequest();
             },
 

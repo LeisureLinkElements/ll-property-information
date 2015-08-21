@@ -134,6 +134,29 @@ The `ll-property-information-edit` handles creating and editing of property info
       </div>
 
       <div class="row">
+
+        <div class="form-group col-md-6">
+          <label for="building-category-input" class="required">Building Category</label>
+          <select id="building-category-input" class="form-control" required>
+            <option value="">Select</option>
+            <template is="dom-repeat" items="[[_buildingCategories]]">
+              <option value="{{item}}" selected="{{_isBuildingCategory(item)}}">{{_toProperCase(item)}}</option>
+            </template>
+          </select>
+        </div>
+
+        <div class="form-group col-md-6">
+          <label for="building-type-input" class="required">Building Type</label>
+          <select id="building-type-input" class="form-control" required>
+            <option value="" selected disabled>Select</option>
+            <template is="dom-repeat" items="[[_buildingTypes]]">
+              <option value="{{item}}" selected="{{_isBuildingType(item)}}">{{_toProperCase(item)}}</option>
+            </template>
+          </select>
+        </div>
+      </div>
+
+      <div class="row">
         <div class="form-group col-md-4">
           <label for="occupancy-input" class="required">Occupancy</label>
           <input is="iron-input" type="number" min="0" bind-value="{{property.occupancy}}" id="occupancy-input" class="form-control" required placeholder="Maximum occupancy" />
@@ -251,6 +274,20 @@ The `ll-property-information-edit` handles creating and editing of property info
           value: function() {
             return ['AL', 'AK', 'AZ', 'AR', 'CA', 'CO', 'CT', 'DE', 'FL', 'GA', 'HI', 'ID', 'IL', 'IN', 'IA', 'KS', 'KY', 'LA', 'ME', 'MD', 'MA', 'MI', 'MN', 'MS', 'MO', 'MT', 'NE', 'NV', 'NH', 'NJ', 'NM', 'NY', 'NC', 'ND', 'OH', 'OK', 'OR', 'PA', 'RI', 'SC', 'SD', 'TN', 'TX', 'UT', 'VT', 'VA', 'WA', 'WV', 'WI', 'WY'];
           }
+        },
+        _buildingCategories: {
+          type: Array,
+          readOnly: true,
+          value: function() {
+            return ['hotel', 'bedAndBreakfast', 'condo', 'apartment', 'home'];
+          }
+        },
+        _buildingTypes: {
+          type: Array,
+          readOnly: true,
+          value: function() {
+            return ['hotel', 'allInclusive', 'inn', 'lodge', 'bedAndBreakfast', 'cottage', 'condo', 'townhome', 'apartment', 'vacationHome', 'cabinLodge', 'chalet', 'villa'];
+          }
         }
       },
       _handlePost: function(e) {
@@ -294,6 +331,20 @@ The `ll-property-information-edit` handles creating and editing of property info
         return (this.property && this.property.location)
             ? stateCode === this.property.location.subdivision
             : false;
+      },
+      _isBuildingCategory: function(category) {
+        return this.property
+          ? category === this.property.buildingCategory
+          : false;
+      },
+      _isBuildingType: function(type) {
+        return this.property
+          ? type === this.property.buildingType
+          : false;
+      },
+      _toProperCase: function(text) {
+        var step = text.replace(/([A-Z])/g, " $1");
+        return step.charAt(0).toUpperCase() + step.slice(1);
       }
     });
   </script>
