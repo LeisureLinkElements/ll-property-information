@@ -23,7 +23,7 @@ Example
 
         <iron-ajax id="get" url="{{getUrl}}" handle-as="json" on-response="_handleGet"></iron-ajax>
         <iron-ajax id="create" url="{{createUrl}}" method="POST" handle-as="json" content-type="application/json" on-response="_handleCreate"></iron-ajax>
-        <iron-ajax id="edit" url="{{editUrl}}" method="PUT" body="{{_property}}" content-type="application/json" handle-as="json" on-response="_handleEdit"></iron-ajax>
+        <iron-ajax id="edit" url="{{editUrl}}" method="PUT" content-type="application/json" handle-as="json" on-response="_handleEdit"></iron-ajax>
 
         <template is="dom-if" if="{{_inViewMode}}" restamp>
             <ll-property-information-view property="{{_property}}"></ll-property-information-view>
@@ -184,10 +184,13 @@ Example
                 this._createMode = false;
             },
 
-            _postEdit: function() {
-                this._property.pmcId = this.pcmId;
-                this._property.unitId = this.unitId;
-                this.$.edit.generateRequest();
+            _postEdit: function(evt) {
+                var property = evt.detail.property;
+                var edit = this.$.edit;
+                property.pmcId = this.pcmId;
+                property.unitId = this.unitId;
+                edit.body = property;
+                edit.generateRequest();
             },
 
             _createProperty: function() {
