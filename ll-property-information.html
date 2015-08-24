@@ -177,6 +177,9 @@ Example
         this.fire('ll-property-information-created', { property: detail.response });
         this._backToProperties();
       },
+              this.fire('ll-property-information-edited', {property: this._property});
+              this._viewInformation();
+              this._backToProperties();
 
       _viewInformation: function(evt) {
         this._editMode = this._createMode = false;
