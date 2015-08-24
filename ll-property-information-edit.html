@@ -171,15 +171,15 @@ The `ll-property-information-edit` handles creating and editing of property info
       </div>
 
       <div class="row">
-        <div class="form-group col-md-4">
+        <div class="form-group col-md-6">
           <label for="occupancy-input" class="required">Occupancy</label>
           <input is="iron-input" type="number" min="0" bind-value="{{property.occupancy}}" id="occupancy-input" class="form-control" required placeholder="Maximum occupancy"/>
         </div>
 
-        <div class="form-group col-md-4">
-          <label for="currency-code-input" class="required">Currency</label>
-          <input is="iron-input" type="text" maxlength="3" bind-value="{{property.currencyCode}}" id="currency-code-input" class="form-control" required placeholder="Allowed Currency"/>
-        </div>
+        <!--<div class="form-group col-md-4">-->
+          <!--<label for="currency-code-input" class="required">Currency <span class="help-block">(Coming Soon)</span></label>-->
+          <!--<input is="iron-input type="text" maxlength="3" bind-value="{{property.currencyCode}}" id="currency-code-input" class="form-control" required placeholder="Allowed Currency"/>-->
+        <!--</div>-->
 
 
         <div class="form-group col-md-4">
@@ -232,6 +232,8 @@ The `ll-property-information-edit` handles creating and editing of property info
       ready: function() {
         originalProperty = _.assign({}, this.property);
         this.$['post-form'].onsubmit = this._handlePost.bind(this);
+        this.property.location.country = 'US';
+        this.property.currencyCode = 'USD';
       },
 
       /**
@@ -269,11 +271,7 @@ The `ll-property-information-edit` handles creating and editing of property info
           type: Object,
           reflectToAttribute: true,
           value: function() {
-            return {
-              location: {
-                country: 'US'
-              }
-            };
+            return { location: { } };
           }
         },
         /**
