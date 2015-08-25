@@ -12,110 +12,110 @@
   <body>
 
 
-    <script>
+  <script>
 
-      describe('ll-property-information', function() {
+    describe('ll-property-information', function() {
 
-        var myEl = new LLPropertyInformation();
+      var myEl = new LLPropertyInformation();
 
-        describe('visual states', function() {
+      describe('visual states', function() {
 
-          it('should transition to view mode when ll-property-information-edit-view-property is fired', function() {
-            myEl.fire('ll-property-information-edit-view-property');
+        it('should transition to view mode when ll-property-information-edit-view-property is fired', function() {
+          myEl.fire('ll-property-information-edit-view-property');
 
-            expect(myEl._inViewMode).to.be.true;
-          });
-
-          it('transitions into view mode after ll-property-information-edit-post-edit is fired', function() {
-            myEl.fire('ll-property-information-edit-post-edit');
-
-            expect(myEl._inViewMode).to.be.true;
-          });
-
-          it('should transition to edit mode when ll-property-information-view-edit-property is fired', function() {
-            myEl.fire('ll-property-information-view-edit-property');
-
-            expect(myEl._inEditMode).to.be.true;
-          });
-
-          it('should transition to create mode when ll-property-information-view-create-property is fired', function() {
-            myEl.fire('ll-property-information-view-create-property');
-
-            expect(myEl._inCreateMode).to.be.true;
-          });
-
-          it('should transition to create mode when ll-property-information-edit-create-property is fired', function() {
-            myEl.fire('ll-property-information-edit-create-property');
-
-            expect(myEl._inCreateMode).to.be.true;
-          });
-
-          it('should switch to view mode when mode is "view"', function() {
-            var el = new LLPropertyInformation('view');
-
-            expect(el._inViewMode).to.be.true;
-          });
-
-          it('should switch to edit mode when mode is "edit"', function() {
-            var el = new LLPropertyInformation('edit');
-
-            expect(el._inEditMode).to.be.true;
-          });
-
-          it('should switch to create mode when mode is "create"', function() {
-            var el = new LLPropertyInformation('create');
-
-            expect(el._inCreateMode).to.be.true;
-          });
-
-
+          expect(myEl._inViewMode).to.be.true;
         });
 
-        describe('requests', function() {
+        it('transitions into view mode after ll-property-information-edit-post-edit is fired', function() {
+          myEl.fire('ll-property-information-edit-post-edit', { property: {} });
 
-          it('fires get request on ready', function(done) {
-            myEl.$.get.generateRequest = function() {
-              // Test will not finish execution unless done is invoked. Passing criteria is test finishing
-              done();
-            };
-
-            myEl.ready();
-          });
-
-          it('fires edit request when ll-property-information-edit-post-edit is fired', function(done) {
-            myEl.$.edit.generateRequest = function() {
-              // Test will not finish execution unless done is invoked. Passing criteria is test finishing
-              done();
-            };
-
-            myEl.fire('ll-property-information-edit-post-edit');
-          });
-
-
-          it('fires create request when ll-property-information-edit-post-create is fired', function(done) {
-            myEl.$.create.generateRequest = function() {
-              // Test will not finish execution unless done is invoked. Passing criteria is test finishing
-              done();
-            };
-
-            myEl.fire('ll-property-information-edit-post-create');
-          });
-
+          expect(myEl._inViewMode).to.be.true;
         });
 
-        describe('validation', function() {
+        it('should transition to edit mode when ll-property-information-view-edit-property is fired', function() {
+          myEl.fire('ll-property-information-view-edit-property');
 
-          it('should throw an error when mode is not one of view, edit, or create', function() {
-            expect(function() {
-              new LLPropertyInformation('fail');
-            }).to.throw('Mode must be one of');
-          });
+          expect(myEl._inEditMode).to.be.true;
+        });
 
+        it('should transition to create mode when ll-property-information-view-create-property is fired', function() {
+          myEl.fire('ll-property-information-view-create-property');
+
+          expect(myEl._inCreateMode).to.be.true;
+        });
+
+        it('should transition to create mode when ll-property-information-edit-create-property is fired', function() {
+          myEl.fire('ll-property-information-edit-create-property');
+
+          expect(myEl._inCreateMode).to.be.true;
+        });
+
+        it('should switch to view mode when mode is "view"', function() {
+          var el = new LLPropertyInformation('view');
+
+          expect(el._inViewMode).to.be.true;
+        });
+
+        it('should switch to edit mode when mode is "edit"', function() {
+          var el = new LLPropertyInformation('edit');
+
+          expect(el._inEditMode).to.be.true;
+        });
+
+        it('should switch to create mode when mode is "create"', function() {
+          var el = new LLPropertyInformation('create');
+
+          expect(el._inCreateMode).to.be.true;
+        });
+
+
+      });
+
+      describe('requests', function() {
+
+        it('fires get request on ready', function(done) {
+          myEl.$.get.generateRequest = function() {
+            // Test will not finish execution unless done is invoked. Passing criteria is test finishing
+            done();
+          };
+
+          myEl.ready();
+        });
+
+        it('fires edit request when ll-property-information-edit-post-edit is fired', function(done) {
+          myEl.$.edit.generateRequest = function() {
+            // Test will not finish execution unless done is invoked. Passing criteria is test finishing
+            done();
+          };
+
+          myEl.fire('ll-property-information-edit-post-edit', { property: {} });
+        });
+
+
+        it('fires create request when ll-property-information-edit-post-create is fired', function(done) {
+          myEl.$.create.generateRequest = function() {
+            // Test will not finish execution unless done is invoked. Passing criteria is test finishing
+            done();
+          };
+
+          myEl.fire('ll-property-information-edit-post-create', { property: {} });
         });
 
       });
 
-    </script>
-L
+      describe('validation', function() {
+
+        it('should throw an error when mode is not one of view, edit, or create', function() {
+          expect(function() {
+            new LLPropertyInformation('fail');
+          }).to.throw('Mode must be one of');
+        });
+
+      });
+
+    });
+
+  </script>
+  L
   </body>
 </html>

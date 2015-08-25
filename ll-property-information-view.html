@@ -139,7 +139,7 @@ Example:
     is: 'll-property-information-view',
 
     factoryImpl: function(property) {
-      if(!property) {
+      if (!property) {
         throw new Error('Must supply a property');
       }
       this.property = property;
@@ -213,7 +213,7 @@ Example:
     },
 
     _computeLocale: function(location) {
-      if(!location) return '';
+      if (!location) return '';
       return (location.city + ' ' + location.subdivision + ' ' + location.postal);
     }
 

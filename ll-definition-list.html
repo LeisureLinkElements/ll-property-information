@@ -15,49 +15,49 @@ Example
 
 <dom-module id="ll-definition-list">
 
-    <style>
+  <style>
 
-        :host {
-            display: block;
-            box-sizing: border-box;
+    :host {
+      display: block;
+      box-sizing: border-box;
+    }
+
+    div.dl-horizontal dt {
+      text-overflow: initial;
+      font-size: 14px;
+      text-align: left;
+    }
+
+    div.dl-horizontal dd {
+      font-size: 14px;
+    }
+
+  </style>
+
+  <template>
+
+    <div class="dl-horizontal">
+      <dt>
+        <label>{{title}}</label>
+      </dt>
+      <dd>
+        <content></content>
+      </dd>
+    </div>
+
+  </template>
+
+  <script>
+    Polymer({
+      is: 'll-definition-list',
+      properties: {
+        /**
+         * The title of the definition list to show up on the left hand side
+         */
+        title: {
+          type: String
         }
-
-        div.dl-horizontal dt {
-            text-overflow: initial;
-            font-size: 14px;
-            text-align: left;
-        }
-
-        div.dl-horizontal dd {
-            font-size: 14px;
-        }
-
-    </style>
-
-    <template>
-
-        <div class="dl-horizontal">
-            <dt>
-                <label>{{title}}</label>
-            </dt>
-            <dd>
-                <content></content>
-            </dd>
-        </div>
-
-    </template>
-
-    <script>
-        Polymer({
-            is: 'll-definition-list',
-            properties: {
-                /**
-                 * The title of the definition list to show up on the left hand side
-                 */
-                title: {
-                    type: String
-                }
-            }
-        });
-    </script>
+      }
+    });
+  </script>
 </dom-module>

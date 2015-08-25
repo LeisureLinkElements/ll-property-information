@@ -16,206 +16,238 @@ Example
 
 <dom-module id="ll-property-information">
 
-    <style>
-    </style>
+  <style>
+  </style>
 
-    <template>
+  <template>
 
-        <iron-ajax id="get" url="{{getUrl}}" handle-as="json" on-response="_handleGet"></iron-ajax>
-        <iron-ajax id="create" url="{{createUrl}}" method="POST" handle-as="json" content-type="application/json" on-response="_handleCreate"></iron-ajax>
-        <iron-ajax id="edit" url="{{editUrl}}" method="PUT" body="{{_property}}" content-type="application/json" handle-as="json" on-response="_handleEdit"></iron-ajax>
+    <iron-ajax id="get" url="{{getUrl}}" handle-as="json" on-response="_handleGet"></iron-ajax>
+    <iron-ajax id="create" url="{{createUrl}}" method="POST" handle-as="json" content-type="application/json" on-response="_handleCreate"></iron-ajax>
+    <iron-ajax id="edit" url="{{editUrl}}" method="PUT" content-type="application/json" handle-as="json" on-response="_handleEdit"></iron-ajax>
 
-        <template is="dom-if" if="{{_inViewMode}}" restamp>
-            <ll-property-information-view property="{{_property}}"></ll-property-information-view>
-        </template>
-
-        <template is="dom-if" id="view-mode" if="{{_inEditMode}}" restamp>
-            <ll-property-information-edit property="{{_property}}" is-edit></ll-property-information-edit>
-        </template>
-
-        <template is="dom-if" id="create-mode" if="{{_inCreateMode}}" restamp>
-          <ll-property-information-edit></ll-property-information-edit>
-        </template>
+    <template is="dom-if" if="{{_inViewMode}}" restamp>
+      <ll-property-information-view property="{{_property}}"></ll-property-information-view>
     </template>
 
-    <script>
-        var viewMap = {
-            "view": function(component) { component._viewInformation(); },
-            "edit": function(component) { component._editProperty(); },
-            "create": function(component) { component._createProperty(); }
-        };
+    <template is="dom-if" id="view-mode" if="{{_inEditMode}}" restamp>
+      <ll-property-information-edit property="{{_property}}" is-edit></ll-property-information-edit>
+    </template>
 
-        LLPropertyInformation = Polymer({
-            is: 'll-property-information',
+    <template is="dom-if" id="create-mode" if="{{_inCreateMode}}" restamp>
+      <ll-property-information-edit></ll-property-information-edit>
+    </template>
+  </template>
 
-            factoryImpl: function(mode, getUrl, editUrl, createUrl) {
-                this.mode = mode || this.mode;
-                this.getUrl = getUrl || this.getUrl;
-                this.editUrl = editUrl || this.editUrl;
-                this.createUrl = createUrl || this.createUrl;
+  <script>
+    var viewMap = {
+      "view": function(component) {
+        component._viewInformation();
+      },
+      "edit": function(component) {
+        component._editProperty();
+      },
+      "create": function(component) {
+        component._createProperty();
+      }
+    };
 
-                this.validateAndSetMode();
-            },
+    LLPropertyInformation = Polymer({
+      is: 'll-property-information',
 
-            ready: function() {
-                console.log('ready');
-                console.log(this.mode);
-                this.$.get.generateRequest();
+      factoryImpl: function(mode, getUrl, editUrl, createUrl) {
+        this.mode = mode || this.mode;
+        this.getUrl = getUrl || this.getUrl;
+        this.editUrl = editUrl || this.editUrl;
+        this.createUrl = createUrl || this.createUrl;
 
-                this.validateAndSetMode();
-            },
+        this.validateAndSetMode();
+      },
 
-            validateAndSetMode: function() {
-                if(['view', 'edit', 'create'].indexOf(this.mode) < 0) {
-                    throw new Error('Mode must be one of: "view", "edit", or "create"');
-                }
+      ready: function() {
+        console.log('ready');
+        console.log(this.mode);
+        this.$.get.generateRequest();
 
-                viewMap[this.mode](this);
-            },
+        this.validateAndSetMode();
+      },
 
-            listeners: {
-                'll-property-information-view-edit-property': '_editProperty',
-                'll-property-information-view-create-property': '_createProperty',
-                'll-property-information-view-back-to-properties': '_backToProperties',
-                'll-property-information-edit-back-to-properties': '_backToProperties',
-                'll-property-information-edit-view-property': '_viewInformation',
-                'll-property-information-edit-create-property': '_createProperty',
-                'll-property-information-edit-post-edit': '_postEdit',
-                'll-property-information-edit-post-create': '_postCreate'
-            },
+      validateAndSetMode: function() {
+        if (['view', 'edit', 'create'].indexOf(this.mode) < 0) {
+          throw new Error('Mode must be one of: "view", "edit", or "create"');
+        }
 
-            properties: {
-                /**
-                 *
-                 */
-                /**
-                 * Url for retrieving a property based on its id
-                 */
-                getUrl: {
-                    type: String,
-                    value: ''
-                },
-                /**
-                 * This is required for PUT/POST
-                 * TODO: Need a test around passing in the attribute.
-                 * TODO: Might be good to make it a required field.
-                 */
-                pmcId: {
-                  type: String,
-                  value: ''
-                },
-                /** Required for a PUT
-                 */
-                unitId: {
-                  type: String,
-                  value: ''
-                },
-                /**
-                 * Url for submitting updated property information
-                 */
-                editUrl: {
-                    type: String,
-                    value: ''
-                },
-                /**
-                 * Url for creating a new property listing
-                 */
-                createUrl: {
-                    type: String,
-                    value: ''
-                },
-                /**
-                 * The view mode to start the manager in. Must be one of: view, edit, or create.
-                 * Must be all lowercase
-                 */
-                mode: {
-                    type: String,
-                    value: 'view'
-                },
-                _property: {
-                    type: Object,
-                    value: function() {
-                        return {};
-                    }
-                },
-                _editMode: {
-                    type: Boolean,
-                    value: false
-                },
-                _createMode: {
-                    type: Boolean,
-                    value: false
-                },
-                _inEditMode: {
-                    type: Boolean,
-                    computed: '_isInEditMode(_editMode, _createMode)'
-                },
-                _inViewMode: {
-                    type: Boolean,
-                    computed: '_isInViewMode(_editMode, _createMode)'
-                },
-                _inCreateMode: {
-                    type: Boolean,
-                    computed: '_isInCreateMode(_editMode, _createMode)'
-                }
-            },
+        viewMap[this.mode](this);
+      },
 
-            _handleGet: function(e, detail) {
-                this._property = detail.response || {location: {}};
-            },
-            _handleEdit: function() {
-                this.fire('ll-property-information-edited', {property: this._property});
-                this._viewInformation();
-            },
-            _handleCreate: function(e, detail) {
-              this.fire('ll-property-information-created', {property: detail.response});
-                this._backToProperties();
-            },
+      listeners: {
+        'll-property-information-view-edit-property': '_editProperty',
+        'll-property-information-view-create-property': '_createProperty',
+        'll-property-information-view-back-to-properties': '_backToProperties',
+        'll-property-information-edit-back-to-properties': '_backToProperties',
+        'll-property-information-edit-view-property': '_viewInformation',
+        'll-property-information-edit-create-property': '_createProperty',
+        'll-property-information-edit-post-edit': '_postEdit',
+        'll-property-information-edit-post-create': '_postCreate'
+      },
 
-            _viewInformation: function(evt) {
-                this._editMode = this._createMode = false;
-                if(evt && evt.detail && evt.detail.property) {
-                  this._property = evt.detail.property;
-                }
-            },
+      properties: {
+        /**
+         *
+         */
+        /**
+         * Url for retrieving a property based on its id
+         */
+        getUrl: {
+          type: String,
+          value: ''
+        },
+        /**
+         * This is required for PUT/POST
+         * TODO: Need a test around passing in the attribute.
+         * TODO: Might be good to make it a required field.
+         */
+        pmcId: {
+          type: String,
+          value: ''
+        },
+        /** Required for a PUT
+         */
+        unitId: {
+          type: String,
+          value: ''
+        },
+        /**
+         * Url for submitting updated property information
+         */
+        editUrl: {
+          type: String,
+          value: ''
+        },
+        /**
+         * Url for creating a new property listing
+         */
+        createUrl: {
+          type: String,
+          value: ''
+        },
+        /**
+         * The view mode to start the manager in. Must be one of: view, edit, or create.
+         * Must be all lowercase
+         */
+        mode: {
+          type: String,
+          value: 'view'
+        },
+        _property: {
+          type: Object,
+          value: function() {
+            return {};
+          }
+        },
+        _editMode: {
+          type: Boolean,
+          value: false
+        },
+        _createMode: {
+          type: Boolean,
+          value: false
+        },
+        _inEditMode: {
+          type: Boolean,
+          computed: '_isInEditMode(_editMode, _createMode)'
+        },
+        _inViewMode: {
+          type: Boolean,
+          computed: '_isInViewMode(_editMode, _createMode)'
+        },
+        _inCreateMode: {
+          type: Boolean,
+          computed: '_isInCreateMode(_editMode, _createMode)'
+        }
+      },
 
-            _editProperty: function() {
-                this._editMode = true;
-                this._createMode = false;
-            },
+      _handleGet: function(e, detail) {
+        this._property = detail.response || { location: {} };
+      },
+      _handleEdit: function() {
+        this.fire('ll-property-information-edited', { property: this._property });
+        this._viewInformation();
+      },
+      _handleCreate: function(e, detail) {
+        this.fire('ll-property-information-created', { property: detail.response });
+        this._backToProperties();
+      },
 
-            _postEdit: function() {
-                this._property.pmcId = this.pmcId;
-                this._property.unitId = this.unitId;
-                this.$.edit.generateRequest();
-            },
+      _viewInformation: function(evt) {
+        this._editMode = this._createMode = false;
+        if (evt && evt.detail && evt.detail.property) {
+          this._property = evt.detail.property;
+        }
+      },
 
-            _createProperty: function() {
-                this._editMode = false;
-                this._createMode = true;
-            },
+      _editProperty: function() {
+        this._editMode = true;
+        this._createMode = false;
+      },
 
-            _postCreate: function(evt) {
-                var create = this.$.create;
-                create.body = evt.detail.property;
-                create.generateRequest();
-            },
+      _postEdit: function(evt) {
+        var property = evt.detail.property;
+        var edit = this.$.edit;
+        property.pmcId = this.pmcId;
+        property.unitId = this.unitId;
 
-            _backToProperties: function() {
-                this.fire('ll-property-information-back-to-properties');
-            },
+        property = this._convertPropertyStrings(property);
 
-            _isInEditMode: function(editMode, createMode) {
-                return editMode && !createMode;
-            },
+        edit.body = property;
+        edit.generateRequest();
+      },
 
-            _isInViewMode: function(editMode, createMode) {
-                return !editMode && !createMode;
-            },
+      _createProperty: function() {
+        this._editMode = false;
+        this._createMode = true;
+      },
 
-            _isInCreateMode: function(editMode, createMode) {
-                return !editMode && createMode;
-            },
-        });
-    </script>
+      _postCreate: function(evt) {
+        var property = evt.detail.property;
+        var create = this.$.create;
+        property.pmcId = this.pmcId;
+
+        property = this._convertPropertyStrings(property);
+
+        create.body = property;
+        create.generateRequest();
+      },
+
+      _backToProperties: function() {
+        this.fire('ll-property-information-back-to-properties');
+      },
+
+      _isInEditMode: function(editMode, createMode) {
+        return editMode && !createMode;
+      },
+
+      _isInViewMode: function(editMode, createMode) {
+        return !editMode && !createMode;
+      },
+
+      _isInCreateMode: function(editMode, createMode) {
+        return !editMode && createMode;
+      },
+      /**
+       * Method to convert string values on the property Object.
+       * @param property {Object}
+       * @returns {Object}
+       * @private
+       */
+      _convertPropertyStrings: function(property) {
+        property.bedroomCount = parseInt(property.bedroomCount) || 0;
+        property.bathroomCount = parseInt(property.bathroomCount) || 0;
+        property.fullBathrooms = parseInt(property.fullBathrooms) || 0;
+        property.halfBathrooms = parseInt(property.halfBathrooms) || 0;
+        property.threeQuarterBathrooms = parseInt(property.threeQuarterBathrooms) || 0;
+        property.occupancy = parseInt(property.occupancy) || 0;
+        return property;
+      }
+    });
+  </script>
 </dom-module>
