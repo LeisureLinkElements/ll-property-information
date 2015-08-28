@@ -64,9 +64,9 @@ Example
       },
 
       ready: function() {
-        console.log('ready');
-        console.log(this.mode);
-        this.$.get.generateRequest();
+        if(this.mode !== 'create'){
+          this.$.get.generateRequest();
+        }
 
         this.validateAndSetMode();
       },

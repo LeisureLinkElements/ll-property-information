@@ -181,7 +181,6 @@ The `ll-property-information-edit` handles creating and editing of property info
           <!--<input is="iron-input type="text" maxlength="3" bind-value="{{property.currencyCode}}" id="currency-code-input" class="form-control" required placeholder="Allowed Currency"/>-->
         <!--</div>-->
 
-
         <div class="form-group col-md-4">
           <label class="required">Available for booking?</label>
 
@@ -225,15 +224,17 @@ The `ll-property-information-edit` handles creating and editing of property info
           throw new Error('Cannot be in edit mode without a property supplied');
         }
 
-        this.property = property || {};
+        this.property = property || { location: {} };
         this.isEdit = isEdit || false;
       },
 
       ready: function() {
         originalProperty = _.assign({}, this.property);
         this.$['post-form'].onsubmit = this._handlePost.bind(this);
+        this.property.location = this.property.location || {};
         this.property.location.country = 'US';
         this.property.currencyCode = 'USD';
+        this.property.description = this.property.description || '';
       },
 
       /**
@@ -337,9 +338,6 @@ The `ll-property-information-edit` handles creating and editing of property info
           throw new Error('Cannot post create in edit mode');
         }
         this.fire('ll-property-information-edit-post-create', { property: this.property });
-      },
-      _computeDescription: function(description) {
-        return description || '';
       },
       _isState: function(stateCode) {
         return (this.property && this.property.location)
