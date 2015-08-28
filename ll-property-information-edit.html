@@ -85,10 +85,7 @@ The `ll-property-information-edit` handles creating and editing of property info
         <div class="form-group col-md-4">
           <label for="state-input" class="required">State</label>
           <select id="state-input" value="{{property.location.subdivision::change}}" class="form-control" required>
-            <option value="" selected="selected" disabled>Select</option>
-            <template is="dom-repeat" items="[[_states]]">
-              <option selected="{{_isState(item)}}" value="{{item}}">{{item}}</option>
-            </template>
+            <option value="" selected="selected" disabled="disabled">Select</option>
           </select>
         </div>
 
@@ -152,20 +149,14 @@ The `ll-property-information-edit` handles creating and editing of property info
         <div class="form-group col-md-6">
           <label for="building-category-input" class="required">Building Category</label>
           <select id="building-category-input" value="{{property.buildingCategory::change}}" class="form-control" required>
-            <option value="">Select</option>
-            <template is="dom-repeat" items="[[_buildingCategories]]">
-              <option value="{{item}}" selected="{{_isBuildingCategory(item)}}">{{_toProperCase(item)}}</option>
-            </template>
+            <option value="" selected="selected" disabled="disabled">Select</option>
           </select>
         </div>
 
         <div class="form-group col-md-6">
           <label for="building-type-input" class="required">Building Type</label>
           <select id="building-type-input" value="{{property.buildingType::change}}" class="form-control" required>
-            <option value="" selected disabled>Select</option>
-            <template is="dom-repeat" items="[[_buildingTypes]]">
-              <option value="{{item}}" selected="{{_isBuildingType(item)}}">{{_toProperCase(item)}}</option>
-            </template>
+            <option value="" selected="selected" disabled="disabled">Select</option>
           </select>
         </div>
       </div>
@@ -235,6 +226,35 @@ The `ll-property-information-edit` handles creating and editing of property info
         this.property.location.country = 'US';
         this.property.currencyCode = 'USD';
         this.property.description = this.property.description || '';
+	
+	var self = this;
+
+	var stateSelect = this.$['state-input'];
+	this._states.forEach(function(x) {
+	  var option = document.createElement('option');
+	  option.text = self._toProperCase(x);
+	  option.value = x;
+	  stateSelect.add(option);
+	});
+	stateSelect.value = this.property.location.subdivision || '';
+
+	var categorySelect = this.$['building-category-input'];
+	this._buildingCategories.forEach(function(x) {
+	  var option = document.createElement('option');
+	  option.text = self._toProperCase(x);
+	  option.value = x;
+	  categorySelect.add(option);
+	});
+	categorySelect.value = this.property.buildignCategory || '';
+
+	var typeSelect = this.$['building-type-input'];
+	this._buildingTypes.forEach(function(x) {
+	  var option = document.createElement('option');
+	  option.text = self._toProperCase(x);
+	  option.value = x;
+	  typeSelect.add(option);
+	}); 
+	typeSelect.value = this.property.buildingType || '';
       },
 
       /**
