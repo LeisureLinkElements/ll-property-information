@@ -176,6 +176,8 @@ Example:
        */
       property: {
         type: Object,
+        notify: true,
+        reflectToAttribute: true,
         value: function() {
           return {};
         }
@@ -194,8 +196,11 @@ Example:
 
     // Element Lifecycle
 
-    // Element Behavior
+    ready: function() {
+      this.property.isBookingAvailable = this.property.isBookingAvailable || false;
+    },
 
+    // Element Behavior
     _backToProperties: function() {
       this.fire('ll-property-information-view-back-to-properties');
     },

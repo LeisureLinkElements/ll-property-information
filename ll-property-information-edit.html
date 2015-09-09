@@ -226,35 +226,36 @@ The `ll-property-information-edit` handles creating and editing of property info
         this.property.location.country = 'US';
         this.property.currencyCode = 'USD';
         this.property.description = this.property.description || '';
-	
-	var self = this;
+        this.$['available-input'].checked = this.property.isBookingAvailable;
 
-	var stateSelect = this.$['state-input'];
-	this._states.forEach(function(x) {
-	  var option = document.createElement('option');
-	  option.text = self._toProperCase(x);
-	  option.value = x;
-	  stateSelect.add(option);
-	});
-	stateSelect.value = this.property.location.subdivision || '';
+        var self = this;
 
-	var categorySelect = this.$['building-category-input'];
-	this._buildingCategories.forEach(function(x) {
-	  var option = document.createElement('option');
-	  option.text = self._toProperCase(x);
-	  option.value = x;
-	  categorySelect.add(option);
-	});
-	categorySelect.value = this.property.buildingCategory || '';
+        var stateSelect = this.$['state-input'];
+        this._states.forEach(function(x) {
+          var option = document.createElement('option');
+          option.text = self._toProperCase(x);
+          option.value = x;
+          stateSelect.add(option);
+        });
+        stateSelect.value = this.property.location.subdivision || '';
 
-	var typeSelect = this.$['building-type-input'];
-	this._buildingTypes.forEach(function(x) {
-	  var option = document.createElement('option');
-	  option.text = self._toProperCase(x);
-	  option.value = x;
-	  typeSelect.add(option);
-	}); 
-	typeSelect.value = this.property.buildingType || '';
+        var categorySelect = this.$['building-category-input'];
+        this._buildingCategories.forEach(function(x) {
+          var option = document.createElement('option');
+          option.text = self._toProperCase(x);
+          option.value = x;
+          categorySelect.add(option);
+        });
+        categorySelect.value = this.property.buildingCategory || '';
+
+        var typeSelect = this.$['building-type-input'];
+        this._buildingTypes.forEach(function(x) {
+          var option = document.createElement('option');
+          option.text = self._toProperCase(x);
+          option.value = x;
+          typeSelect.add(option);
+        });
+        typeSelect.value = this.property.buildingType || '';
       },
 
       /**
