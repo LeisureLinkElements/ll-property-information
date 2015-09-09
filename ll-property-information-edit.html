@@ -176,7 +176,7 @@ The `ll-property-information-edit` handles creating and editing of property info
           <label class="required">Available for booking?</label>
 
           <div class="checkbox">
-            <label for="available-input"><input type="checkbox" id="available-input" checked="{{property.isBookingAvailable::change}}" /> Booking Available</label> </div>
+            <label for="available-input"><input type="checkbox" id="available-input" checked="{{property.isAvailableForBooking::change}}" /> Booking Available</label> </div>
           </div>
       </div>
 
@@ -226,7 +226,7 @@ The `ll-property-information-edit` handles creating and editing of property info
         this.property.location.country = 'US';
         this.property.currencyCode = 'USD';
         this.property.description = this.property.description || '';
-        this.$['available-input'].checked = this.property.isBookingAvailable;
+        this.$['available-input'].checked = this.property.isAvailableForBooking;
 
         var self = this;
 

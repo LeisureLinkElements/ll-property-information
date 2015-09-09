@@ -75,11 +75,11 @@ Example:
 
       <ll-definition-list title="IS BOOKING AVAILABLE:">
         <p>
-          <template is="dom-if" if="{{property.isBookingAvailable}}" restamp>
+          <template is="dom-if" if="{{property.isAvailableForBooking}}" restamp>
             <span class="entypo check"></span>
           </template>
 
-          <template is="dom-if" if="{{!property.isBookingAvailable}}" restamp>
+          <template is="dom-if" if="{{!property.isAvailableForBooking}}" restamp>
             <span class="entypo cross"></span>
           </template>
         </p>
@@ -197,7 +197,7 @@ Example:
     // Element Lifecycle
 
     ready: function() {
-      this.property.isBookingAvailable = this.property.isBookingAvailable || false;
+      this.property.isAvailableForBooking = this.property.isAvailableForBooking || false;
     },
 
     // Element Behavior
