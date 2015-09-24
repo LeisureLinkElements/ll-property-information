@@ -45,6 +45,10 @@ The `ll-property-information-edit` handles creating and editing of property info
       font-size: 3em;
       vertical-align: middle;
     }
+
+    .actions .btn-link {
+      margin-right: 15px;
+    }
   </style>
   <style include="shared-styles"></style>
 
@@ -85,7 +89,7 @@ The `ll-property-information-edit` handles creating and editing of property info
         <div class="form-group col-md-4">
           <label for="state-input" class="required">State</label>
           <select id="state-input" value="{{property.location.subdivision::change}}" class="form-control" required>
-            <option value="" selected="selected" disabled="disabled">Select</option>
+            <option value="" selected="selected" disabled="disabled">Select State</option>
           </select>
         </div>
 
@@ -149,14 +153,14 @@ The `ll-property-information-edit` handles creating and editing of property info
         <div class="form-group col-md-6">
           <label for="building-category-input" class="required">Building Category</label>
           <select id="building-category-input" value="{{property.buildingCategory::change}}" class="form-control" required>
-            <option value="" selected="selected" disabled="disabled">Select</option>
+            <option value="" selected="selected" disabled="disabled">- - -</option>
           </select>
         </div>
 
         <div class="form-group col-md-6">
           <label for="building-type-input" class="required">Building Type</label>
           <select id="building-type-input" value="{{property.buildingType::change}}" class="form-control" required>
-            <option value="" selected="selected" disabled="disabled">Select</option>
+            <option value="" selected="selected" disabled="disabled">- - -</option>
           </select>
         </div>
       </div>
@@ -186,13 +190,13 @@ The `ll-property-information-edit` handles creating and editing of property info
         <div class="actions pull-right">
 
           <template is="dom-if" if="{{isEdit}}" restamp>
-            <button type="button" class="btn btn-default" on-tap="_editCancelClicked">Cancel</button>
-            <button type="submit" class="btn btn-primary">Save edits <span class="entypo check"></span></button>
+            <button type="button" class="btn btn-link" on-tap="_editCancelClicked">Cancel</button>
+            <button type="submit" class="btn btn-primary">Save Changes</button>
           </template>
 
           <template is="dom-if" if="{{!isEdit}}" restamp>
-            <button type="button" class="btn btn-default" on-tap="_createCancelClicked">Cancel</button>
-            <button type="submit" class="btn btn-primary">Create property <span class="entypo circled-right"></span>
+            <button type="button" class="btn btn-link" on-tap="_createCancelClicked">Cancel</button>
+            <button type="submit" class="btn btn-primary">Create property</span>
             </button>
           </template>
         </div>

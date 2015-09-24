@@ -17,7 +17,6 @@ Example:
     :host {
       display: block;
       box-sizing: border-box;
-      cursor: pointer;
     }
 
     .entypo {
@@ -33,10 +32,26 @@ Example:
       color: red;
     }
 
+    .view-header hr{
+      clear: both;
+    }
+
+    .view-header button {
+      margin-bottom: 20px;
+    }
+
+
+
   </style>
 
   <template>
-    <div on-tap="_editProperty">
+    <div class="view-header">
+      <span class="pull-left">Property Information</span>
+      <button class="btn btn-default pull-right" on-tap="_editProperty">Edit Information</button>
+      <hr/>
+    </div>
+    <div>
+
       <ll-definition-list title="PROPERTY NAME:">
         <p>{{property.name}}</p>
       </ll-definition-list>
@@ -119,14 +134,6 @@ Example:
     </div>
 
     <hr/>
-
-    <div class="pull-left">
-      <a href="#" on-tap="_backToProperties">BACK TO ALL PROPERTIES</a>
-    </div>
-
-    <div class="actions pull-right">
-      <a href="#" on-tap="_goToPropertyPhotos">GO TO PROPERTY PHOTOS &gt;</a>
-    </div>
 
   </template>
 
