@@ -72,6 +72,10 @@ Example:
         <p>{{property.bedroomCount}}</p>
       </ll-definition-list>
 
+      <ll-definition-list title="OCCUPANCY:" hidden$="{{!property.occupancy}}">
+        <p>{{property.occupancy}}</p>
+      </ll-definition-list>
+
       <ll-definition-list title="TOTAL BATHROOMS:" hidden$="{{!property.bathroomCount}}">
         <p>{{property.bathroomCount}}</p>
       </ll-definition-list>
@@ -88,6 +92,22 @@ Example:
         <p>{{property.halfBathrooms}}</p>
       </ll-definition-list>
 
+      <ll-definition-list title="AMENITIES:" hidden$="{{!property.amenities}}">
+        <ul class="list-inline">
+          <template is="dom-repeat" items="{{property.amenities}}">
+            <li>{{item}}</li>
+          </template>
+        </ul>
+      </ll-definition-list>
+
+      <ll-definition-list title="BUILDING CATEGORY:" hidden$="{{!property.buildingCategory}}">
+        <p>{{property.buildingCategory}}</p>
+      </ll-definition-list>
+
+      <ll-definition-list title="BUILDING TYPE:" hidden$="{{!property.buildingType}}">
+        <p>{{property.buildingType}}</p>
+      </ll-definition-list>
+
       <ll-definition-list title="IS BOOKING AVAILABLE:">
         <p>
           <template is="dom-if" if="{{property.isAvailableForBooking}}" restamp>
@@ -100,14 +120,6 @@ Example:
         </p>
       </ll-definition-list>
 
-      <ll-definition-list title="CATEGORY:" hidden$="{{!property.buildingCategory}}">
-        <p>{{property.buildingCategory}}</p>
-      </ll-definition-list>
-
-      <ll-definition-list title="TYPE:" hidden$="{{!property.buildingType}}">
-        <p>{{property.buildingType}}</p>
-      </ll-definition-list>
-
       <ll-definition-list title="LOCATION:" hidden$="{{!property.geoLocation}}">
         <p>
           <span>{{property.geoLocation.latitude}}</span> lat.
@@ -115,21 +127,9 @@ Example:
         </p>
       </ll-definition-list>
 
-      <ll-definition-list title="OCCUPANCY:" hidden$="{{!property.occupancy}}">
-        <p>{{property.occupancy}}</p>
-      </ll-definition-list>
-
-      <ll-definition-list title="AMENITIES:" hidden$="{{!property.amenities}}">
-        <ul class="list-inline">
-          <template is="dom-repeat" items="{{property.amenities}}">
-            <li>{{item}}</li>
-          </template>
-        </ul>
-      </ll-definition-list>
-
-      <ll-definition-list title="CURRENCY:" hidden$="{{!property.currencyCode}}">
-        <p>{{property.currencyCode}}</p>
-      </ll-definition-list>
+      <!--<ll-definition-list title="CURRENCY:" hidden$="{{!property.currencyCode}}">-->
+        <!--<p>{{property.currencyCode}}</p>-->
+      <!--</ll-definition-list>-->
 
     </div>
 
