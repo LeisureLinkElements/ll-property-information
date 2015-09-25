@@ -1,6 +1,7 @@
 <link rel="import" href="../polymer/polymer.html">
 <link rel="import" href="../ll-theme/ll-theme.html">
 <link rel="import" href="./ll-definition-list.html">
+<link rel="import" href="../lodash/lodash.js">
 
 An element providing the view for property information such as property name, address, description, etc.
 
@@ -101,11 +102,11 @@ Example:
       </ll-definition-list>
 
       <ll-definition-list title="BUILDING CATEGORY:" hidden$="{{!property.buildingCategory}}">
-        <p>{{property.buildingCategory}}</p>
+        <p>{{_toProperCase(property.buildingCategory)}}</p>
       </ll-definition-list>
 
       <ll-definition-list title="BUILDING TYPE:" hidden$="{{!property.buildingType}}">
-        <p>{{property.buildingType}}</p>
+        <p>{{_toProperCase(property.buildingType)}}</p>
       </ll-definition-list>
 
       <ll-definition-list title="IS BOOKING AVAILABLE:">
@@ -227,6 +228,14 @@ Example:
     _computeLocale: function(location) {
       if (!location) return '';
       return (location.city + ' ' + location.subdivision + ' ' + location.postal);
+    },
+    //TODO - Create a shared library for these type of functions, as this is copy-pasta from the edit.html view
+    _toProperCase: function(text) {
+      if(text) {
+        var step = text.replace(/([A-Z])/g, " $1");
+        return step.charAt(0).toUpperCase() + step.slice(1);
+      }
+
     }
 
   });
