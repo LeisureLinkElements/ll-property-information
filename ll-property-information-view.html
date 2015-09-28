@@ -1,6 +1,7 @@
 <link rel="import" href="../polymer/polymer.html">
 <link rel="import" href="../ll-theme/ll-theme.html">
 <link rel="import" href="./ll-definition-list.html">
+<link rel="import" href="../lodash/lodash.js">
 
 An element providing the view for property information such as property name, address, description, etc.
 
@@ -17,7 +18,6 @@ Example:
     :host {
       display: block;
       box-sizing: border-box;
-      cursor: pointer;
     }
 
     .entypo {
@@ -33,10 +33,26 @@ Example:
       color: red;
     }
 
+    .view-header hr{
+      clear: both;
+    }
+
+    .view-header button {
+      margin-bottom: 20px;
+    }
+
+
+
   </style>
 
   <template>
-    <div on-tap="_editProperty">
+    <div class="view-header">
+      <span class="pull-left">Property Information</span>
+      <button class="btn btn-default pull-right" on-tap="_editProperty">Edit Information</button>
+      <hr/>
+    </div>
+
+    <div>
       <ll-definition-list title="PROPERTY NAME:">
         <p>{{property.name}}</p>
       </ll-definition-list>
@@ -57,6 +73,10 @@ Example:
         <p>{{property.bedroomCount}}</p>
       </ll-definition-list>
 
+      <ll-definition-list title="OCCUPANCY:" hidden$="{{!property.occupancy}}">
+        <p>{{property.occupancy}}</p>
+      </ll-definition-list>
+
       <ll-definition-list title="TOTAL BATHROOMS:" hidden$="{{!property.bathroomCount}}">
         <p>{{property.bathroomCount}}</p>
       </ll-definition-list>
@@ -73,6 +93,22 @@ Example:
         <p>{{property.halfBathrooms}}</p>
       </ll-definition-list>
 
+      <ll-definition-list title="AMENITIES:" hidden$="{{!property.amenities}}">
+        <ul class="list-inline">
+          <template is="dom-repeat" items="{{property.amenities}}">
+            <li>{{item}}</li>
+          </template>
+        </ul>
+      </ll-definition-list>
+
+      <ll-definition-list title="BUILDING CATEGORY:" hidden$="{{!property.buildingCategory}}">
+        <p>{{_toProperCase(property.buildingCategory)}}</p>
+      </ll-definition-list>
+
+      <ll-definition-list title="BUILDING TYPE:" hidden$="{{!property.buildingType}}">
+        <p>{{_toProperCase(property.buildingType)}}</p>
+      </ll-definition-list>
+
       <ll-definition-list title="IS BOOKING AVAILABLE:">
         <p>
           <template is="dom-if" if="{{property.isAvailableForBooking}}" restamp>
@@ -85,14 +121,6 @@ Example:
         </p>
       </ll-definition-list>
 
-      <ll-definition-list title="CATEGORY:" hidden$="{{!property.buildingCategory}}">
-        <p>{{property.buildingCategory}}</p>
-      </ll-definition-list>
-
-      <ll-definition-list title="TYPE:" hidden$="{{!property.buildingType}}">
-        <p>{{property.buildingType}}</p>
-      </ll-definition-list>
-
       <ll-definition-list title="LOCATION:" hidden$="{{!property.geoLocation}}">
         <p>
           <span>{{property.geoLocation.latitude}}</span> lat.
@@ -100,33 +128,13 @@ Example:
         </p>
       </ll-definition-list>
 
-      <ll-definition-list title="OCCUPANCY:" hidden$="{{!property.occupancy}}">
-        <p>{{property.occupancy}}</p>
-      </ll-definition-list>
-
-      <ll-definition-list title="AMENITIES:" hidden$="{{!property.amenities}}">
-        <ul class="list-inline">
-          <template is="dom-repeat" items="{{property.amenities}}">
-            <li>{{item}}</li>
-          </template>
-        </ul>
-      </ll-definition-list>
-
-      <ll-definition-list title="CURRENCY:" hidden$="{{!property.currencyCode}}">
-        <p>{{property.currencyCode}}</p>
-      </ll-definition-list>
+      <!--<ll-definition-list title="CURRENCY:" hidden$="{{!property.currencyCode}}">-->
+        <!--<p>{{property.currencyCode}}</p>-->
+      <!--</ll-definition-list>-->
 
     </div>
 
     <hr/>
-
-    <div class="pull-left">
-      <a href="#" on-tap="_backToProperties">BACK TO ALL PROPERTIES</a>
-    </div>
-
-    <div class="actions pull-right">
-      <a href="#" on-tap="_goToPropertyPhotos">GO TO PROPERTY PHOTOS &gt;</a>
-    </div>
 
   </template>
 
@@ -220,6 +228,14 @@ Example:
     _computeLocale: function(location) {
       if (!location) return '';
       return (location.city + ' ' + location.subdivision + ' ' + location.postal);
+    },
+    //TODO - Create a shared library for these type of functions, as this is copy-pasta from the edit.html view
+    _toProperCase: function(text) {
+      if(text) {
+        var step = text.replace(/([A-Z])/g, " $1");
+        return step.charAt(0).toUpperCase() + step.slice(1);
+      }
+
     }
 
   });
