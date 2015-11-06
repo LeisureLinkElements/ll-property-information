@@ -71,6 +71,12 @@ The `ll-property-information-edit` handles creating and editing of property info
       padding-right:0;
     }
 
+    .policies {
+      margin-top: 10px;
+      margin-bottom: 10px;
+      padding-top: 0;
+    }
+
   </style>
   <style include="shared-styles"></style>
 
@@ -208,7 +214,11 @@ The `ll-property-information-edit` handles creating and editing of property info
             </div>
           </div>
 
-          <check-in-policies id="checkInPolicies" lcb-items-name="policies" policies="{{property.checkInInformationRanges}}"></check-in-policies>
+          <div class="row">
+            <div class="col-md-12 policies">
+              <check-in-policies id="checkInPolicies" lcb-items-name="policies" policies="{{property.checkInInformationRanges}}"></check-in-policies>
+            </div>
+          </div>
 
           <div class="row">
             <div class="col-md-12">

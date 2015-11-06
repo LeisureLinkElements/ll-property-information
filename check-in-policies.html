@@ -20,17 +20,12 @@ A helper element for defining a check-in policy
       box-sizing: border-box;
     }
 
-    .policies {
-      margin-top: 10px;
-      margin-bottom: 10px;
-      padding-top: 0;
-    }
-
     .policy {
       border: 1px solid #ccc;
       background-color: #f5f5f5;
       margin-top: 30px;
       padding: 15px 20px;
+      position: relative;
     }
 
     .policy:first-child {
@@ -41,61 +36,100 @@ A helper element for defining a check-in policy
       margin-bottom: 10px;
     }
 
-    .entypo {
-      font-size: 3em;
-      vertical-align: middle;
-    }
-
     label > a {
       font-size: inherit;
       cursor: pointer;
+    }
+
+    .trash-button::before {
+      content: "";
+      border-radius: 50%;
+      border: 1px solid #ccc;
+      background-color: #fff;
+    }
+
+    .trash-button {
+      font-size: 53px;
+      float: right;
+      margin: -10px -30px 0;
+      cursor: pointer;
+    }
+
+    .trash-lid {
+      background-color:rgba(86,120,143,.9);
+      position: absolute;
+      display: flex;
+      width: 100%;
+      height: 100%;
+      top: 0;
+      left: 0;
+      z-index: 1;
+    }
+
+    .trash-talk, .un-trash-link {
+      color: white;
+      font-size: 1.1rem;
+      text-transform: uppercase;
+      font-weight: bold;
+      letter-spacing: 0.1rem;
+    }
+
+    .trash-talk {
+      margin: auto;
+    }
+
+    .un-trash-link {
+      position: absolute;
+      right: 5px;
+      top: 5px;
     }
 
   </style>
   <style include="shared-styles"></style>
 
   <template>
+    <template is="dom-repeat" items="{{policies}}">
+      <div class="policy">
+      <span class="trash-button entypo circled-cross" on-click="_lcbTrashMe" hidden$="[[item.lcbTrashed]]"
+            title="Remove Policy"></span>
 
-    <div class="row">
-      <div class="col-md-12 policies">
-        <template is="dom-repeat" items="{{policies}}">
-          <div class="policy">
-            <div class="row">
-              <div class="form-group col-md-3">
-                <label for="begin" class="required">Start Date</label>
-                <input is="iron-input" type="text" bind-value="{{item.begin}}" id="begin" class="form-control" required
-                       placeholder="Select Date"/>
-              </div>
-              <div class="form-group col-md-3">
-                <label for="end" class="required">End Date</label>
-                <input is="iron-input" type="text" bind-value="{{item.end}}" id="end" class="form-control" required
-                       placeholder="Select Date"/>
-              </div>
-              <div class="form-group col-md-6">
-                <label for="name" class="required">Date Range Nickname</label>
-                <input is="iron-input" type="text" bind-value="{{item.name}}" id="name" class="form-control" required
-                       placeholder="Range Nickname"/>
-              </div>
-            </div>
-            <div class="row">
-              <div class="form-group col-md-6">
-                <label for="instructions" class="required">Instructions</label>
-                <iron-autogrow-textarea id="instructions" class="form-control"
-                                        bind-value="{{item.instructions}}" rows="2"
-                                        max-rows="6"></iron-autogrow-textarea>
-              </div>
-              <div class="form-group col-md-6">
-                <label for="addendum" class="required">Addendum</label>
-                <iron-autogrow-textarea id="addendum" class="form-control"
-                                        bind-value="{{item.addendum}}" rows="2"
-                                        max-rows="6"></iron-autogrow-textarea>
-              </div>
-            </div>
+        <div class="trash-lid" hidden$="[[!item.lcbTrashed]]">
+          <button class="un-trash-link btn btn-link" on-click="_lcbTrashMe">Undo</button>
+          <span class="trash-talk">This will be deleted when you save changes</span>
+        </div>
+        <div class="row">
+          <div class="form-group col-md-3">
+            <label for="begin" class="required">Start Date</label>
+            <input is="iron-input" type="text" bind-value="{{item.begin}}" id="begin" class="form-control" required
+                   placeholder="Select Date"/>
           </div>
-        </template>
+          <div class="form-group col-md-3">
+            <label for="end" class="required">End Date</label>
+            <input is="iron-input" type="text" bind-value="{{item.end}}" id="end" class="form-control" required
+                   placeholder="Select Date"/>
+          </div>
+          <div class="form-group col-md-6">
+            <label for="name" class="required">Date Range Nickname</label>
+            <input is="iron-input" type="text" bind-value="{{item.name}}" id="name" class="form-control" required
+                   placeholder="Range Nickname"/>
+          </div>
+        </div>
+        <div class="row">
+          <div class="form-group col-md-6">
+            <label for="instructions" class="required">Instructions</label>
+            <iron-autogrow-textarea id="instructions" class="form-control"
+                                    bind-value="{{item.instructions}}" rows="2"
+                                    max-rows="6"></iron-autogrow-textarea>
+          </div>
+          <div class="form-group col-md-6">
+            <label for="addendum" class="required">Addendum</label>
+            <iron-autogrow-textarea id="addendum" class="form-control"
+                                    bind-value="{{item.addendum}}" rows="2"
+                                    max-rows="6"></iron-autogrow-textarea>
+          </div>
+        </div>
       </div>
-    </div>
-
+    </template>
   </template>
 
   <script>
