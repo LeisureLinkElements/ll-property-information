@@ -1,5 +1,14 @@
 <link rel="import" href="../polymer/polymer.html">
-<link rel="import" href="../ll-theme/ll-theme.html">
+<link rel="import" href="../paper-tooltip/paper-tooltip.html">
+<link rel="import" href="../paper-styles/paper-styles.html">
+<link rel="import" href="../paper-dialog/paper-dialog.html">
+<link rel="import" href="../paper-button/paper-button.html">
+<link rel="import" href="../iron-autogrow-textarea/iron-autogrow-textarea.html">
+<link rel="import" href="../ll-collection-behavior/ll-collection-behavior.html">
+<link rel="import" href="../polymer-paper-datepicker/paper-date-picker.html">
+<link rel="import" href="../paper-time-picker/paper-time-picker.html">
+<!-- using shared styles in an element -->
+<link rel="import" href="../ll-theme/shared-styles.html">
 
 A helper element for defining a check-in policy
 
@@ -12,27 +21,56 @@ A helper element for defining a check-in policy
       box-sizing: border-box;
     }
 
+    label > a {
+      font-size:inherit;
+      cursor: pointer;
+    }
+
   </style>
 
   <template>
 
-    <div class="col-md-12">
-      <div class="row">
+    <div class="row">
+      <div class="form-group col-md-12">
+        <label class="required">Check-In Policies
+          <span id="check-in-policies-tooltip" class="entypo circled-help"></span>
+          <paper-tooltip for="check-in-policies-tooltip" class="tooltip">There is a tooltip in the mock, but no text.
+          </paper-tooltip>
+        </label>
+      </div>
+    </div>
 
-        <div class="col-md-3">
-          <label for="occupancy-input" class="required">Occupancy</label>
-          <input is="iron-input" type="text" bind-value="{{data.begin}}" id="begin" class="form-control" required
-                 placeholder="Select Date"/>
-        </div>
-        <div class="col-md-3">
-          <input is="iron-input" type="text" bind-value="{{data.end}}" id="end" class="form-control" required
-                 placeholder="Select Date"/>
-        </div>
-        <div class="col-md-6">
-          <input is="iron-input" type="text" bind-value="{{data.name}}" id="name" class="form-control" required
-                 placeholder="Range Nickname"/>
-        </div>
+    <div class="row">
+      <div class="form-group col-md-12">
+        <template is="dom-repeat" items="{{policies}}">
+          <div class="row">
+            <div class="col-md-12">
+              <div class="row">
+                <div class="col-md-3">
+                  <label for="begin" class="required">Start Date</label>
+                  <input is="iron-input" type="text" bind-value="{{item.begin}}" id="begin" class="form-control" required
+                         placeholder="Select Date"/>
+                </div>
+                <div class="col-md-3">
+                  <label for="end" class="required">End Date</label>
+                  <input is="iron-input" type="text" bind-value="{{item.end}}" id="end" class="form-control" required
+                         placeholder="Select Date"/>
+                </div>
+                <div class="col-md-6">
+                  <label for="name" class="required">Date Range Nickname</label>
+                  <input is="iron-input" type="text" bind-value="{{item.name}}" id="name" class="form-control" required
+                         placeholder="Range Nickname"/>
+                </div>
+              </div>
+            </div>
+          </div>
+        </template>
+      </div>
+    </div>
 
+    <div class="row">
+      <div class="col-md-12">
+        <button type="button" class="btn btn-link" on-tap="lcbAdd">+ New Seasonal Check-In Policy</button>
       </div>
     </div>
 
@@ -44,13 +82,18 @@ A helper element for defining a check-in policy
       is: 'check-in-policies',
 
       properties: {
+
         policies: {
           type: Array,
-          value: function() {
+          notify: true,
+          value: function () {
             return [];
           }
         }
-      }
+
+      },
+
+      behaviors: [LeisureLinkBehaviors.CollectionBehavior]
 
     });
   </script>
