@@ -35,11 +35,11 @@ A helper element for defining a check-in policy
     }
 
     .policy:first-child {
-      margin-top:0;
+      margin-top: 0;
     }
 
     .policy:last-child {
-      margin-bottom:10px;
+      margin-bottom: 10px;
     }
 
     .entypo {
@@ -56,16 +56,6 @@ A helper element for defining a check-in policy
   <style include="shared-styles"></style>
 
   <template>
-
-    <div class="row">
-      <div class="col-md-12">
-        <label class="required">Check-In Policies
-          <span id="check-in-policies-tooltip" class="entypo circled-help"></span>
-          <paper-tooltip for="check-in-policies-tooltip" class="tooltip">There is a tooltip in the mock, but no text.
-          </paper-tooltip>
-        </label>
-      </div>
-    </div>
 
     <div class="row">
       <div class="col-md-12 policies">
@@ -88,14 +78,22 @@ A helper element for defining a check-in policy
                        placeholder="Range Nickname"/>
               </div>
             </div>
+            <div class="row">
+              <div class="form-group col-md-6">
+                <label for="instructions" class="required">Instructions</label>
+                <iron-autogrow-textarea id="instructions" class="form-control"
+                                        bind-value="{{item.instructions}}" rows="2"
+                                        max-rows="6"></iron-autogrow-textarea>
+              </div>
+              <div class="form-group col-md-6">
+                <label for="addendum" class="required">Addendum</label>
+                <iron-autogrow-textarea id="addendum" class="form-control"
+                                        bind-value="{{item.addendum}}" rows="2"
+                                        max-rows="6"></iron-autogrow-textarea>
+              </div>
+            </div>
           </div>
         </template>
-      </div>
-    </div>
-
-    <div class="row">
-      <div class="col-md-12">
-        <button type="button" class="btn btn-link" on-tap="lcbAdd">+ New Seasonal Check-In Policy</button>
       </div>
     </div>
 
