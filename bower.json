@@ -22,6 +22,7 @@
     "polymer": "Polymer/polymer#^1.0.0",
     "ll-theme": "LeisureLinkElements/ll-theme",
     "ll-token-field": "LeisureLinkElements/ll-token-field",
+    "ll-collection-behavior": "LeisureLinkElements/ll-collection-behavior",
     "iron-input": "PolymerElements/iron-input#~1.0.5",
     "iron-autogrow-textarea": "PolymerElements/iron-autogrow-textarea#~1.0.4",
     "lodash": "~3.10.1",

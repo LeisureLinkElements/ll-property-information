@@ -1,0 +1,57 @@
+<link rel="import" href="../polymer/polymer.html">
+<link rel="import" href="../ll-theme/ll-theme.html">
+
+A helper element for defining a check-in policy
+
+<dom-module id="check-in-policies">
+
+  <style>
+
+    :host {
+      display: block;
+      box-sizing: border-box;
+    }
+
+  </style>
+
+  <template>
+
+    <div class="col-md-12">
+      <div class="row">
+
+        <div class="col-md-3">
+          <label for="occupancy-input" class="required">Occupancy</label>
+          <input is="iron-input" type="text" bind-value="{{data.begin}}" id="begin" class="form-control" required
+                 placeholder="Select Date"/>
+        </div>
+        <div class="col-md-3">
+          <input is="iron-input" type="text" bind-value="{{data.end}}" id="end" class="form-control" required
+                 placeholder="Select Date"/>
+        </div>
+        <div class="col-md-6">
+          <input is="iron-input" type="text" bind-value="{{data.name}}" id="name" class="form-control" required
+                 placeholder="Range Nickname"/>
+        </div>
+
+      </div>
+    </div>
+
+  </template>
+
+  <script>
+    Polymer({
+
+      is: 'check-in-policies',
+
+      properties: {
+        policies: {
+          type: Array,
+          value: function() {
+            return [];
+          }
+        }
+      }
+
+    });
+  </script>
+</dom-module>
