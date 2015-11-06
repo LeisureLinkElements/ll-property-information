@@ -21,17 +21,44 @@ A helper element for defining a check-in policy
       box-sizing: border-box;
     }
 
+    .policies {
+      margin-top: 10px;
+      margin-bottom: 10px;
+      padding-top: 0;
+    }
+
+    .policy {
+      border: 1px solid #ccc;
+      background-color: #f5f5f5;
+      margin-top: 30px;
+      padding: 15px 20px;
+    }
+
+    .policy:first-child {
+      margin-top:0;
+    }
+
+    .policy:last-child {
+      margin-bottom:10px;
+    }
+
+    .entypo {
+      font-size: 3em;
+      vertical-align: middle;
+    }
+
     label > a {
-      font-size:inherit;
+      font-size: inherit;
       cursor: pointer;
     }
 
   </style>
+  <style include="shared-styles"></style>
 
   <template>
 
     <div class="row">
-      <div class="form-group col-md-12">
+      <div class="col-md-12">
         <label class="required">Check-In Policies
           <span id="check-in-policies-tooltip" class="entypo circled-help"></span>
           <paper-tooltip for="check-in-policies-tooltip" class="tooltip">There is a tooltip in the mock, but no text.
@@ -41,26 +68,24 @@ A helper element for defining a check-in policy
     </div>
 
     <div class="row">
-      <div class="form-group col-md-12">
+      <div class="col-md-12 policies">
         <template is="dom-repeat" items="{{policies}}">
-          <div class="row">
-            <div class="col-md-12">
-              <div class="row">
-                <div class="col-md-3">
-                  <label for="begin" class="required">Start Date</label>
-                  <input is="iron-input" type="text" bind-value="{{item.begin}}" id="begin" class="form-control" required
-                         placeholder="Select Date"/>
-                </div>
-                <div class="col-md-3">
-                  <label for="end" class="required">End Date</label>
-                  <input is="iron-input" type="text" bind-value="{{item.end}}" id="end" class="form-control" required
-                         placeholder="Select Date"/>
-                </div>
-                <div class="col-md-6">
-                  <label for="name" class="required">Date Range Nickname</label>
-                  <input is="iron-input" type="text" bind-value="{{item.name}}" id="name" class="form-control" required
-                         placeholder="Range Nickname"/>
-                </div>
+          <div class="policy">
+            <div class="row">
+              <div class="form-group col-md-3">
+                <label for="begin" class="required">Start Date</label>
+                <input is="iron-input" type="text" bind-value="{{item.begin}}" id="begin" class="form-control" required
+                       placeholder="Select Date"/>
+              </div>
+              <div class="form-group col-md-3">
+                <label for="end" class="required">End Date</label>
+                <input is="iron-input" type="text" bind-value="{{item.end}}" id="end" class="form-control" required
+                       placeholder="Select Date"/>
+              </div>
+              <div class="form-group col-md-6">
+                <label for="name" class="required">Date Range Nickname</label>
+                <input is="iron-input" type="text" bind-value="{{item.name}}" id="name" class="form-control" required
+                       placeholder="Range Nickname"/>
               </div>
             </div>
           </div>
