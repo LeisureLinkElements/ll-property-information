@@ -421,6 +421,7 @@ The `ll-property-information-edit` handles creating and editing of property info
       _handlePost: function(e) {
         e.preventDefault();
         e.stopPropagation();
+        this.$.checkInPolicies.lcbEmptyTrash();
         if (this.isEdit) {
           this._postEditClicked(e);
         } else {
