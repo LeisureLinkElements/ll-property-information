@@ -41,6 +41,14 @@ A helper element for defining a check-in policy
       cursor: pointer;
     }
 
+    .policy.lcb-trashed .trash-lid {
+      display: flex;
+    }
+
+    .policy.lcb-trashed .trash-button {
+      display: none;
+    }
+
     .trash-button::before {
       content: "";
       border-radius: 50%;
@@ -56,9 +64,9 @@ A helper element for defining a check-in policy
     }
 
     .trash-lid {
-      background-color:rgba(86,120,143,.9);
+      background-color: rgba(86, 120, 143, .9);
       position: absolute;
-      display: flex;
+      display: none;
       width: 100%;
       height: 100%;
       top: 0;
@@ -94,10 +102,10 @@ A helper element for defining a check-in policy
   <template>
     <template is="dom-repeat" items="{{policies}}">
       <div class="policy">
-      <span class="trash-button entypo circled-cross" on-click="_lcbTrashMe" hidden$="[[item.lcbTrashed]]"
-            title="Remove Policy"></span>
+        <span class="trash-button entypo circled-cross" on-click="_lcbTrashMe"
+              title="Remove Policy"></span>
 
-        <div class="trash-lid" hidden$="[[!item.lcbTrashed]]">
+        <div class="trash-lid">
           <button class="un-trash-link btn btn-link" on-click="_lcbTrashMe">Undo</button>
           <span class="trash-talk">This will be deleted when you save changes</span>
         </div>
