@@ -5,7 +5,6 @@
 <link rel="import" href="../iron-autogrow-textarea/iron-autogrow-textarea.html">
 <link rel="import" href="../ll-collection-behavior/ll-collection-behavior.html">
 <link rel="import" href="../polymer-paper-datepicker/paper-date-picker.html">
-<link rel="import" href="../paper-time-picker/paper-time-picker.html">
 <!-- using shared styles in an element -->
 <link rel="import" href="../ll-theme/shared-styles.html">
 
@@ -100,6 +99,7 @@ A helper element for defining a check-in policy
   <style include="shared-styles"></style>
 
   <template>
+
     <template is="dom-repeat" items="{{policies}}">
       <div class="policy">
         <span class="trash-button entypo circled-cross" on-click="_lcbTrashMe"
@@ -142,6 +142,7 @@ A helper element for defining a check-in policy
         </div>
       </div>
     </template>
+
   </template>
 
   <script>
