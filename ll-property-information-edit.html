@@ -27,6 +27,7 @@ The `ll-property-information-edit` handles creating and editing of property info
 <dom-module id="ll-property-information-edit">
 
   <style>
+
     .help-block {
       display: inline-block;
       margin: 5px 0;
@@ -79,6 +80,10 @@ The `ll-property-information-edit` handles creating and editing of property info
       margin-top: 10px;
       margin-bottom: 10px;
       padding-top: 0;
+    }
+
+    input[readonly].normal-bg {
+      background-color:white;
     }
 
   </style>
@@ -192,13 +197,15 @@ The `ll-property-information-edit` handles creating and editing of property info
           <div class="row">
 
             <div class="form-group col-md-4">
-              <label for="check-in-time-input" class="required">Check-In Time</label>
-              <input is="iron-input" type="text" bind-value="{{property.checkInTime}}" id="check-in-time-input" class="form-control" required placeholder="Check-in time"/>
+              <label for="check-in-time" class="required">Check-In Time</label>
+              <input is="iron-input" type="text" id="check-in-time" on-tap="_timeInputTapped" class="form-control normal-bg" readonly required/>
+              <input is="iron-input" id="check-in-time-value" type="hidden" bind-value="{{property.checkInTime}}"/>
             </div>
 
             <div class="form-group col-md-4">
-              <label for="occupancy-input" class="required">Check-Out Time</label>
-              <input is="iron-input" type="text" bind-value="{{property.checkOutTime}}" id="check-out-time-input" class="form-control" required placeholder="Check-out time"/>
+              <label for="check-out-time" class="required">Check-Out Time</label>
+              <input is="iron-input" type="text" id="check-out-time" on-tap="_timeInputTapped" class="form-control normal-bg" readonly required/>
+              <input is="iron-input" id="check-out-time-value" type="hidden" bind-value="{{property.checkOutTime}}"/>
             </div>
 
             <div class="form-group col-md-4">
@@ -297,6 +304,15 @@ The `ll-property-information-edit` handles creating and editing of property info
 
       </form>
     </div>
+
+    <paper-dialog id="timePickerDialog" class="paper-time-picker-dialog" modal>
+      <paper-time-picker id="timePicker"></paper-time-picker>
+      <div class="buttons">
+        <paper-button dialog-dismiss>CANCEL</paper-button>
+        <paper-button dialog-confirm on-tap="_timePicked">OK</paper-button>
+      </div>
+    </paper-dialog>
+
   </template>
 
   <script>
@@ -459,6 +475,15 @@ The `ll-property-information-edit` handles creating and editing of property info
       },
       _newCheckInPolicy: function() {
         this.$.checkInPolicies.lcbAdd();
+      },
+      _timeInputTapped: function(e) {
+        this._timeInputId = e.target.id;
+        this.$.timePickerDialog.open();
+      },
+      _timePicked: function(e) {
+        var tp = this.$.timePicker;
+        this.$[this._timeInputId].value = tp.time;
+        this.$[this._timeInputId + '-value'].value = _.padLeft(tp.hour, 2, '0') + ':' + _.padLeft(tp.minute, 2, '0') + ':00';
       },
       _isState: function(stateCode) {
         return (this.property && this.property.location)
