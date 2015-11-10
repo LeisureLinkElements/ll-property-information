@@ -28,7 +28,6 @@
     "lodash": "~3.10.1",
     "paper-tooltip": "PolymerElements/paper-tooltip#~1.0.2",
     "paper-dialog": "PolymerElements/paper-dialog#~1.0.2",
-    "polymer-paper-datepicker": "~1.0.3",
     "ll-time-input": "LeisureLinkElements/ll-time-input"
   },
   "devDependencies": {
