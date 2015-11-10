@@ -27,10 +27,10 @@
     <script>
 
       document.querySelector('#btn_mock').addEventListener("click", function() {
-        var propertyInfo = document.querySelector('ll-property-information-view');
+        var propertyInfo = document.querySelector('ll-property-information-view') || document.querySelector('ll-property-information-edit');
 
         if(!propertyInfo) {
-          console.log('Mock Data only works on the View mode.')
+          console.log('No view to mock data on.')
           return;
         }
         propertyInfo.property = {
