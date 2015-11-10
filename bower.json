@@ -29,7 +29,7 @@
     "paper-tooltip": "PolymerElements/paper-tooltip#~1.0.2",
     "paper-dialog": "PolymerElements/paper-dialog#~1.0.2",
     "polymer-paper-datepicker": "~1.0.3",
-    "paper-time-picker": "master" // Latest version is 1.0.3, but I get different, broken code when I put "1.0.3" here. I've emailed the author about it. Master is the only one that works for me.
+    "ll-time-input": "LeisureLinkElements/ll-time-input"
   },
   "devDependencies": {
     "iron-component-page": "PolymerElements/iron-component-page#^1.0.0",
