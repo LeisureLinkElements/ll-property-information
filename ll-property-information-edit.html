@@ -63,15 +63,15 @@ The `ll-property-information-edit` handles creating and editing of property info
     }
 
     .vertical-rule-right {
-      border-right:1px solid #ccc;
+      border-right: 1px solid #ccc;
     }
 
     .col-no-left-gutter {
-      padding-left:0;
+      padding-left: 0;
     }
 
     .col-no-right-gutter {
-      padding-right:0;
+      padding-right: 0;
     }
 
     .policies {
@@ -80,8 +80,8 @@ The `ll-property-information-edit` handles creating and editing of property info
       padding-top: 0;
     }
 
-    input[readonly].normal-bg {
-      background-color:white;
+    input[readOnly] {
+      background-color: white;
     }
 
   </style>
@@ -108,26 +108,30 @@ The `ll-property-information-edit` handles creating and editing of property info
                   For a single property, the address will suffice, or a more creative name may be used.
                 </paper-tooltip>
               </label>
-              <input is="iron-input" type="text" bind-value="{{property.name}}" id="name-input" autocomplete="off" class="form-control" required placeholder="Property Name"/>
+              <input is="iron-input" type="text" bind-value="{{property.name}}" id="name-input" autocomplete="off"
+                     class="form-control" required placeholder="Property Name"/>
             </div>
           </div>
 
           <div class="row">
             <div class="form-group col-md-6">
               <label for="address1-input" class="required">Address 1</label>
-              <input is="iron-input" type="text" bind-value="{{property.location.address}}" id="address1-input" autocomplete="off" class="form-control" required placeholder="Enter street address"/>
+              <input is="iron-input" type="text" bind-value="{{property.location.address}}" id="address1-input"
+                     autocomplete="off" class="form-control" required placeholder="Enter street address"/>
             </div>
 
             <div class="form-group col-md-6">
               <label for="address2-input">Address 2 <span class="help-block">(Optional)</span></label>
-              <input is="iron-input" type="text" bind-value="{{property.location.address2}}" id="address2-input" autocomplete="off" class="form-control" placeholder="Additional address"/>
+              <input is="iron-input" type="text" bind-value="{{property.location.address2}}" id="address2-input"
+                     autocomplete="off" class="form-control" placeholder="Additional address"/>
             </div>
           </div>
 
           <div class="row">
             <div class="form-group col-md-6">
               <label for="city-input" class="required">City</label>
-              <input is="iron-input" type="text" bind-value="{{property.location.city}}" id="city-input" autocomplete="off" class="form-control" required placeholder="Enter city name"/>
+              <input is="iron-input" type="text" bind-value="{{property.location.city}}" id="city-input"
+                     autocomplete="off" class="form-control" required placeholder="Enter city name"/>
             </div>
 
             <div class="form-group col-md-3">
@@ -139,7 +143,9 @@ The `ll-property-information-edit` handles creating and editing of property info
 
             <div class="form-group col-md-3">
               <label for="zip-code-input" class="required">Zip Code</label>
-              <input is="iron-input" type="text" bind-value="{{property.location.postal}}" id="zip-code-input" autocomplete="off" class="form-control" required allowed-pattern="[0-9]" pattern="[0-9]{5}" prevent-invalid-input placeholder="Enter zip code"/>
+              <input is="iron-input" type="text" bind-value="{{property.location.postal}}" id="zip-code-input"
+                     autocomplete="off" class="form-control" required allowed-pattern="[0-9]" pattern="[0-9]{5}"
+                     prevent-invalid-input placeholder="Enter zip code"/>
             </div>
 
           </div>
@@ -151,7 +157,10 @@ The `ll-property-information-edit` handles creating and editing of property info
                 <paper-tooltip for="description-tooltip" class="tooltip">There is a tooltip in the mock, but no text.
                 </paper-tooltip>
               </label>
-              <iron-autogrow-textarea id="description-input" class="form-control" placeholder="Enter short description of property" bind-value="{{property.description}}" rows="2" max-rows="6"></iron-autogrow-textarea>
+              <iron-autogrow-textarea id="description-input" class="form-control"
+                                      placeholder="Enter short description of property"
+                                      bind-value="{{property.description}}" rows="2"
+                                      max-rows="6"></iron-autogrow-textarea>
             </div>
           </div>
 
@@ -161,12 +170,14 @@ The `ll-property-information-edit` handles creating and editing of property info
 
               <div class="form-group col-md-6">
                 <label for="bedroom-count-input" class="required">Bedrooms</label>
-                <input is="iron-input" type="number" min="0" class="form-control" bind-value="{{property.bedroomCount}}" id="bedroom-count-input" required placeholder="Number of bedrooms"/>
+                <input is="iron-input" type="number" min="0" class="form-control" bind-value="{{property.bedroomCount}}"
+                       id="bedroom-count-input" required placeholder="Number of bedrooms"/>
               </div>
 
               <div class="form-group col-md-6">
                 <label for="bathroom-count-input" class="required">Bathrooms</label>
-                <input is="iron-input" type="number" min="0" step=".25" bind-value="{{property.bathroomCount}}" id="bathroom-count-input" class="form-control" required placeholder="Total number of bathrooms"/>
+                <input is="iron-input" type="number" min="0" step=".25" bind-value="{{property.bathroomCount}}"
+                       id="bathroom-count-input" class="form-control" required placeholder="Total number of bathrooms"/>
               </div>
 
             </div>
@@ -175,17 +186,23 @@ The `ll-property-information-edit` handles creating and editing of property info
 
               <div class="form-group col-md-4">
                 <label for="full-bathroom-input" class="required">Full Bathrooms</label>
-                <input is="iron-input" type="number" min="0" bind-value="{{property.fullBathrooms}}" id="full-bathroom-input" class="form-control" required placeholder="Total number of full bathrooms"/>
+                <input is="iron-input" type="number" min="0" bind-value="{{property.fullBathrooms}}"
+                       id="full-bathroom-input" class="form-control" required
+                       placeholder="Total number of full bathrooms"/>
               </div>
 
               <div class="form-group col-md-4">
                 <label for="three-quarter-bathroom-input" class="required">3/4 Bathrooms</label>
-                <input is="iron-input" type="number" min="0" bind-value="{{property.threeQuarterBathrooms}}" id="three-quarter-bathroom-input" class="form-control" required placeholder="Total number of 3/4 bathrooms"/>
+                <input is="iron-input" type="number" min="0" bind-value="{{property.threeQuarterBathrooms}}"
+                       id="three-quarter-bathroom-input" class="form-control" required
+                       placeholder="Total number of 3/4 bathrooms"/>
               </div>
 
               <div class="form-group col-md-4">
                 <label for="half-bathroom-input" class="required">1/2 Bathrooms</label>
-                <input is="iron-input" type="number" min="0" bind-value="{{property.halfBathrooms}}" id="half-bathroom-input" class="form-control" required placeholder="Total number of 1/2 bathrooms"/>
+                <input is="iron-input" type="number" min="0" bind-value="{{property.halfBathrooms}}"
+                       id="half-bathroom-input" class="form-control" required
+                       placeholder="Total number of 1/2 bathrooms"/>
               </div>
 
             </div>
@@ -206,7 +223,8 @@ The `ll-property-information-edit` handles creating and editing of property info
 
             <div class="form-group col-md-4">
               <label for="occupancy-input" class="required">Occupancy</label>
-              <input is="iron-input" type="number" min="0" bind-value="{{property.occupancy}}" id="occupancy-input" class="form-control" required placeholder="Maximum occupancy"/>
+              <input is="iron-input" type="number" min="0" bind-value="{{property.occupancy}}" id="occupancy-input"
+                     class="form-control" required placeholder="Maximum occupancy"/>
             </div>
 
           </div>
@@ -215,7 +233,8 @@ The `ll-property-information-edit` handles creating and editing of property info
             <div class="col-md-12">
               <label class="required">Check-In Policies
                 <span id="check-in-policies-tooltip" class="entypo circled-help"></span>
-                <paper-tooltip for="check-in-policies-tooltip" class="tooltip">There is a tooltip in the mock, but no text.
+                <paper-tooltip for="check-in-policies-tooltip" class="tooltip">There is a tooltip in the mock, but no
+                  text.
                 </paper-tooltip>
               </label>
             </div>
@@ -223,13 +242,15 @@ The `ll-property-information-edit` handles creating and editing of property info
 
           <div class="row">
             <div class="col-md-12 policies">
-              <check-in-policies id="checkInPolicies" lcb-items-name="policies" policies="{{property.checkInInformationRanges}}"></check-in-policies>
+              <check-in-policies id="checkInPolicies" lcb-items-name="policies"
+                                 policies="{{property.checkInInformationRanges}}"></check-in-policies>
             </div>
           </div>
 
           <div class="row">
             <div class="col-md-12">
-              <button type="button" class="btn btn-link" on-tap="_newCheckInPolicy">+ New Seasonal Check-In Policy</button>
+              <button type="button" class="btn btn-link" on-tap="_newCheckInPolicy">+ New Seasonal Check-In Policy
+              </button>
             </div>
           </div>
 
@@ -244,7 +265,8 @@ The `ll-property-information-edit` handles creating and editing of property info
 
             <div class="form-group col-md-4">
               <label for="building-category-input" class="required">Building Category</label>
-              <select id="building-category-input" value="{{property.buildingCategory::change}}" class="form-control" required>
+              <select id="building-category-input" value="{{property.buildingCategory::change}}" class="form-control"
+                      required>
                 <option value="" selected="selected" disabled="disabled">- - -</option>
               </select>
             </div>
@@ -260,7 +282,8 @@ The `ll-property-information-edit` handles creating and editing of property info
               <label class="required">Available for booking?</label>
 
               <div class="checkbox">
-                <label for="available-input"><input type="checkbox" id="available-input" checked="{{property.isAvailableForBooking::change}}"/>
+                <label for="available-input"><input type="checkbox" id="available-input"
+                                                    checked="{{property.isAvailableForBooking::change}}"/>
                   Booking Available</label>
               </div>
             </div>
@@ -301,6 +324,7 @@ The `ll-property-information-edit` handles creating and editing of property info
       </form>
     </div>
 
+    <ll-time-picker></ll-time-picker>
 
   </template>
 
@@ -311,16 +335,16 @@ The `ll-property-information-edit` handles creating and editing of property info
     LLPropertyInformationEdit = Polymer({
       is: 'll-property-information-edit',
 
-      factoryImpl: function(property, isEdit) {
+      factoryImpl: function (property, isEdit) {
         if (!property && isEdit) {
           throw new Error('Cannot be in edit mode without a property supplied');
         }
 
-        this.property = property || { location: {} };
+        this.property = property || {location: {}};
         this.isEdit = isEdit || false;
       },
 
-      ready: function() {
+      ready: function () {
         originalProperty = _.assign({}, this.property);
         this.$['post-form'].onsubmit = this._handlePost.bind(this);
         this.property.location = this.property.location || {};
@@ -332,7 +356,7 @@ The `ll-property-information-edit` handles creating and editing of property info
         var self = this;
 
         var stateSelect = this.$['state-input'];
-        this._states.forEach(function(x) {
+        this._states.forEach(function (x) {
           var option = document.createElement('option');
           option.text = self._toProperCase(x);
           option.value = x;
@@ -341,7 +365,7 @@ The `ll-property-information-edit` handles creating and editing of property info
         stateSelect.value = this.property.location.subdivision || '';
 
         var categorySelect = this.$['building-category-input'];
-        this._buildingCategories.forEach(function(x) {
+        this._buildingCategories.forEach(function (x) {
           var option = document.createElement('option');
           option.text = self._toProperCase(x);
           option.value = x;
@@ -350,7 +374,7 @@ The `ll-property-information-edit` handles creating and editing of property info
         categorySelect.value = this.property.buildingCategory || '';
 
         var typeSelect = this.$['building-type-input'];
-        this._buildingTypes.forEach(function(x) {
+        this._buildingTypes.forEach(function (x) {
           var option = document.createElement('option');
           option.text = self._toProperCase(x);
           option.value = x;
@@ -393,8 +417,8 @@ The `ll-property-information-edit` handles creating and editing of property info
         property: {
           type: Object,
           reflectToAttribute: true,
-          value: function() {
-            return { location: {} };
+          value: function () {
+            return {location: {}};
           }
         },
         /**
@@ -408,26 +432,26 @@ The `ll-property-information-edit` handles creating and editing of property info
         _states: {
           type: Array,
           readOnly: true,
-          value: function() {
+          value: function () {
             return ['AL', 'AK', 'AZ', 'AR', 'CA', 'CO', 'CT', 'DE', 'FL', 'GA', 'HI', 'ID', 'IL', 'IN', 'IA', 'KS', 'KY', 'LA', 'ME', 'MD', 'MA', 'MI', 'MN', 'MS', 'MO', 'MT', 'NE', 'NV', 'NH', 'NJ', 'NM', 'NY', 'NC', 'ND', 'OH', 'OK', 'OR', 'PA', 'RI', 'SC', 'SD', 'TN', 'TX', 'UT', 'VT', 'VA', 'WA', 'WV', 'WI', 'WY'];
           }
         },
         _buildingCategories: {
           type: Array,
           readOnly: true,
-          value: function() {
+          value: function () {
             return ['hotel', 'bedAndBreakfast', 'condo', 'apartment', 'home'];
           }
         },
         _buildingTypes: {
           type: Array,
           readOnly: true,
-          value: function() {
+          value: function () {
             return ['hotel', 'allInclusive', 'inn', 'lodge', 'bedAndBreakfast', 'cottage', 'condo', 'townhome', 'apartment', 'vacationHome', 'cabinLodgeCottage', 'chalet', 'villa'];
           }
         }
       },
-      _handlePost: function(e) {
+      _handlePost: function (e) {
         e.preventDefault();
         e.stopPropagation();
         this.$.checkInPolicies.lcbEmptyTrash();
@@ -437,50 +461,50 @@ The `ll-property-information-edit` handles creating and editing of property info
           this._postCreateClicked(e);
         }
       },
-      _editCancelClicked: function() {
+      _editCancelClicked: function () {
         this.property = originalProperty;
-        this.fire('ll-property-information-edit-view-property', { property: this.property });
+        this.fire('ll-property-information-edit-view-property', {property: this.property});
       },
-      _createCancelClicked: function() {
+      _createCancelClicked: function () {
         this.fire('ll-property-information-edit-back-to-properties');
       },
-      _postEditClicked: function() {
+      _postEditClicked: function () {
         if (!this.isEdit) {
           throw new Error('Cannot post edit when not in edit mode');
         }
-        this.fire('ll-property-information-edit-post-edit', { property: this.property });
+        this.fire('ll-property-information-edit-post-edit', {property: this.property});
       },
-      _createPropertyClicked: function() {
+      _createPropertyClicked: function () {
         if (!this.isEdit) {
           throw new Error('Cannot view create mode when not in edit mode');
         }
         this.fire('ll-property-information-edit-create-property');
       },
-      _postCreateClicked: function() {
+      _postCreateClicked: function () {
         if (this.isEdit) {
           throw new Error('Cannot post create in edit mode');
         }
-        this.fire('ll-property-information-edit-post-create', { property: this.property });
+        this.fire('ll-property-information-edit-post-create', {property: this.property});
       },
-      _newCheckInPolicy: function() {
+      _newCheckInPolicy: function () {
         this.$.checkInPolicies.lcbAdd();
       },
-      _isState: function(stateCode) {
+      _isState: function (stateCode) {
         return (this.property && this.property.location)
             ? stateCode === this.property.location.subdivision
             : false;
       },
-      _isBuildingCategory: function(category) {
+      _isBuildingCategory: function (category) {
         return this.property
             ? category === this.property.buildingCategory
             : false;
       },
-      _isBuildingType: function(type) {
+      _isBuildingType: function (type) {
         return this.property
             ? type === this.property.buildingType
             : false;
       },
-      _toProperCase: function(text) {
+      _toProperCase: function (text) {
         var step = text.replace(/([A-Z])/g, " $1");
         return step.charAt(0).toUpperCase() + step.slice(1);
       }
