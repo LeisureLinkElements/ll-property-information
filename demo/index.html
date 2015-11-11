@@ -1,70 +1,59 @@
 <!doctype html>
 <html>
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
-    <title>ll-property-information Demo</title>
-    <script src="../../webcomponentsjs/webcomponents-lite.js"></script>
-    <link rel="import" href="../ll-property-information.html">
-  </head>
-  <body style="margin: 30px;">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
+  <title>ll-property-information Demo</title>
+  <script src="../../webcomponentsjs/webcomponents-lite.js"></script>
+  <link rel="import" href="../ll-property-information.html">
+</head>
+<body style="margin: 30px;">
 
-    <script>
-    </script>
+<script>
+</script>
 
-    <p>An example of <code>&lt;ll-property-information&gt;</code></p>
+<p>An example of <code>&lt;ll-property-information&gt;</code></p>
 
-    <div class="col-md-12">
-      <ll-property-information
-        get-url="http://www.google.com/"
-        edit-url="#"
-        create-url="#"
-        mode="view"></ll-property-information>
-    </div>
+<div class="col-md-12">
+  <ll-property-information
+      get-url="http://www.google.com/"
+      edit-url="#"
+      create-url="#"
+      mode="view"></ll-property-information>
+</div>
 
-    <button style="position: fixed; top: 0;" id="btn_mock">Mock Data</button>
+<script>
 
-    <script>
+  var propertyInfo = document.querySelector('ll-property-information-view') || document.querySelector('ll-property-information-edit');
 
-      document.querySelector('#btn_mock').addEventListener("click", function() {
-        var propertyInfo = document.querySelector('ll-property-information-view') || document.querySelector('ll-property-information-edit');
+  if (!propertyInfo) {
+    console.log('No view to mock data on.');
+  } else {
+    propertyInfo.property = {
+      name: 'Rugged Creek',
+      location: {
+        address: '123 Place',
+        address2: '43 West'
+      },
+      description: 'This Place rules',
+      bedroomCount: 3,
+      occupancy: 3,
+      bathroomCount: 4,
+      fullBathrooms: 2,
+      threeQuarterBathrooms: 1,
+      halfBathrooms: 1,
+      amenities: ['Roof', 'Bar', 'Bed'],
+      buildingCategory: 'condo',
+      buildingType: 'townhome',
+      isAvailableForBooking: true,
+      unitId: '8sdf8s_J',
+      checkInTime: '15:00:00',
+      checkOutTime: '10:00:00',
+      checkInInformationRanges: [{}]
+    };
+  }
 
-        if(!propertyInfo) {
-          console.log('No view to mock data on.')
-          return;
-        }
-        propertyInfo.property = {
-          name: 'Rugged Creek',
-          location: {
-            address: '123 Place',
-            address2: '43 West'
-          },
-          description: 'This Place rules',
-          bedroomCount: 3,
-          occupancy: 3,
-          bathroomCount: 4,
-          fullBathrooms: 2,
-          threeQuarterBathrooms: 1,
-          halfBathrooms: 1,
-          amenities: ['Roof', 'Bar', 'Bed'],
-          buildingCategory: 'condo',
-          buildingType: 'townhome',
-          isAvailableForBooking: true,
-          unitId: '8sdf8s_J',
-          checkInTime: '15:00:00',
-          checkOutTime: '10:00:00',
-          checkInInformationRanges:[
-            {
-              begin: '2016-02-01T00:00:00Z',
-              end: '2016-06-01T00:00:00Z',
-              instructions: 'key under gnome',
-              addendum: 'don\'t take gnome home'
-            }
-          ]
-        };
+</script>
 
-      });
-    </script>
-
-  </body>
+</body>
 </html>
