@@ -333,16 +333,21 @@ The `ll-property-information-edit` handles creating and editing of property info
     LLPropertyInformationEdit = Polymer({
       is: 'll-property-information-edit',
 
+      /**
+       * TODO ?: Not sure why factoryImpl is implemented here,
+       * because it is only invoked when you create an element using the constructor,
+       * and I can't find any instances of that happening in integration-hub.
+       * That's why I added this._initProperty. -- CK
+       */
       factoryImpl: function (property, isEdit) {
         if (!property && isEdit) {
           throw new Error('Cannot be in edit mode without a property supplied');
         }
-
-        this.property = property || {location: {}};
-        this.isEdit = isEdit || false;
+        this._initProperty(property, isEdit);
       },
 
       ready: function () {
+        this._initProperty();
         originalProperty = _.assign({}, this.property);
         this.$['post-form'].onsubmit = this._handlePost.bind(this);
         this.property.location = this.property.location || {};
@@ -379,6 +384,12 @@ The `ll-property-information-edit` handles creating and editing of property info
           typeSelect.add(option);
         });
         typeSelect.value = this.property.buildingType || '';
+
+      },
+
+      _initProperty: function(property, isEdit) {
+        this.property = property || {location: {}, checkInInformationRanges: [{}]};
+        this.isEdit = isEdit || false;
       },
 
       /**
@@ -416,7 +427,7 @@ The `ll-property-information-edit` handles creating and editing of property info
           type: Object,
           reflectToAttribute: true,
           value: function () {
-            return {location: {}};
+            return {location: {}, checkInInformationRanges: [{}]};
           }
         },
         /**
