@@ -6,11 +6,20 @@
   <title>ll-property-information Demo</title>
   <script src="../../webcomponentsjs/webcomponents-lite.js"></script>
   <link rel="import" href="../ll-property-information.html">
+  <style>
+    body {
+      margin: 30px;
+    }
+    #logData {
+      position:fixed;
+      right:0;
+      z-index:10;
+    }
+  </style>
 </head>
-<body style="margin: 30px;">
+<body>
 
-<script>
-</script>
+<button id="logData" class="btn btn-primary" onClick="logData()">Output current property data to console.</button>
 
 <p>An example of <code>&lt;ll-property-information&gt;</code></p>
 
@@ -19,7 +28,7 @@
       get-url="http://www.google.com/"
       edit-url="#"
       create-url="#"
-      mode="view"></ll-property-information>
+      mode="edit"></ll-property-information>
 </div>
 
 <script>
@@ -51,6 +60,9 @@
       checkOutTime: '10:00:00',
       checkInInformationRanges: [{}]
     };
+  }
+  function logData() {
+    console.log(propertyInfo.property);
   }
 
 </script>
