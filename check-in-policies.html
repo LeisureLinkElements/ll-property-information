@@ -106,7 +106,7 @@ A helper element for defining a check-in policy
 
     <template is="dom-repeat" items="{{policies}}">
       <div class="policy">
-        <span class="trash-button entypo circled-cross" on-click="_lcbTrashMe"
+        <span class="trash-button entypo circled-cross" hidden$="[[!index]]" on-click="_lcbTrashMe"
               title="Remove Policy"></span>
 
         <div class="trash-lid">
