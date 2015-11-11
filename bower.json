@@ -28,7 +28,8 @@
     "lodash": "~3.10.1",
     "paper-tooltip": "PolymerElements/paper-tooltip#~1.0.2",
     "paper-dialog": "PolymerElements/paper-dialog#~1.0.2",
-    "ll-time-input": "LeisureLinkElements/ll-time-input"
+    "ll-time-input": "LeisureLinkElements/ll-time-input",
+    "ll-date-input": "LeisureLinkElements/ll-date-input#creation"
   },
   "devDependencies": {
     "iron-component-page": "PolymerElements/iron-component-page#^1.0.0",
