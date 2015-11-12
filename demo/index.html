@@ -1,60 +1,72 @@
 <!doctype html>
 <html>
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
-    <title>ll-property-information Demo</title>
-    <script src="../../webcomponentsjs/webcomponents-lite.js"></script>
-    <link rel="import" href="../ll-property-information.html">
-  </head>
-  <body style="margin: 30px;">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
+  <title>ll-property-information Demo</title>
+  <script src="../../webcomponentsjs/webcomponents-lite.js"></script>
+  <link rel="import" href="../ll-property-information.html">
+  <style>
+    body {
+      margin: 30px;
+    }
+    #logData {
+      position:fixed;
+      right:30px;
+      z-index:10;
+      padding:10px;
+    }
+  </style>
+</head>
+<body>
 
-    <script>
-    </script>
+<button id="logData" class="btn btn-info" onClick="logData()">Output property data to console.</button>
 
-    <p>An example of <code>&lt;ll-property-information&gt;</code></p>
+<p>An example of <code>&lt;ll-property-information&gt;</code></p>
 
-    <div class="col-md-12">
-      <ll-property-information
-        get-url="http://www.google.com/"
-        edit-url="#"
-        create-url="#"
-        mode="view"></ll-property-information>
-    </div>
+<div class="col-md-12">
+  <ll-property-information
+      get-url="http://www.google.com/"
+      edit-url="#"
+      create-url="#"
+      mode="edit"></ll-property-information>
+</div>
 
-    <button style="position: fixed; top: 0;" id="btn_mock">Mock Data</button>
+<script>
 
-    <script>
+  var propertyInfo = document.querySelector('ll-property-information-view') || document.querySelector('ll-property-information-edit');
 
-      document.querySelector('#btn_mock').addEventListener("click", function() {
-        var propertyInfo = document.querySelector('ll-property-information-view');
+  if (!propertyInfo) {
+    console.log('No view to mock data on.');
+  } else {
+    propertyInfo.property = {
+      name: 'Rugged Creek',
+      location: {
+        address: '123 Place',
+        address2: '43 West'
+      },
+      description: 'This Place rules',
+      bedroomCount: 3,
+      occupancy: 3,
+      bathroomCount: 4,
+      fullBathrooms: 2,
+      threeQuarterBathrooms: 1,
+      halfBathrooms: 1,
+      amenities: ['Roof', 'Bar', 'Bed'],
+      buildingCategory: 'condo',
+      buildingType: 'townhome',
+      isAvailableForBooking: true,
+      unitId: '8sdf8s_J',
+      checkInTime: '15:00:00',
+      checkOutTime: '10:00:00',
+      checkInInformationRanges: [{}]
+    };
+  }
+  function logData() {
+    console.log(propertyInfo.property);
+  }
 
-        if(!propertyInfo) {
-          console.log('Mock Data only works on the View mode.')
-          return;
-        }
-        propertyInfo.property = {
-          name: 'Rugged Creek',
-          location: {
-            address: '123 Place',
-            address2: '43 West'
-          },
-          description: 'This Place rules',
-          bedroomCount: 3,
-          occupancy: 3,
-          bathroomCount: 4,
-          fullBathrooms: 2,
-          threeQuarterBathrooms: 1,
-          halfBathrooms: 1,
-          amenities: ['Roof', 'Bar', 'Bed'],
-          buildingCategory: 'condo',
-          buildingType: 'townhome',
-          isAvailableForBooking: true,
-          unitId: '8sdf8s_J'
-        };
+</script>
 
-      });
-    </script>
-
-  </body>
+</body>
 </html>
