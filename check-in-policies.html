@@ -136,13 +136,13 @@ A helper element for defining a check-in policy
         </div>
         <div class="row">
           <div class="form-group col-md-6">
-            <label for="instructions" class="required">Instructions</label>
+            <label for="instructions">Instructions</label>
             <iron-autogrow-textarea id="instructions" class="form-control"
                                     bind-value="{{item.instructions}}" rows="2"
                                     max-rows="6"></iron-autogrow-textarea>
           </div>
           <div class="form-group col-md-6">
-            <label for="addendum" class="required">Addendum</label>
+            <label for="addendum">Addendum</label>
             <iron-autogrow-textarea id="addendum" class="form-control"
                                     bind-value="{{item.addendum}}" rows="2"
                                     max-rows="6"></iron-autogrow-textarea>
@@ -180,6 +180,8 @@ A helper element for defining a check-in policy
         if (a.startDate === b.startDate) return 0;
         return a.startDate < b.startDate || _.isEmpty(a.startDate) ? -1 : 1;
       }
+
+      _
 
     });
   </script>
