@@ -243,8 +243,8 @@ The `ll-property-information-edit` handles creating and editing of property info
 
           <div class="row">
             <div class="col-md-12 policies">
-              <check-in-policies id="checkInPolicies" lcb-items-name="policies"
-                                 policies="{{property.checkInInformationRanges}}"></check-in-policies>
+              <check-in-policies id="checkInPolicies" name="checkInPolicies" lcb-items-name="policies"
+                                 policies="{{property.checkInInformationRanges}}" required></check-in-policies>
             </div>
           </div>
 
@@ -464,11 +464,13 @@ The `ll-property-information-edit` handles creating and editing of property info
       _handlePost: function (e) {
         e.preventDefault();
         e.stopPropagation();
-        this.$.checkInPolicies.lcbEmptyTrash();
-        if (this.isEdit) {
-          this._postEditClicked(e);
-        } else {
-          this._postCreateClicked(e);
+        this.$.checkInPolicies.cleanUp();
+        if (this.$['post-form'].validate()) {
+          if (this.isEdit) {
+            this._postEditClicked(e);
+          } else {
+            this._postCreateClicked(e);
+          }
         }
       },
       _editCancelClicked: function () {
