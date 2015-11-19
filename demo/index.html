@@ -34,12 +34,12 @@
 
 <script>
 
-  var propertyInfo = document.querySelector('ll-property-information-view') || document.querySelector('ll-property-information-edit');
+  var propertyInfo = document.querySelector('ll-property-information');
 
   if (!propertyInfo) {
     console.log('No view to mock data on.');
   } else {
-    propertyInfo.property = {
+    propertyInfo._property = {
       name: 'Rugged Creek',
       location: {
         address: '123 Place',
@@ -63,7 +63,7 @@
     };
   }
   function logData() {
-    console.log(propertyInfo.property);
+    console.log(propertyInfo._property);
   }
 
 </script>
