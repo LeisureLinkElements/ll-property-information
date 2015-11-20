@@ -12,11 +12,17 @@
 <!-- using shared styles in an element -->
 <link rel="import" href="../ll-theme/shared-styles.html">
 
+<script src="../moment/min/moment.min.js"></script>
+
 A helper element for defining a check-in policy
 
 <dom-module id="check-in-policies">
 
   <style>
+
+    :root {
+      --destructive-bg: #f2dede;
+    }
 
     :host {
       display: block;
@@ -37,6 +43,10 @@ A helper element for defining a check-in policy
 
     .policy:last-child {
       margin-bottom: 10px;
+    }
+
+    :host.invalid, :host.invalid .policy{
+      background-color:var(--destructive-bg);
     }
 
     label > a {
@@ -184,12 +194,55 @@ A helper element for defining a check-in policy
       /**
        * Empty trash and remove empty policies except for the first policy.
        */
-      cleanUp: function() {
+      cleanUp: function () {
         var _this = this;
         this.lcbEmptyTrash();
         this.lcbDeleteItems(function (item, idx) {
           return idx > 0 && _this.lcbIsEmptyItem(item);
         });
+      },
+
+      /**
+       * Overidden from Polymer.IronValidatableBehavior. Will set the `invalid`
+       * attribute automatically, which should be used for styling.
+       *
+       * Returns true if all date-ranges are valid and non-overlapping.
+       *
+       * @returns {boolean}
+       * @private
+       */
+      _getValidity: function () {
+        var result = true;
+        var _this = this;
+        this.cleanUp();
+        if (_.find(this.policies, function (policy) {
+              return !_this._hasValidDates(policy);
+            })) {
+          result = false;
+        }
+        if(result && this.policies.length > 1) {
+          var sorted = _.sortBy(this.policies, 'startDate');
+          var prevPolicy;
+          _.forEach(sorted, function(policy){
+            if(prevPolicy) {
+              if(policy.startDate <= prevPolicy.endDate && policy.endDate >= prevPolicy.startDate) {
+                result = false;
+              }
+            } else {
+              prevPolicy = policy;
+            }
+          });
+        }
+        this.toggleClass('invalid', !result);
+        return result;
+      },
+
+      _hasValidDates: function (policy) {
+        return this._isValidDateString(policy.startDate) && this._isValidDateString(policy.endDate) && policy.endDate > policy.startDate;
+      },
+
+      _isValidDateString: function (str) {
+        return moment(str, this.dateIsoFormat);
       }
 
     });
