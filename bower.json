@@ -29,6 +29,7 @@
     "iron-validatable-behavior": "PolymerElements/iron-validatable-behavior#~1.0.5",
     "iron-autogrow-textarea": "PolymerElements/iron-autogrow-textarea#~1.0.4",
     "lodash": "~3.10.1",
+    "moment": "~2.8.3",
     "paper-tooltip": "PolymerElements/paper-tooltip#~1.0.2",
     "paper-dialog": "PolymerElements/paper-dialog#~1.0.2",
     "ll-time-input": "LeisureLinkElements/ll-time-input",
