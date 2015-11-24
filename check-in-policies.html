@@ -176,14 +176,14 @@ A helper element for defining a check-in policy
             <div class="row">
               <div class="form-group col-md-3">
                 <label for="startDate" class="required">Start Date</label>
-                <input is="ll-date-input" data-data="{{item.startDate}}" data-data-format="[[dateIsoFormat]]"
+                <input is="ll-date-input" data-data="{{item.startDate}}" data-data-format="[[dateDataFormat]]"
                        id="startDate"
                        class="form-control"
                        placeholder="Select Date"/>
               </div>
               <div class="form-group col-md-3">
                 <label for="endDate" class="required">End Date</label>
-                <input is="ll-date-input" data-data="{{item.endDate}}" data-data-format="[[dateIsoFormat]]" id="endDate"
+                <input is="ll-date-input" data-data="{{item.endDate}}" data-data-format="[[dateDataFormat]]" id="endDate"
                        class="form-control"
                        placeholder="Select Date"/>
               </div>
@@ -234,7 +234,7 @@ A helper element for defining a check-in policy
           notify: true
         },
 
-        dateIsoFormat: 'YYYY-MM-DDTHH:mm:ss[Z]',
+        dateDataFormat: 'YYYY-MM-DDTHH:mm:ss[Z]',
 
         errorMessage: String
 
@@ -322,7 +322,8 @@ A helper element for defining a check-in policy
       },
 
       _isValidDateString: function (str) {
-        return moment(str, this.dateIsoFormat).isValid();
+        return moment(str, this.dateDataFormat).isValid();
+      },
       }
 
     });
