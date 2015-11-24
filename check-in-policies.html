@@ -21,12 +21,19 @@ A helper element for defining a check-in policy
   <style>
 
     :root {
-      --destructive-bg: #f2dede;
+      --error-font-color: #9c4755;
+      --error-bg-color: #f2dede;
     }
 
     :host {
       display: block;
       box-sizing: border-box;
+    }
+
+    .policies {
+      margin-top: 10px;
+      margin-bottom: 10px;
+      padding-top: 0;
     }
 
     .policy {
@@ -45,8 +52,9 @@ A helper element for defining a check-in policy
       margin-bottom: 10px;
     }
 
-    :host.invalid, :host.invalid .policy{
-      background-color:var(--destructive-bg);
+    .errors {
+      font-weight: bold;
+
     }
 
     label > a {
@@ -113,55 +121,104 @@ A helper element for defining a check-in policy
       background-color: white;
     }
 
+    .entypo {
+      font-size: 3rem;
+      vertical-align: middle;
+    }
+
+    .trash-button.entypo {
+      font-size: 4.5rem;
+    }
+
+    .errors {
+      font-size: 1.5rem;
+      color: var(--error-font-color);
+    }
+
+    .errors .entypo {
+      padding-right: 5px;
+    }
+
   </style>
   <style include="shared-styles"></style>
 
   <template>
 
-    <template is="dom-repeat" items="{{policies}}" sort="_sortByStartDate">
-      <div class="policy">
+    <div class="row">
+      <div class="col-md-12">
+        <label class="required">Check-In Policies
+          <span id="check-in-policies-tooltip" class="entypo circled-help"></span>
+          <paper-tooltip for="check-in-policies-tooltip" class="tooltip">There is a tooltip in the mock, but no
+            text.
+          </paper-tooltip>
+        </label>
+      </div>
+    </div>
+
+    <div class="row" hidden$="[[!invalid]]">
+      <div class="col-md-12 errors">
+        <span class="entypo warning"></span><span>[[errorMessage]]</span>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-md-12 policies">
+
+        <template is="dom-repeat" items="{{policies}}" sort="_sortByStartDate">
+          <div class="policy">
         <span class="trash-button entypo circled-cross" hidden$="[[!index]]" on-tap="_lcbTrashMe"
               title="Remove Policy"></span>
 
-        <div class="trash-lid">
-          <button class="un-trash-link btn btn-link" on-click="_lcbTrashMe">Undo</button>
-          <span class="trash-talk">This will be deleted when you save changes</span>
-        </div>
-        <div class="row">
-          <div class="form-group col-md-3">
-            <label for="startDate" class="required">Start Date</label>
-            <input is="ll-date-input" data-data="{{item.startDate}}" data-data-format="[[dateIsoFormat]]" id="startDate"
-                   class="form-control"
-                   placeholder="Select Date"/>
+            <div class="trash-lid">
+              <button class="un-trash-link btn btn-link" on-click="_lcbTrashMe">Undo</button>
+              <span class="trash-talk">This will be deleted when you save changes</span>
+            </div>
+            <div class="row">
+              <div class="form-group col-md-3">
+                <label for="startDate" class="required">Start Date</label>
+                <input is="ll-date-input" data-data="{{item.startDate}}" data-data-format="[[dateIsoFormat]]"
+                       id="startDate"
+                       class="form-control"
+                       placeholder="Select Date"/>
+              </div>
+              <div class="form-group col-md-3">
+                <label for="endDate" class="required">End Date</label>
+                <input is="ll-date-input" data-data="{{item.endDate}}" data-data-format="[[dateIsoFormat]]" id="endDate"
+                       class="form-control"
+                       placeholder="Select Date"/>
+              </div>
+              <div class="form-group col-md-6">
+                <label for="name">Date Range Nickname</label>
+                <input is="iron-input" type="text" bind-value="{{item.name}}" id="name" class="form-control"
+                       placeholder="Nickname"/>
+              </div>
+            </div>
+            <div class="row">
+              <div class="form-group col-md-6">
+                <label for="instructions">Instructions</label>
+                <iron-autogrow-textarea id="instructions" class="form-control"
+                                        bind-value="{{item.instructions}}" rows="2"
+                                        max-rows="6"></iron-autogrow-textarea>
+              </div>
+              <div class="form-group col-md-6">
+                <label for="addendum">Addendum</label>
+                <iron-autogrow-textarea id="addendum" class="form-control"
+                                        bind-value="{{item.addendum}}" rows="2"
+                                        max-rows="6"></iron-autogrow-textarea>
+              </div>
+            </div>
           </div>
-          <div class="form-group col-md-3">
-            <label for="endDate" class="required">End Date</label>
-            <input is="ll-date-input" data-data="{{item.endDate}}" data-data-format="[[dateIsoFormat]]" id="endDate"
-                   class="form-control"
-                   placeholder="Select Date"/>
-          </div>
-          <div class="form-group col-md-6">
-            <label for="name">Date Range Nickname</label>
-            <input is="iron-input" type="text" bind-value="{{item.name}}" id="name" class="form-control"
-                   placeholder="Nickname"/>
-          </div>
-        </div>
-        <div class="row">
-          <div class="form-group col-md-6">
-            <label for="instructions">Instructions</label>
-            <iron-autogrow-textarea id="instructions" class="form-control"
-                                    bind-value="{{item.instructions}}" rows="2"
-                                    max-rows="6"></iron-autogrow-textarea>
-          </div>
-          <div class="form-group col-md-6">
-            <label for="addendum">Addendum</label>
-            <iron-autogrow-textarea id="addendum" class="form-control"
-                                    bind-value="{{item.addendum}}" rows="2"
-                                    max-rows="6"></iron-autogrow-textarea>
-          </div>
-        </div>
+        </template>
+
       </div>
-    </template>
+    </div>
+
+    <div class="row">
+      <div class="col-md-12">
+        <button type="button" class="btn btn-link" on-tap="_new">+ New Seasonal Check-In Policy
+        </button>
+      </div>
+    </div>
 
   </template>
 
@@ -179,12 +236,18 @@ A helper element for defining a check-in policy
 
         dateIsoFormat: 'YYYY-MM-DDTHH:mm:ss[Z]',
 
+        errorMessage: String
+
       },
 
       behaviors: [LeisureLinkBehaviors.CollectionBehavior, Polymer.IronFormElementBehavior, Polymer.IronValidatableBehavior],
 
+      _new: function () {
+        this.lcbAdd();
+      },
+
       /**
-       * Sort policies by start-date, keeping policies with empty start-dates at the top.
+       * Sort policies by start-date, keeping policies with empty start-dates at the end.
        * @param a
        * @param b
        * @returns {number}

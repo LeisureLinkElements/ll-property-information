@@ -47,7 +47,7 @@ The `ll-property-information-edit` handles creating and editing of property info
     }
 
     .entypo {
-      font-size: 3em;
+      font-size: 3rem;
       vertical-align: middle;
     }
 
@@ -73,12 +73,6 @@ The `ll-property-information-edit` handles creating and editing of property info
 
     .col-no-right-gutter {
       padding-right: 0;
-    }
-
-    .policies {
-      margin-top: 10px;
-      margin-bottom: 10px;
-      padding-top: 0;
     }
 
     input[readOnly] {
@@ -230,30 +224,8 @@ The `ll-property-information-edit` handles creating and editing of property info
 
           </div>
 
-          <div class="row">
-            <div class="col-md-12">
-              <label class="required">Check-In Policies
-                <span id="check-in-policies-tooltip" class="entypo circled-help"></span>
-                <paper-tooltip for="check-in-policies-tooltip" class="tooltip">There is a tooltip in the mock, but no
-                  text.
-                </paper-tooltip>
-              </label>
-            </div>
-          </div>
-
-          <div class="row">
-            <div class="col-md-12 policies">
-              <check-in-policies id="checkInPolicies" name="checkInPolicies" lcb-items-name="policies"
-                                 policies="{{property.checkInInformationRanges}}" required></check-in-policies>
-            </div>
-          </div>
-
-          <div class="row">
-            <div class="col-md-12">
-              <button type="button" class="btn btn-link" on-tap="_newCheckInPolicy">+ New Seasonal Check-In Policy
-              </button>
-            </div>
-          </div>
+          <check-in-policies id="checkInPolicies" name="checkInPolicies" lcb-items-name="policies"
+                             policies="{{property.checkInInformationRanges}}" required></check-in-policies>
 
           <div class="row">
             <div class="form-group col-md-12">
@@ -496,9 +468,6 @@ The `ll-property-information-edit` handles creating and editing of property info
           throw new Error('Cannot post create in edit mode');
         }
         this.fire('ll-property-information-edit-post-create', {property: this.property});
-      },
-      _newCheckInPolicy: function () {
-        this.$.checkInPolicies.lcbAdd();
       },
       _isState: function (stateCode) {
         return (this.property && this.property.location)
