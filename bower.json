@@ -38,5 +38,8 @@
   "devDependencies": {
     "iron-component-page": "PolymerElements/iron-component-page#^1.0.0",
     "web-component-tester": "*"
+  },
+  "resolutions": {
+    "moment": "^2.10.0"
   }
 }
