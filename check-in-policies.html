@@ -309,6 +309,14 @@ A helper element for defining a check-in policy
         return this._isValidDateString(policy.startDate) && this._isValidDateString(policy.endDate) && policy.endDate > policy.startDate;
       },
 
+      /**
+       * Check every policy for invalid dates.
+       * Highlight invalid ones.
+       * Return true if any are invalid.
+       *
+       * @returns {boolean}
+       * @private
+       */
       _policiesHaveInvalidDates: function() {
         var _this = this;
         if (_.find(this.policies, function (policy) {
