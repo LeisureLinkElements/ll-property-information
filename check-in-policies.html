@@ -215,7 +215,7 @@ A helper element for defining a check-in policy
 
     <div class="row">
       <div class="col-md-12">
-        <button type="button" class="btn btn-link" on-tap="_new">+ New Seasonal Check-In Policy
+        <button type="button" class="btn btn-link" on-tap="lcbAdd">+ New Seasonal Check-In Policy
         </button>
       </div>
     </div>
@@ -241,10 +241,6 @@ A helper element for defining a check-in policy
       },
 
       behaviors: [LeisureLinkBehaviors.CollectionBehavior, Polymer.IronFormElementBehavior, Polymer.IronValidatableBehavior],
-
-      _new: function () {
-        this.lcbAdd();
-      },
 
       /**
        * Sort policies by start-date, keeping policies with empty start-dates at the end.
