@@ -255,7 +255,7 @@ A helper element for defining a check-in policy
        */
       _sortByStartDate: function (a, b) {
         if (a.startDate === b.startDate) return 0;
-        return a.startDate < b.startDate || _.isEmpty(a.startDate) ? -1 : 1;
+        return a.startDate < b.startDate || _.isEmpty(a.startDate) ? 1 : -1;
       },
 
       /**
