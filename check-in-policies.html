@@ -164,7 +164,7 @@ A helper element for defining a check-in policy
     <div class="row">
       <div class="col-md-12 policies">
 
-        <template is="dom-repeat" items="{{policies}}" sort="_sortByStartDate">
+        <template is="dom-repeat" items="{{policies}}" id="policies" sort="_sortByStartDate">
           <div class="policy">
         <span class="trash-button entypo circled-cross" hidden$="[[!index]]" on-tap="_lcbTrashMe"
               title="Remove Policy"></span>
@@ -306,41 +306,58 @@ A helper element for defining a check-in policy
         return result;
       },
 
-      _policyHasValidDates: function (policy) {
-        return this._isValidDateString(policy.startDate) && this._isValidDateString(policy.endDate) && policy.endDate > policy.startDate;
+      _policyHasInvalidDates: function (policy) {
+        return !(this._isValidDateString(policy.startDate) && this._isValidDateString(policy.endDate) && policy.endDate > policy.startDate);
       },
 
       /**
-       * Check every policy for invalid dates.
-       * Highlight invalid ones.
+       * Check every policy for invalid dates, toggling error class on each.
+       * Iterates through the policy elements rather than items data so it can toggle error class on each.
        * Return true if any are invalid.
        *
        * @returns {boolean}
        * @private
        */
-      _policiesHaveInvalidDates: function() {
-        var _this = this;
-        if (_.find(this.policies, function (policy) {
-              return !_this._policyHasValidDates(policy);
-            })) {
-          return true;
-        }
-        return false;
+      _policiesHaveInvalidDates: function () {
+        var _this = this,
+            result = false,
+            policyCollection = this.$.policies,
+            policyElements = Polymer.dom(this.root).querySelectorAll('.policy'),
+            policy,
+            policyIsInvalid;
+        _.forEach(policyElements, function (policyElement) {
+          policy = policyCollection.itemForElement(policyElement);
+          if (!policy.lcbTrashed) {
+            policyIsInvalid = _this._policyHasInvalidDates(policy);
+            if (policyIsInvalid) result = true;
+            policyCollection.toggleClass('error', policyIsInvalid, policyElement);
+          }
+        });
+        return result;
       },
 
       _policiesOverlap: function () {
         var result = false;
         if (this.policies.length > 1) {
-          var sorted = _.sortBy(this.policies, 'startDate');
-          var prevPolicy;
+          var policyCollection = this.$.policies,
+              policyElements = Polymer.dom(this.root).querySelectorAll('.policy'),
+              policiesCopy = [],
+              policy,
+              prevPolicy;
+          // Record current DOM order of each policy in a copy of the items array:
+          _.forEach(policyElements, function (policyElement) {
+            policy = _.cloneDeep(policyCollection.itemForElement(policyElement));
+            policy.element = policyElement;
+            policiesCopy.push(policy);
+          });
+          var sorted = _.sortBy(policiesCopy, 'startDate');
           _.forEach(sorted, function (policy) {
-            if (prevPolicy) {
-              if (policy.startDate <= prevPolicy.endDate && policy.endDate >= prevPolicy.startDate) {
-                result = true;
-              }
-            } else {
-              prevPolicy = policy;
+            if (prevPolicy && policy.startDate <= prevPolicy.endDate && policy.endDate >= prevPolicy.startDate) {
+              result = true;
+              policyCollection.toggleClass('error', true, policy.element);
+              policyCollection.toggleClass('error', true, prevPolicy.element);
             }
+            prevPolicy = policy;
           });
         }
         return result;
