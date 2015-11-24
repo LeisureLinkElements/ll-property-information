@@ -322,7 +322,7 @@ A helper element for defining a check-in policy
       },
 
       _isValidDateString: function (str) {
-        return moment(str, this.dateIsoFormat);
+        return moment(str, this.dateIsoFormat).isValid();
       }
 
     });
