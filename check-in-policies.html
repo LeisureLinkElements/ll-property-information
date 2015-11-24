@@ -266,10 +266,19 @@ A helper element for defining a check-in policy
         });
       },
 
+      /**
+       * Add a new policy to the collection.
+       */
       _addNewPolicy: function () {
         this.lcbAdd(this._getNewPolicy());
       },
 
+      /**
+       * Return a new policy object named 'New Policy'
+       * whose start date is a day later than the latest end date.
+       *
+       * @returns {object}
+       */
       _getNewPolicy: function () {
         var result = {
           name: 'New Policy'
@@ -336,6 +345,13 @@ A helper element for defining a check-in policy
         return result;
       },
 
+      /**
+       * Check for overlapping policies and toggle the error css class on each.
+       * Return true if any overlap.
+       *
+       * @returns {boolean}
+       * @private
+       */
       _policiesOverlap: function () {
         var result = false;
         if (this.policies.length > 1) {
@@ -350,7 +366,9 @@ A helper element for defining a check-in policy
             policy.element = policyElement;
             policiesCopy.push(policy);
           });
+          // Sort the copy by startDate
           var sorted = _.sortBy(policiesCopy, 'startDate');
+          // Check for overlaps and toggle the error css class on each overlapping policy.
           _.forEach(sorted, function (policy) {
             if (prevPolicy && policy.startDate <= prevPolicy.endDate && policy.endDate >= prevPolicy.startDate) {
               result = true;
@@ -363,10 +381,22 @@ A helper element for defining a check-in policy
         return result;
       },
 
+      /**
+       * Return true if the string is a valid date data string.
+       * @param str
+       * @returns {boolean}
+       * @private
+       */
       _isValidDateString: function (str) {
         return moment(str, this.dateDataFormat).isValid();
       },
 
+      /**
+       * Return the latest end-date in the current set of policies as a string.
+       *
+       * @returns {string}
+       * @private
+       */
       _getLastEndDate: function () {
         var lastPolicy = _.last(_.sortBy(this.policies, 'endDate'));
         if (this._isValidDateString(lastPolicy.endDate)) {
