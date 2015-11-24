@@ -183,7 +183,8 @@ A helper element for defining a check-in policy
               </div>
               <div class="form-group col-md-3">
                 <label for="endDate" class="required">End Date</label>
-                <input is="ll-date-input" data-data="{{item.endDate}}" data-data-format="[[dateDataFormat]]" id="endDate"
+                <input is="ll-date-input" data-data="{{item.endDate}}" data-data-format="[[dateDataFormat]]"
+                       id="endDate"
                        class="form-control"
                        placeholder="Select Date"/>
               </div>
@@ -265,16 +266,16 @@ A helper element for defining a check-in policy
         });
       },
 
-      _addNewPolicy: function() {
+      _addNewPolicy: function () {
         this.lcbAdd(this._getNewPolicy());
       },
 
-      _getNewPolicy: function() {
+      _getNewPolicy: function () {
         var result = {
           name: 'New Policy'
         };
         var lastEndDate = this._getLastEndDate();
-        if(lastEndDate) {
+        if (lastEndDate) {
           var startDateMoment = moment(lastEndDate, this.dateDataFormat).utc().add(1, 'days');
           result.startDate = startDateMoment.format(this.dateDataFormat);
         }
@@ -294,10 +295,10 @@ A helper element for defining a check-in policy
         var result = true;
         var _this = this;
         this.cleanUp();
-        if(this._policiesHaveInvalidDates()) {
+        if (this._policiesHaveInvalidDates()) {
           result = false;
           this.errorMessage = 'One or more check-in policies below have invalid dates.';
-        } else if(this._policiesOverlap()) {
+        } else if (this._policiesOverlap()) {
           result = false;
           this.errorMessage = 'One or more check-in policies below have overlapping dates.';
         }
@@ -327,7 +328,7 @@ A helper element for defining a check-in policy
         return false;
       },
 
-      _policiesOverlap: function() {
+      _policiesOverlap: function () {
         var result = false;
         if (this.policies.length > 1) {
           var sorted = _.sortBy(this.policies, 'startDate');
@@ -349,9 +350,9 @@ A helper element for defining a check-in policy
         return moment(str, this.dateDataFormat).isValid();
       },
 
-      _getLastEndDate: function() {
+      _getLastEndDate: function () {
         var lastPolicy = _.last(_.sortBy(this.policies, 'endDate'));
-        if(this._isValidDateString(lastPolicy.endDate)) {
+        if (this._isValidDateString(lastPolicy.endDate)) {
           return lastPolicy.endDate;
         }
       }
