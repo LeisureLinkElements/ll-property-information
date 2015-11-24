@@ -215,7 +215,7 @@ A helper element for defining a check-in policy
 
     <div class="row">
       <div class="col-md-12">
-        <button type="button" class="btn btn-link" on-tap="lcbAdd">+ New Seasonal Check-In Policy
+        <button type="button" class="btn btn-link" on-tap="_addNewPolicy">+ New Seasonal Check-In Policy
         </button>
       </div>
     </div>
@@ -263,6 +263,22 @@ A helper element for defining a check-in policy
         this.lcbDeleteItems(function (item, idx) {
           return idx > 0 && _this.lcbIsEmptyItem(item);
         });
+      },
+
+      _addNewPolicy: function() {
+        this.lcbAdd(this._getNewPolicy());
+      },
+
+      _getNewPolicy: function() {
+        var result = {
+          name: 'New Policy'
+        };
+        var lastEndDate = this._getLastEndDate();
+        if(lastEndDate) {
+          var startDateMoment = moment(lastEndDate, this.dateDataFormat).utc().add(1, 'days');
+          result.startDate = startDateMoment.format(this.dateDataFormat);
+        }
+        return result;
       },
 
       /**
@@ -324,6 +340,12 @@ A helper element for defining a check-in policy
       _isValidDateString: function (str) {
         return moment(str, this.dateDataFormat).isValid();
       },
+
+      _getLastEndDate: function() {
+        var lastPolicy = _.last(_.sortBy(this.policies, 'endDate'));
+        if(this._isValidDateString(lastPolicy.endDate)) {
+          return lastPolicy.endDate;
+        }
       }
 
     });
