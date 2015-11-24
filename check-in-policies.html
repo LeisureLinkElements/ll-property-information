@@ -282,30 +282,47 @@ A helper element for defining a check-in policy
         var result = true;
         var _this = this;
         this.cleanUp();
-        if (_.find(this.policies, function (policy) {
-              return !_this._hasValidDates(policy);
-            })) {
+        if(this._policiesHaveInvalidDates()) {
           result = false;
+          this.errorMessage = 'One or more check-in policies below have invalid dates.';
+        } else if(this._policiesOverlap()) {
+          result = false;
+          this.errorMessage = 'One or more check-in policies below have overlapping dates.';
         }
-        if(result && this.policies.length > 1) {
+        this.toggleClass('invalid', !result);
+        return result;
+      },
+
+      _policyHasValidDates: function (policy) {
+        return this._isValidDateString(policy.startDate) && this._isValidDateString(policy.endDate) && policy.endDate > policy.startDate;
+      },
+
+      _policiesHaveInvalidDates: function() {
+        var _this = this;
+        if (_.find(this.policies, function (policy) {
+              return !_this._policyHasValidDates(policy);
+            })) {
+          return true;
+        }
+        return false;
+      },
+
+      _policiesOverlap: function() {
+        var result = false;
+        if (this.policies.length > 1) {
           var sorted = _.sortBy(this.policies, 'startDate');
           var prevPolicy;
-          _.forEach(sorted, function(policy){
-            if(prevPolicy) {
-              if(policy.startDate <= prevPolicy.endDate && policy.endDate >= prevPolicy.startDate) {
-                result = false;
+          _.forEach(sorted, function (policy) {
+            if (prevPolicy) {
+              if (policy.startDate <= prevPolicy.endDate && policy.endDate >= prevPolicy.startDate) {
+                result = true;
               }
             } else {
               prevPolicy = policy;
             }
           });
         }
-        this.toggleClass('invalid', !result);
         return result;
-      },
-
-      _hasValidDates: function (policy) {
-        return this._isValidDateString(policy.startDate) && this._isValidDateString(policy.endDate) && policy.endDate > policy.startDate;
       },
 
       _isValidDateString: function (str) {
