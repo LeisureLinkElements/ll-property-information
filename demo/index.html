@@ -34,16 +34,20 @@
 
 <script>
 
-  var propertyInfo = document.querySelector('ll-property-information-view') || document.querySelector('ll-property-information-edit');
+  var propertyInfo = document.querySelector('ll-property-information');
 
   if (!propertyInfo) {
     console.log('No view to mock data on.');
   } else {
-    propertyInfo.property = {
+    propertyInfo._property = {
       name: 'Rugged Creek',
-      location: {
-        address: '123 Place',
-        address2: '43 West'
+      address: {
+        address1: '123 Place',
+        address2: '43 West',
+        city: 'Salt Lake City',
+        stateCode: 'UT',
+        postalCode: '12345',
+        countryCode: 'US'
       },
       description: 'This Place rules',
       bedroomCount: 3,
@@ -62,8 +66,23 @@
       checkInInformationRanges: [{}]
     };
   }
+
+  /**
+   * Some checkInInformationRanges to test with:
+   *
+   * {
+        startDate:'2015-02-01T00:00:00Z',
+        endDate:''
+      },{
+        startDate:'2015-03-01T00:00:00Z',
+        endDate:'2015-04-01T00:00:00Z'
+      },{
+        startDate:'2015-05-01T00:00:00Z',
+        endDate:'2015-06-01T00:00:00Z'
+      }
+   */
   function logData() {
-    console.log(propertyInfo.property);
+    console.log(propertyInfo._property);
   }
 
 </script>

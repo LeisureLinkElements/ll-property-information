@@ -1,5 +1,6 @@
 <link rel="import" href="../polymer/polymer.html">
 <link rel="import" href="../ll-token-field/ll-token-field.html">
+<link rel="import" href="../iron-form/iron-form.html">
 <link rel="import" href="../iron-input/iron-input.html">
 <link rel="import" href="../iron-autogrow-textarea/iron-autogrow-textarea.html">
 <link rel="import" href="../paper-tooltip/paper-tooltip.html">
@@ -42,7 +43,7 @@ The `ll-property-information-edit` handles creating and editing of property info
     }
 
     .entypo {
-      font-size: 3em;
+      font-size: 3rem;
       vertical-align: middle;
     }
 
@@ -70,12 +71,6 @@ The `ll-property-information-edit` handles creating and editing of property info
       padding-right: 0;
     }
 
-    .policies {
-      margin-top: 10px;
-      margin-bottom: 10px;
-      padding-top: 0;
-    }
-
     input[readOnly] {
       background-color: white;
     }
@@ -91,7 +86,7 @@ The `ll-property-information-edit` handles creating and editing of property info
     </div>
 
     <div>
-      <form id="post-form" autocomplete="off" class="row">
+      <form is="iron-form" id="post-form" autocomplete="off" class="row">
 
         <div class="col-md-10">
           <div class="row">
@@ -112,13 +107,13 @@ The `ll-property-information-edit` handles creating and editing of property info
           <div class="row">
             <div class="form-group col-md-6">
               <label for="address1-input" class="required">Address 1</label>
-              <input is="iron-input" type="text" bind-value="{{property.location.address}}" id="address1-input"
+              <input is="iron-input" type="text" bind-value="{{property.address.address1}}" id="address1-input"
                      autocomplete="off" class="form-control" required placeholder="Enter street address"/>
             </div>
 
             <div class="form-group col-md-6">
               <label for="address2-input">Address 2 <span class="help-block">(Optional)</span></label>
-              <input is="iron-input" type="text" bind-value="{{property.location.address2}}" id="address2-input"
+              <input is="iron-input" type="text" bind-value="{{property.address.address2}}" id="address2-input"
                      autocomplete="off" class="form-control" placeholder="Additional address"/>
             </div>
           </div>
@@ -126,20 +121,20 @@ The `ll-property-information-edit` handles creating and editing of property info
           <div class="row">
             <div class="form-group col-md-6">
               <label for="city-input" class="required">City</label>
-              <input is="iron-input" type="text" bind-value="{{property.location.city}}" id="city-input"
+              <input is="iron-input" type="text" bind-value="{{property.address.city}}" id="city-input"
                      autocomplete="off" class="form-control" required placeholder="Enter city name"/>
             </div>
 
             <div class="form-group col-md-3">
               <label for="state-input" class="required">State</label>
-              <select id="state-input" value="{{property.location.subdivision::change}}" class="form-control" required>
+              <select id="state-input" value="{{property.address.stateCode::change}}" class="form-control" required>
                 <option value="" selected="selected" disabled="disabled">Select State</option>
               </select>
             </div>
 
             <div class="form-group col-md-3">
               <label for="zip-code-input" class="required">Zip Code</label>
-              <input is="iron-input" type="text" bind-value="{{property.location.postal}}" id="zip-code-input"
+              <input is="iron-input" type="text" bind-value="{{property.address.postalCode}}" id="zip-code-input"
                      autocomplete="off" class="form-control" required allowed-pattern="[0-9]" pattern="[0-9]{5}"
                      prevent-invalid-input placeholder="Enter zip code"/>
             </div>
@@ -225,30 +220,8 @@ The `ll-property-information-edit` handles creating and editing of property info
 
           </div>
 
-          <div class="row">
-            <div class="col-md-12">
-              <label class="required">Check-In Policies
-                <span id="check-in-policies-tooltip" class="entypo circled-help"></span>
-                <paper-tooltip for="check-in-policies-tooltip" class="tooltip">There is a tooltip in the mock, but no
-                  text.
-                </paper-tooltip>
-              </label>
-            </div>
-          </div>
-
-          <div class="row">
-            <div class="col-md-12 policies">
-              <check-in-policies id="checkInPolicies" lcb-items-name="policies"
-                                 policies="{{property.checkInInformationRanges}}"></check-in-policies>
-            </div>
-          </div>
-
-          <div class="row">
-            <div class="col-md-12">
-              <button type="button" class="btn btn-link" on-tap="_newCheckInPolicy">+ New Seasonal Check-In Policy
-              </button>
-            </div>
-          </div>
+          <check-in-policies id="checkInPolicies" lcb-items-name="policies"
+                             policies="{{property.checkInInformationRanges}}" required></check-in-policies>
 
           <div class="row">
             <div class="form-group col-md-12">
@@ -329,63 +302,17 @@ The `ll-property-information-edit` handles creating and editing of property info
     LLPropertyInformationEdit = Polymer({
       is: 'll-property-information-edit',
 
-      /**
-       * TODO ?: Not sure why factoryImpl is implemented here,
-       * because it is only invoked when you create an element using the constructor,
-       * and I can't find any instances of that happening in integration-hub.
-       * That's why I added this._initProperty. -- CK
-       */
       factoryImpl: function (property, isEdit) {
         if (!property && isEdit) {
           throw new Error('Cannot be in edit mode without a property supplied');
         }
-        this._initProperty(property, isEdit);
+        if(property) this.property = property;
+        this.isEdit = isEdit || false;
       },
 
       ready: function () {
         this._initProperty();
-        originalProperty = _.assign({}, this.property);
-        this.$['post-form'].onsubmit = this._handlePost.bind(this);
-        this.property.location = this.property.location || {};
-        this.property.location.country = 'US';
-        this.property.currencyCode = 'USD';
-        this.property.description = this.property.description || '';
-        this.$['available-input'].checked = this.property.isAvailableForBooking;
-
-        var self = this;
-
-        var stateSelect = this.$['state-input'];
-        this._states.forEach(function (x) {
-          var option = document.createElement('option');
-          option.text = self._toProperCase(x);
-          option.value = x;
-          stateSelect.add(option);
-        });
-        stateSelect.value = this.property.location.subdivision || '';
-
-        var categorySelect = this.$['building-category-input'];
-        this._buildingCategories.forEach(function (x) {
-          var option = document.createElement('option');
-          option.text = self._toProperCase(x);
-          option.value = x;
-          categorySelect.add(option);
-        });
-        categorySelect.value = this.property.buildingCategory || '';
-
-        var typeSelect = this.$['building-type-input'];
-        this._buildingTypes.forEach(function (x) {
-          var option = document.createElement('option');
-          option.text = self._toProperCase(x);
-          option.value = x;
-          typeSelect.add(option);
-        });
-        typeSelect.value = this.property.buildingType || '';
-
-      },
-
-      _initProperty: function(property, isEdit) {
-        this.property = property || {location: {}, checkInInformationRanges: [{}]};
-        this.isEdit = isEdit || false;
+        this._initForm();
       },
 
       /**
@@ -416,15 +343,14 @@ The `ll-property-information-edit` handles creating and editing of property info
 
       properties: {
         /**
-         * Existing property to edit
-         * @default { location: {} }
+         * Default value is not set here because _initProperty method is called on ready
+         * to cascade values of this._emptyProperty over this.property to make sure there
+         * is at least one object in property.checkInInformationRanges and a countryCode
+         * in pre-existing property data.
          */
         property: {
           type: Object,
-          reflectToAttribute: true,
-          value: function () {
-            return {location: {}, checkInInformationRanges: [{}]};
-          }
+          reflectToAttribute: true
         },
         /**
          * Whether or not the view should render in edit mode from the @prop property
@@ -454,16 +380,71 @@ The `ll-property-information-edit` handles creating and editing of property info
           value: function () {
             return ['hotel', 'allInclusive', 'inn', 'lodge', 'bedAndBreakfast', 'cottage', 'condo', 'townhome', 'apartment', 'vacationHome', 'cabinLodgeCottage', 'chalet', 'villa'];
           }
+        },
+        _emptyProperty: {
+          type: Object,
+          value: function () {
+            return {
+              description: '',
+              address: {
+                countryCode: 'US'
+              },
+              currencyCode: 'USD',
+              checkInInformationRanges: [],
+              isAvailableForBooking: false
+            }
+          }
         }
       },
+
+      _initProperty: function () {
+        this.property = _.assign(this._emptyProperty, this.property);
+        originalProperty = this.property;
+      },
+
+      _initForm: function () {
+        this.$['available-input'].checked = this.property.isAvailableForBooking;
+        this.$['post-form'].onsubmit = this._handlePost.bind(this);
+
+        var self = this;
+
+        var stateSelect = this.$['state-input'];
+        this._states.forEach(function (x) {
+          var option = document.createElement('option');
+          option.text = self._toProperCase(x);
+          option.value = x;
+          stateSelect.add(option);
+        });
+        stateSelect.value = this.property.address.stateCode || '';
+
+        var categorySelect = this.$['building-category-input'];
+        this._buildingCategories.forEach(function (x) {
+          var option = document.createElement('option');
+          option.text = self._toProperCase(x);
+          option.value = x;
+          categorySelect.add(option);
+        });
+        categorySelect.value = this.property.buildingCategory || '';
+
+        var typeSelect = this.$['building-type-input'];
+        this._buildingTypes.forEach(function (x) {
+          var option = document.createElement('option');
+          option.text = self._toProperCase(x);
+          option.value = x;
+          typeSelect.add(option);
+        });
+        typeSelect.value = this.property.buildingType || '';
+      },
+
       _handlePost: function (e) {
         e.preventDefault();
         e.stopPropagation();
-        this.$.checkInPolicies.lcbEmptyTrash();
-        if (this.isEdit) {
-          this._postEditClicked(e);
-        } else {
-          this._postCreateClicked(e);
+        if (this.$['post-form'].validate()) {
+          if (this.isEdit) {
+            this._postEditClicked(e);
+          } else {
+            this._postCreateClicked(e);
+          }
         }
       },
       _editCancelClicked: function () {
@@ -491,12 +472,9 @@ The `ll-property-information-edit` handles creating and editing of property info
         }
         this.fire('ll-property-information-edit-post-create', {property: this.property});
       },
-      _newCheckInPolicy: function () {
-        this.$.checkInPolicies.lcbAdd();
-      },
       _isState: function (stateCode) {
-        return (this.property && this.property.location)
-            ? stateCode === this.property.location.subdivision
+        return (this.property && this.property.address)
+            ? stateCode === this.property.address.stateCode
             : false;
       },
       _isBuildingCategory: function (category) {

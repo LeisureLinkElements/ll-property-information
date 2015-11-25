@@ -23,9 +23,13 @@
     "ll-theme": "LeisureLinkElements/ll-theme",
     "ll-token-field": "LeisureLinkElements/ll-token-field",
     "ll-collection-behavior": "LeisureLinkElements/ll-collection-behavior",
+    "iron-form": "PolymerElements/iron-form#~1.0.5",
     "iron-input": "PolymerElements/iron-input#~1.0.5",
+    "iron-form-element-behavior": "PolymerElements/iron-form-element-behavior#~1.0.5",
+    "iron-validatable-behavior": "PolymerElements/iron-validatable-behavior#~1.0.5",
     "iron-autogrow-textarea": "PolymerElements/iron-autogrow-textarea#~1.0.4",
     "lodash": "~3.10.1",
+    "moment": "~2.10.0",
     "paper-tooltip": "PolymerElements/paper-tooltip#~1.0.2",
     "paper-dialog": "PolymerElements/paper-dialog#~1.0.2",
     "ll-time-input": "LeisureLinkElements/ll-time-input",
@@ -34,5 +38,8 @@
   "devDependencies": {
     "iron-component-page": "PolymerElements/iron-component-page#^1.0.0",
     "web-component-tester": "*"
+  },
+  "resolutions": {
+    "moment": "^2.10.0"
   }
 }
