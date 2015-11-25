@@ -243,6 +243,10 @@ A helper element for defining a check-in policy
 
       behaviors: [LeisureLinkBehaviors.CollectionBehavior, Polymer.IronFormElementBehavior, Polymer.IronValidatableBehavior],
 
+      attached: function() {
+        if(_.isEmpty(this.policies)) this._addNewPolicy();
+      },
+
       /**
        * Sort policies by start-date.
        * @param a
