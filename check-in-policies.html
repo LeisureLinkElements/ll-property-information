@@ -399,7 +399,7 @@ A helper element for defining a check-in policy
        */
       _getLastEndDate: function () {
         var lastPolicy = _.last(_.sortBy(this.policies, 'endDate'));
-        if (this._isValidDateString(lastPolicy.endDate)) {
+        if (lastPolicy && this._isValidDateString(lastPolicy.endDate)) {
           return lastPolicy.endDate;
         }
       }
