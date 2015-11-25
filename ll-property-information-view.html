@@ -216,7 +216,7 @@ Example:
        */
       _locale: {
         type: String,
-        computed: '_computeLocale(property.location)'
+        computed: '_computeLocale(property.address)'
       }
     },
 
@@ -245,7 +245,7 @@ Example:
 
     _computeLocale: function(location) {
       if (!location) return '';
-      return (location.city + ' ' + location.subdivision + ' ' + location.postal);
+      return (location.city + ' ' + location.stateCode + ' ' + location.postalCode);
     },
     //TODO - Create a shared library for these type of functions, as this is copy-pasta from the edit.html view
     _toProperCase: function(text) {
