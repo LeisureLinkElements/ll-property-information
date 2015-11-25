@@ -306,10 +306,10 @@ A helper element for defining a check-in policy
         this.cleanUp();
         if (this._policiesHaveInvalidDates()) {
           result = false;
-          this.errorMessage = 'One or more check-in policies below have invalid dates.';
+          this.errorMessage = 'One or more check-in policies have invalid dates.';
         } else if (this._policiesOverlap()) {
           result = false;
-          this.errorMessage = 'One or more check-in policies below have overlapping dates.';
+          this.errorMessage = 'One or more check-in policies have overlapping dates.';
         }
         this.toggleClass('invalid', !result);
         return result;
