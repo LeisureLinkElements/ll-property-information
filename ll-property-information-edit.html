@@ -1,5 +1,6 @@
 <link rel="import" href="../polymer/polymer.html">
 <link rel="import" href="../ll-token-field/ll-token-field.html">
+<link rel="import" href="../iron-form/iron-form.html">
 <link rel="import" href="../iron-input/iron-input.html">
 <link rel="import" href="../iron-autogrow-textarea/iron-autogrow-textarea.html">
 <link rel="import" href="../paper-tooltip/paper-tooltip.html">
@@ -42,7 +43,7 @@ The `ll-property-information-edit` handles creating and editing of property info
     }
 
     .entypo {
-      font-size: 3em;
+      font-size: 3rem;
       vertical-align: middle;
     }
 
@@ -70,12 +71,6 @@ The `ll-property-information-edit` handles creating and editing of property info
       padding-right: 0;
     }
 
-    .policies {
-      margin-top: 10px;
-      margin-bottom: 10px;
-      padding-top: 0;
-    }
-
     input[readOnly] {
       background-color: white;
     }
@@ -91,7 +86,7 @@ The `ll-property-information-edit` handles creating and editing of property info
     </div>
 
     <div>
-      <form id="post-form" autocomplete="off" class="row">
+      <form is="iron-form" id="post-form" autocomplete="off" class="row">
 
         <div class="col-md-10">
           <div class="row">
@@ -225,30 +220,8 @@ The `ll-property-information-edit` handles creating and editing of property info
 
           </div>
 
-          <div class="row">
-            <div class="col-md-12">
-              <label class="required">Check-In Policies
-                <span id="check-in-policies-tooltip" class="entypo circled-help"></span>
-                <paper-tooltip for="check-in-policies-tooltip" class="tooltip">There is a tooltip in the mock, but no
-                  text.
-                </paper-tooltip>
-              </label>
-            </div>
-          </div>
-
-          <div class="row">
-            <div class="col-md-12 policies">
-              <check-in-policies id="checkInPolicies" lcb-items-name="policies"
-                                 policies="{{property.checkInInformationRanges}}"></check-in-policies>
-            </div>
-          </div>
-
-          <div class="row">
-            <div class="col-md-12">
-              <button type="button" class="btn btn-link" on-tap="_newCheckInPolicy">+ New Seasonal Check-In Policy
-              </button>
-            </div>
-          </div>
+          <check-in-policies id="checkInPolicies" lcb-items-name="policies"
+                             policies="{{property.checkInInformationRanges}}" required></check-in-policies>
 
           <div class="row">
             <div class="form-group col-md-12">
@@ -383,7 +356,7 @@ The `ll-property-information-edit` handles creating and editing of property info
 
       },
 
-      _initProperty: function(property, isEdit) {
+      _initProperty: function (property, isEdit) {
         this.property = property || {location: {}, checkInInformationRanges: [{}]};
         this.isEdit = isEdit || false;
       },
@@ -459,11 +432,12 @@ The `ll-property-information-edit` handles creating and editing of property info
       _handlePost: function (e) {
         e.preventDefault();
         e.stopPropagation();
-        this.$.checkInPolicies.lcbEmptyTrash();
-        if (this.isEdit) {
-          this._postEditClicked(e);
-        } else {
-          this._postCreateClicked(e);
+        if (this.$['post-form'].validate()) {
+          if (this.isEdit) {
+            this._postEditClicked(e);
+          } else {
+            this._postCreateClicked(e);
+          }
         }
       },
       _editCancelClicked: function () {
@@ -490,9 +464,6 @@ The `ll-property-information-edit` handles creating and editing of property info
           throw new Error('Cannot post create in edit mode');
         }
         this.fire('ll-property-information-edit-post-create', {property: this.property});
-      },
-      _newCheckInPolicy: function () {
-        this.$.checkInPolicies.lcbAdd();
       },
       _isState: function (stateCode) {
         return (this.property && this.property.location)

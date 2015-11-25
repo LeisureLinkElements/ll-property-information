@@ -2,11 +2,17 @@
 <link rel="import" href="../paper-tooltip/paper-tooltip.html">
 <link rel="import" href="../paper-styles/paper-styles.html">
 <link rel="import" href="../paper-dialog/paper-dialog.html">
+<link rel="import" href="../iron-form/iron-form.html">
+<link rel="import" href="../iron-input/iron-input.html">
 <link rel="import" href="../iron-autogrow-textarea/iron-autogrow-textarea.html">
+<link rel="import" href="../iron-form-element-behavior/iron-form-element-behavior.html">
+<link rel="import" href="../iron-validatable-behavior/iron-validatable-behavior.html">
 <link rel="import" href="../ll-collection-behavior/ll-collection-behavior.html">
 <link rel="import" href="../ll-date-input/ll-date-input.html">
 <!-- using shared styles in an element -->
 <link rel="import" href="../ll-theme/shared-styles.html">
+
+<script src="../moment/min/moment.min.js"></script>
 
 A helper element for defining a check-in policy
 
@@ -14,9 +20,20 @@ A helper element for defining a check-in policy
 
   <style>
 
+    :root {
+      --error-font-color: #9c4755;
+      --error-bg-color: #f2dede;
+    }
+
     :host {
       display: block;
       box-sizing: border-box;
+    }
+
+    .policies {
+      margin-top: 10px;
+      margin-bottom: 10px;
+      padding-top: 0;
     }
 
     .policy {
@@ -38,6 +55,10 @@ A helper element for defining a check-in policy
     label > a {
       font-size: inherit;
       cursor: pointer;
+    }
+
+    .policy.error {
+      background-color: var(--error-bg-color);
     }
 
     .policy.lcb-trashed .trash-lid {
@@ -96,7 +117,26 @@ A helper element for defining a check-in policy
     }
 
     input[readonly] {
-      background-color:white;
+      background-color: white;
+    }
+
+    .entypo {
+      font-size: 3rem;
+      vertical-align: middle;
+    }
+
+    .trash-button.entypo {
+      font-size: 4.5rem;
+    }
+
+    .errors {
+      font-size: 1.5rem;
+      font-weight: bold;
+      color: var(--error-font-color);
+    }
+
+    .errors .entypo {
+      padding-right: 5px;
     }
 
   </style>
@@ -104,47 +144,82 @@ A helper element for defining a check-in policy
 
   <template>
 
-    <template is="dom-repeat" items="{{policies}}">
-      <div class="policy">
+    <div class="row">
+      <div class="col-md-12">
+        <label class="required">Check-In Policies
+          <span id="check-in-policies-tooltip" class="entypo circled-help"></span>
+          <paper-tooltip for="check-in-policies-tooltip" class="tooltip">There is a tooltip in the mock, but no
+            text.
+          </paper-tooltip>
+        </label>
+      </div>
+    </div>
+
+    <div class="row" hidden$="[[!invalid]]">
+      <div class="col-md-12 errors">
+        <span class="entypo warning"></span><span>[[errorMessage]]</span>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-md-12 policies">
+
+        <template is="dom-repeat" items="{{policies}}" id="policies" sort="_sortByStartDate">
+          <div class="policy">
         <span class="trash-button entypo circled-cross" hidden$="[[!index]]" on-tap="_lcbTrashMe"
               title="Remove Policy"></span>
 
-        <div class="trash-lid">
-          <button class="un-trash-link btn btn-link" on-click="_lcbTrashMe">Undo</button>
-          <span class="trash-talk">This will be deleted when you save changes</span>
-        </div>
-        <div class="row">
-          <div class="form-group col-md-3">
-            <label for="startDate" class="required">Start Date</label>
-            <input is="ll-date-input" data-data="{{item.startDate}}" id="startDate" class="form-control" required
-                   placeholder="Select Date"/>
+            <div class="trash-lid">
+              <button class="un-trash-link btn btn-link" on-click="_lcbTrashMe">Undo</button>
+              <span class="trash-talk">This will be deleted when you save changes</span>
+            </div>
+            <div class="row">
+              <div class="form-group col-md-3">
+                <label for="startDate" class="required">Start Date</label>
+                <input is="ll-date-input" data-data="{{item.startDate}}" data-data-format="[[dateDataFormat]]"
+                       id="startDate"
+                       class="form-control"
+                       placeholder="Select Date"/>
+              </div>
+              <div class="form-group col-md-3">
+                <label for="endDate" class="required">End Date</label>
+                <input is="ll-date-input" data-data="{{item.endDate}}" data-data-format="[[dateDataFormat]]"
+                       id="endDate"
+                       class="form-control"
+                       placeholder="Select Date"/>
+              </div>
+              <div class="form-group col-md-6">
+                <label for="name">Date Range Nickname</label>
+                <input is="iron-input" type="text" bind-value="{{item.name}}" id="name" class="form-control"
+                       placeholder="Nickname"/>
+              </div>
+            </div>
+            <div class="row">
+              <div class="form-group col-md-6">
+                <label for="instructions" class="required">Instructions</label>
+                <iron-autogrow-textarea id="instructions"
+                                        bind-value="{{item.instructions}}" rows="2"
+                                        max-rows="6"></iron-autogrow-textarea>
+              </div>
+              <div class="form-group col-md-6">
+                <label for="addendum" class="required">Addendum</label>
+                <iron-autogrow-textarea id="addendum"
+                                        bind-value="{{item.addendum}}" rows="2"
+                                        max-rows="6"></iron-autogrow-textarea>
+              </div>
+            </div>
           </div>
-          <div class="form-group col-md-3">
-            <label for="endDate" class="required">End Date</label>
-            <input is="ll-date-input" data-data="{{item.endDate}}" id="endDate" class="form-control" required
-                   placeholder="Select Date"/>
-          </div>
-          <div class="form-group col-md-6">
-            <label for="name">Date Range Nickname</label>
-            <input is="iron-input" type="text" bind-value="{{item.name}}" id="name" class="form-control" placeholder="Nickname"/>
-          </div>
-        </div>
-        <div class="row">
-          <div class="form-group col-md-6">
-            <label for="instructions" class="required">Instructions</label>
-            <iron-autogrow-textarea id="instructions"
-                                    bind-value="{{item.instructions}}" rows="2"
-                                    max-rows="6"></iron-autogrow-textarea>
-          </div>
-          <div class="form-group col-md-6">
-            <label for="addendum" class="required">Addendum</label>
-            <iron-autogrow-textarea id="addendum"
-                                    bind-value="{{item.addendum}}" rows="2"
-                                    max-rows="6"></iron-autogrow-textarea>
-          </div>
-        </div>
+        </template>
+
       </div>
-    </template>
+    </div>
+
+    <div class="row">
+      <div class="col-md-12">
+        <button type="button" class="btn btn-link" on-tap="_addNewPolicy">+ New Seasonal Check-In Policy
+        </button>
+      </div>
+    </div>
 
   </template>
 
@@ -158,11 +233,176 @@ A helper element for defining a check-in policy
         policies: {
           type: Array,
           notify: true
-        }
+        },
+
+        dateDataFormat: 'YYYY-MM-DDTHH:mm:ss[Z]',
+
+        errorMessage: String
 
       },
 
-      behaviors: [LeisureLinkBehaviors.CollectionBehavior]
+      behaviors: [LeisureLinkBehaviors.CollectionBehavior, Polymer.IronFormElementBehavior, Polymer.IronValidatableBehavior],
+
+      /**
+       * Sort policies by start-date.
+       * @param a
+       * @param b
+       * @returns {number}
+       * @private
+       */
+      _sortByStartDate: function (a, b) {
+        if (a.startDate === b.startDate) return 0;
+        return a.startDate < b.startDate ? -1 : 1;
+      },
+
+      /**
+       * Empty trash and remove empty policies except for the first policy.
+       */
+      cleanUp: function () {
+        var _this = this;
+        this.lcbEmptyTrash();
+        this.lcbDeleteItems(function (item, idx) {
+          return idx > 0 && _this.lcbIsEmptyItem(item);
+        });
+      },
+
+      /**
+       * Add a new policy to the collection.
+       */
+      _addNewPolicy: function () {
+        this.lcbAdd(this._getNewPolicy());
+      },
+
+      /**
+       * Return a new policy object named 'New Policy'
+       * whose start date is a day later than the latest end date.
+       *
+       * @returns {object}
+       */
+      _getNewPolicy: function () {
+        var result = {
+          name: 'New Policy'
+        };
+        var lastEndDate = this._getLastEndDate();
+        if (lastEndDate) {
+          var startDateMoment = moment(lastEndDate, this.dateDataFormat).utc().add(1, 'days');
+          result.startDate = startDateMoment.format(this.dateDataFormat);
+        }
+        return result;
+      },
+
+      /**
+       * Overidden from Polymer.IronValidatableBehavior. Will set the `invalid`
+       * attribute automatically, which should be used for styling.
+       *
+       * Returns true if all date-ranges are valid and non-overlapping.
+       *
+       * @returns {boolean}
+       * @private
+       */
+      _getValidity: function () {
+        var result = true;
+        var _this = this;
+        this.cleanUp();
+        if (this._policiesHaveInvalidDates()) {
+          result = false;
+          this.errorMessage = 'One or more check-in policies have invalid dates.';
+        } else if (this._policiesOverlap()) {
+          result = false;
+          this.errorMessage = 'One or more check-in policies have overlapping dates.';
+        }
+        this.toggleClass('invalid', !result);
+        return result;
+      },
+
+      _policyHasInvalidDates: function (policy) {
+        return !(this._isValidDateString(policy.startDate) && this._isValidDateString(policy.endDate) && policy.endDate > policy.startDate);
+      },
+
+      /**
+       * Check every policy for invalid dates, toggling error class on each.
+       * Iterates through the policy elements rather than items data so it can toggle error class on each.
+       * Return true if any are invalid.
+       *
+       * @returns {boolean}
+       * @private
+       */
+      _policiesHaveInvalidDates: function () {
+        var _this = this,
+            result = false,
+            policyCollection = this.$.policies,
+            policyElements = Polymer.dom(this.root).querySelectorAll('.policy'),
+            policy,
+            policyIsInvalid;
+        _.forEach(policyElements, function (policyElement) {
+          policy = policyCollection.itemForElement(policyElement);
+          if (!policy.lcbTrashed) {
+            policyIsInvalid = _this._policyHasInvalidDates(policy);
+            if (policyIsInvalid) result = true;
+            policyCollection.toggleClass('error', policyIsInvalid, policyElement);
+          }
+        });
+        return result;
+      },
+
+      /**
+       * Check for overlapping policies and toggle the error css class on each.
+       * Return true if any overlap.
+       *
+       * @returns {boolean}
+       * @private
+       */
+      _policiesOverlap: function () {
+        var result = false;
+        if (this.policies.length > 1) {
+          var policyCollection = this.$.policies,
+              policyElements = Polymer.dom(this.root).querySelectorAll('.policy'),
+              policiesCopy = [],
+              policy,
+              prevPolicy;
+          // Record current DOM order of each policy in a copy of the items array:
+          _.forEach(policyElements, function (policyElement) {
+            policy = _.cloneDeep(policyCollection.itemForElement(policyElement));
+            policy.element = policyElement;
+            policiesCopy.push(policy);
+          });
+          // Sort the copy by startDate
+          var sorted = _.sortBy(policiesCopy, 'startDate');
+          // Check for overlaps and toggle the error css class on each overlapping policy.
+          _.forEach(sorted, function (policy) {
+            if (prevPolicy && policy.startDate <= prevPolicy.endDate && policy.endDate >= prevPolicy.startDate) {
+              result = true;
+              policyCollection.toggleClass('error', true, policy.element);
+              policyCollection.toggleClass('error', true, prevPolicy.element);
+            }
+            prevPolicy = policy;
+          });
+        }
+        return result;
+      },
+
+      /**
+       * Return true if the string is a valid date data string.
+       * @param str
+       * @returns {boolean}
+       * @private
+       */
+      _isValidDateString: function (str) {
+        return moment(str, this.dateDataFormat).isValid();
+      },
+
+      /**
+       * Return the latest end-date in the current set of policies as a string.
+       *
+       * @returns {string}
+       * @private
+       */
+      _getLastEndDate: function () {
+        var lastPolicy = _.last(_.sortBy(this.policies, 'endDate'));
+        if (this._isValidDateString(lastPolicy.endDate)) {
+          return lastPolicy.endDate;
+        }
+      }
 
     });
   </script>
