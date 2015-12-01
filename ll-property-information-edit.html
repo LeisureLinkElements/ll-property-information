@@ -152,15 +152,15 @@ The `ll-property-information-edit` handles creating and editing of property info
 
           <div class="row">
             <div class="form-group col-md-12">
-              <label for="description-input" class="required">Description
+              <label for="description" class="required">Description
                 <span id="description-tooltip" class="entypo circled-help"></span>
                 <paper-tooltip for="description-tooltip" class="tooltip">There is a tooltip in the mock, but no text.
                 </paper-tooltip>
               </label>
-              <iron-autogrow-textarea id="description-input" class="form-control"
+              <iron-autogrow-textarea id="description"
                                       placeholder="Enter short description of property"
                                       bind-value="{{property.description}}" rows="2"
-                                      max-rows="6"></iron-autogrow-textarea>
+                                      max-rows="6" required></iron-autogrow-textarea>
             </div>
           </div>
 
