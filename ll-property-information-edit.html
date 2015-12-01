@@ -297,8 +297,6 @@ The `ll-property-information-edit` handles creating and editing of property info
 
   <script>
 
-    var originalProperty = {};
-
     LLPropertyInformationEdit = Polymer({
       is: 'll-property-information-edit',
 
@@ -349,8 +347,7 @@ The `ll-property-information-edit` handles creating and editing of property info
          * in pre-existing property data.
          */
         property: {
-          type: Object,
-          reflectToAttribute: true
+          type: Object
         },
         /**
          * Whether or not the view should render in edit mode from the @prop property
@@ -359,6 +356,9 @@ The `ll-property-information-edit` handles creating and editing of property info
         isEdit: {
           type: Boolean,
           value: false
+        },
+        _originalProperty: {
+          type: Object
         },
         _states: {
           type: Array,
@@ -380,26 +380,21 @@ The `ll-property-information-edit` handles creating and editing of property info
           value: function () {
             return ['hotel', 'allInclusive', 'inn', 'lodge', 'bedAndBreakfast', 'cottage', 'condo', 'townhome', 'apartment', 'vacationHome', 'cabinLodgeCottage', 'chalet', 'villa'];
           }
-        },
-        _emptyProperty: {
-          type: Object,
-          value: function () {
-            return {
-              description: '',
-              location: {
-                country: 'US'
-              },
-              currencyCode: 'USD',
-              checkInInformationRanges: [],
-              isAvailableForBooking: false
-            }
-          }
         }
       },
 
       _initProperty: function () {
-        this.property = _.assign(this._emptyProperty, this.property);
-        originalProperty = this.property;
+        var emptyProperty = {
+          description: '',
+          location: {
+            country: 'US'
+          },
+          currencyCode: 'USD',
+          checkInInformationRanges: [],
+          isAvailableForBooking: false
+        };
+        this.property = _.defaultsDeep(this.property, emptyProperty);
+        this._originalProperty = _.cloneDeep(this.property);
       },
 
       _initForm: function () {
