@@ -443,7 +443,7 @@ The `ll-property-information-edit` handles creating and editing of property info
         }
       },
       _editCancelClicked: function () {
-        this.property = originalProperty;
+        this.property = this._originalProperty;
         this.fire('ll-property-information-edit-view-property', {property: this.property});
       },
       _createCancelClicked: function () {
