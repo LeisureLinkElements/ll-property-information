@@ -308,7 +308,7 @@ The `ll-property-information-edit` handles creating and editing of property info
         this.isEdit = isEdit || false;
       },
 
-      ready: function () {
+      attached: function () {
         this._initProperty();
         this._initForm();
       },
