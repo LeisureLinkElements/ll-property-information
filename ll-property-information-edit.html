@@ -213,14 +213,14 @@ The `ll-property-information-edit` handles creating and editing of property info
 
             <div hidden class="form-group col-md-4">
               <label for="check-in-time" class="control-label required">Check-In Time</label>
-              <input is="ll-time-input" id="check-in-time" class="form-control" required
+              <input is="ll-time-input" id="check-in-time" class="form-control"
                      data-iso="{{property.checkInTime}}"/>
               <span class="help-block for-error">Select a check-in time.</span>
             </div>
 
             <div hidden class="form-group col-md-4">
               <label for="check-out-time" class="control-label required">Check-Out Time</label>
-              <input is="ll-time-input" id="check-out-time" class="form-control" required
+              <input is="ll-time-input" id="check-out-time" class="form-control"
                      data-iso="{{property.checkOutTime}}"/>
               <span class="help-block for-error">select a check-out time.</span>
             </div>
@@ -234,7 +234,7 @@ The `ll-property-information-edit` handles creating and editing of property info
           </div>
 
           <check-in-policies hidden id="checkInPolicies" lcb-items-name="policies"
-                             policies="{{property.checkInInformationRanges}}" required></check-in-policies>
+                             policies="{{property.checkInInformationRanges}}"></check-in-policies>
 
           <div class="row">
             <div class="form-group col-md-12">
