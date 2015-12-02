@@ -116,13 +116,13 @@ The `ll-property-information-edit` handles creating and editing of property info
           <div class="row">
             <div class="form-group col-md-6">
               <label for="address1-input" class="required">Address 1</label>
-              <input is="iron-input" type="text" bind-value="{{property.address.address1}}" id="address1-input"
+              <input is="iron-input" type="text" bind-value="{{property.location.address}}" id="address1-input"
                      autocomplete="off" class="form-control" required placeholder="Enter street address"/>
             </div>
 
             <div class="form-group col-md-6">
               <label for="address2-input">Address 2 <span class="help-block">(Optional)</span></label>
-              <input is="iron-input" type="text" bind-value="{{property.address.address2}}" id="address2-input"
+              <input is="iron-input" type="text" bind-value="{{property.location.address2}}" id="address2-input"
                      autocomplete="off" class="form-control" placeholder="Additional address"/>
             </div>
           </div>
@@ -130,20 +130,20 @@ The `ll-property-information-edit` handles creating and editing of property info
           <div class="row">
             <div class="form-group col-md-6">
               <label for="city-input" class="required">City</label>
-              <input is="iron-input" type="text" bind-value="{{property.address.city}}" id="city-input"
+              <input is="iron-input" type="text" bind-value="{{property.location.city}}" id="city-input"
                      autocomplete="off" class="form-control" required placeholder="Enter city name"/>
             </div>
 
             <div class="form-group col-md-3">
               <label for="state-input" class="required">State</label>
-              <select id="state-input" value="{{property.address.stateCode::change}}" class="form-control" required>
+              <select id="state-input" value="{{property.location.subdivision::change}}" class="form-control" required>
                 <option value="" selected="selected" disabled="disabled">Select State</option>
               </select>
             </div>
 
             <div class="form-group col-md-3">
               <label for="zip-code-input" class="required">Zip Code</label>
-              <input is="iron-input" type="text" bind-value="{{property.address.postalCode}}" id="zip-code-input"
+              <input is="iron-input" type="text" bind-value="{{property.location.postal}}" id="zip-code-input"
                      autocomplete="off" class="form-control" required allowed-pattern="[0-9]" pattern="[0-9]{5}"
                      prevent-invalid-input placeholder="Enter zip code"/>
             </div>
@@ -310,8 +310,6 @@ The `ll-property-information-edit` handles creating and editing of property info
 
   <script>
 
-    var originalProperty = {};
-
     LLPropertyInformationEdit = Polymer({
       is: 'll-property-information-edit',
 
@@ -319,11 +317,11 @@ The `ll-property-information-edit` handles creating and editing of property info
         if (!property && isEdit) {
           throw new Error('Cannot be in edit mode without a property supplied');
         }
-        if(property) this.property = property;
+        if (property) this.property = property;
         this.isEdit = isEdit || false;
       },
 
-      ready: function () {
+      attached: function () {
         this._initProperty();
         this._initForm();
       },
@@ -362,8 +360,7 @@ The `ll-property-information-edit` handles creating and editing of property info
          * in pre-existing property data.
          */
         property: {
-          type: Object,
-          reflectToAttribute: true
+          type: Object
         },
         /**
          * Whether or not the view should render in edit mode from the @prop property
@@ -372,6 +369,9 @@ The `ll-property-information-edit` handles creating and editing of property info
         isEdit: {
           type: Boolean,
           value: false
+        },
+        _originalProperty: {
+          type: Object
         },
         _states: {
           type: Array,
@@ -393,26 +393,21 @@ The `ll-property-information-edit` handles creating and editing of property info
           value: function () {
             return ['hotel', 'allInclusive', 'inn', 'lodge', 'bedAndBreakfast', 'cottage', 'condo', 'townhome', 'apartment', 'vacationHome', 'cabinLodgeCottage', 'chalet', 'villa'];
           }
-        },
-        _emptyProperty: {
-          type: Object,
-          value: function () {
-            return {
-              description: '',
-              address: {
-                countryCode: 'US'
-              },
-              currencyCode: 'USD',
-              checkInInformationRanges: [],
-              isAvailableForBooking: false
-            }
-          }
         }
       },
 
       _initProperty: function () {
-        this.property = _.assign(this._emptyProperty, this.property);
-        originalProperty = this.property;
+        var emptyProperty = {
+          description: '',
+          location: {
+            country: 'US'
+          },
+          currencyCode: 'USD',
+          checkInInformationRanges: [],
+          isAvailableForBooking: false
+        };
+        this.property = _.defaultsDeep(this.property, emptyProperty);
+        this._originalProperty = _.cloneDeep(this.property);
       },
 
       _initForm: function () {
@@ -428,7 +423,7 @@ The `ll-property-information-edit` handles creating and editing of property info
           option.value = x;
           stateSelect.add(option);
         });
-        stateSelect.value = this.property.address.stateCode || '';
+        stateSelect.value = this.property.location ? (this.property.location.subdivision || '') : '';
 
         var categorySelect = this.$['building-category-input'];
         this._buildingCategories.forEach(function (x) {
@@ -461,7 +456,7 @@ The `ll-property-information-edit` handles creating and editing of property info
         }
       },
       _editCancelClicked: function () {
-        this.property = originalProperty;
+        this.property = this._originalProperty;
         this.fire('ll-property-information-edit-view-property', {property: this.property});
       },
       _createCancelClicked: function () {
@@ -486,8 +481,8 @@ The `ll-property-information-edit` handles creating and editing of property info
         this.fire('ll-property-information-edit-post-create', {property: this.property});
       },
       _isState: function (stateCode) {
-        return (this.property && this.property.address)
-            ? stateCode === this.property.address.stateCode
+        return (this.property && this.property.location)
+            ? stateCode === this.property.location.subdivision
             : false;
       },
       _isBuildingCategory: function (category) {
