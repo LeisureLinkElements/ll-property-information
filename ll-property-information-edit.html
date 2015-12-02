@@ -31,6 +31,15 @@ The `ll-property-information-edit` handles creating and editing of property info
       display: inline-block;
       margin: 5px 0;
       font-weight: 100;
+      line-height: 1.2em;
+    }
+
+    .help-block.for-error {
+      display: none;
+    }
+
+    .has-error .help-block.for-error {
+      display: inline-block;
     }
 
     #amenities-input {
@@ -143,15 +152,15 @@ The `ll-property-information-edit` handles creating and editing of property info
 
           <div class="row">
             <div class="form-group col-md-12">
-              <label for="description-input" class="required">Description
+              <label for="description" class="required">Description
                 <span id="description-tooltip" class="entypo circled-help"></span>
                 <paper-tooltip for="description-tooltip" class="tooltip">There is a tooltip in the mock, but no text.
                 </paper-tooltip>
               </label>
-              <iron-autogrow-textarea id="description-input" class="form-control"
+              <iron-autogrow-textarea id="description"
                                       placeholder="Enter short description of property"
                                       bind-value="{{property.description}}" rows="2"
-                                      max-rows="6"></iron-autogrow-textarea>
+                                      max-rows="6" required></iron-autogrow-textarea>
             </div>
           </div>
 
@@ -202,14 +211,18 @@ The `ll-property-information-edit` handles creating and editing of property info
 
           <div class="row">
 
-            <div class="form-group col-md-4">
-              <label class="required">Check-In Time</label>
-              <input is="ll-time-input" id="check-in-time" class="form-control" data-iso="{{property.checkInTime}}"/>
+            <div hidden class="form-group col-md-4">
+              <label for="check-in-time" class="control-label required">Check-In Time</label>
+              <input is="ll-time-input" id="check-in-time" class="form-control" required
+                     data-iso="{{property.checkInTime}}"/>
+              <span class="help-block for-error">Select a check-in time.</span>
             </div>
 
-            <div class="form-group col-md-4">
-              <label class="required">Check-Out Time</label>
-              <input is="ll-time-input" id="check-out-time" class="form-control" data-iso="{{property.checkOutTime}}"/>
+            <div hidden class="form-group col-md-4">
+              <label for="check-out-time" class="control-label required">Check-Out Time</label>
+              <input is="ll-time-input" id="check-out-time" class="form-control" required
+                     data-iso="{{property.checkOutTime}}"/>
+              <span class="help-block for-error">select a check-out time.</span>
             </div>
 
             <div class="form-group col-md-4">
@@ -220,7 +233,7 @@ The `ll-property-information-edit` handles creating and editing of property info
 
           </div>
 
-          <check-in-policies id="checkInPolicies" lcb-items-name="policies"
+          <check-in-policies hidden id="checkInPolicies" lcb-items-name="policies"
                              policies="{{property.checkInInformationRanges}}" required></check-in-policies>
 
           <div class="row">
@@ -393,7 +406,7 @@ The `ll-property-information-edit` handles creating and editing of property info
           checkInInformationRanges: [],
           isAvailableForBooking: false
         };
-        this.property = _.defaultsDeep(this.property, emptyProperty);
+        this.property = this.property ? _.defaultsDeep(this.property, emptyProperty) : emptyProperty;
         this._originalProperty = _.cloneDeep(this.property);
       },
 
