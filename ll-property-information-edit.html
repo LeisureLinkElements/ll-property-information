@@ -406,7 +406,7 @@ The `ll-property-information-edit` handles creating and editing of property info
           checkInInformationRanges: [],
           isAvailableForBooking: false
         };
-        this.property = _.defaultsDeep(this.property, emptyProperty);
+        this.property = this.property ? _.defaultsDeep(this.property, emptyProperty) : emptyProperty;
         this._originalProperty = _.cloneDeep(this.property);
       },
 
