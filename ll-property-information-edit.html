@@ -211,14 +211,14 @@ The `ll-property-information-edit` handles creating and editing of property info
 
           <div class="row">
 
-            <div class="form-group col-md-4">
+            <div hidden class="form-group col-md-4">
               <label for="check-in-time" class="control-label required">Check-In Time</label>
               <input is="ll-time-input" id="check-in-time" class="form-control" required
                      data-iso="{{property.checkInTime}}"/>
               <span class="help-block for-error">Select a check-in time.</span>
             </div>
 
-            <div class="form-group col-md-4">
+            <div hidden class="form-group col-md-4">
               <label for="check-out-time" class="control-label required">Check-Out Time</label>
               <input is="ll-time-input" id="check-out-time" class="form-control" required
                      data-iso="{{property.checkOutTime}}"/>
