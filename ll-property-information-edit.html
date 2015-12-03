@@ -95,7 +95,7 @@ The `ll-property-information-edit` handles creating and editing of property info
     </div>
 
     <div>
-      <form is="iron-form" id="post-form" autocomplete="off" novalidate="" class="row">
+      <form is="iron-form" id="post-form" autocomplete="off" novalidate class="row">
 
         <div class="col-md-10">
           <div class="row">
@@ -448,12 +448,56 @@ The `ll-property-information-edit` handles creating and editing of property info
       _handlePost: function (e) {
         e.preventDefault();
         e.stopPropagation();
-        if (this.$['post-form'].validate()) {
+        if (this._validateForm()) {
           if (this.isEdit) {
             this._postEditClicked(e);
           } else {
             this._postCreateClicked(e);
           }
+        }
+      },
+      /**
+       * Return false if standard validate function of form returns false,
+       * or any required iron-input validate functions return false.
+       *
+       * Return true otherwise.
+       *
+       * Toggles 'has-error' class of any elements with 'form-group' class that contain a required iron-input.
+       *
+       * @param {Object} element
+       * @returns {Boolean}
+       * @private
+       */
+      _validateForm: function() {
+        var result = this.$['post-form'].validate();
+        Polymer.dom(this.$['post-form']).querySelectorAll('[is=iron-input][required]').forEach(function(ipt){
+          if(!ipt.validate()) {
+            result = false;
+          }
+          var par = _this._getAncestorFormGroup(ipt);
+          if(par) {
+            par.classList.toggle('has-error', ipt.invalid);
+          }
+        });
+        return result;
+      },
+      /**
+       * Return first ancestor of element that has the class 'form-group.'
+       * Return null if none found.
+       * Recursive function.
+       *
+       * @param {Object} element
+       * @returns {Object} or null
+       * @private
+       */
+      _getAncestorFormGroup: function(element) {
+        var par = Polymer.dom(element).parentNode;
+        if (par && par.classList && par.classList.contains('form-group')) {
+          return par;
+        } else if(par) {
+          return this._getAncestorFormGroup(par);
+        } else {
+          return null;
         }
       },
       _editCancelClicked: function () {
