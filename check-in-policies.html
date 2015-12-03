@@ -311,7 +311,7 @@ A helper element for defining a check-in policy
         this.cleanUp();
         if (this._policiesHaveInvalidDates()) {
           result = false;
-          this.errorMessage = 'One or more check-in policies have invalid dates.';
+          this.errorMessage = 'One or more check-in policies have invalid date ranges.';
         } else if (this._policiesOverlap()) {
           result = false;
           this.errorMessage = 'One or more check-in policies have overlapping dates.';
