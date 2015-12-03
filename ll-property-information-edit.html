@@ -101,7 +101,7 @@ The `ll-property-information-edit` handles creating and editing of property info
         <div class="col-md-10">
           <div class="row">
             <div class="form-group col-md-12">
-              <label for="name-input" class="required">Property Name
+              <label for="name-input" class="required control-label">Property Name
                 <span id="name-tooltip" class="entypo circled-help"></span>
                 <paper-tooltip for="name-tooltip" class="tooltip">Property name will be the identifying name distributed
                   to
@@ -116,7 +116,7 @@ The `ll-property-information-edit` handles creating and editing of property info
 
           <div class="row">
             <div class="form-group col-md-6">
-              <label for="address1-input" class="required">Address 1</label>
+              <label for="address1-input" class="required control-label">Address 1</label>
               <input is="iron-input" type="text" bind-value="{{property.location.address}}" id="address1-input"
                      autocomplete="off" class="form-control" required placeholder="Enter street address"/>
             </div>
@@ -130,20 +130,20 @@ The `ll-property-information-edit` handles creating and editing of property info
 
           <div class="row">
             <div class="form-group col-md-6">
-              <label for="city-input" class="required">City</label>
+              <label for="city-input" class="required control-label">City</label>
               <input is="iron-input" type="text" bind-value="{{property.location.city}}" id="city-input"
                      autocomplete="off" class="form-control" required placeholder="Enter city name"/>
             </div>
 
             <div class="form-group col-md-3">
-              <label for="state-input" class="required">State</label>
+              <label for="state-input" class="required control-label">State</label>
               <select id="state-input" value="{{property.location.subdivision::change}}" class="form-control" required>
                 <option value="" selected="selected" disabled="disabled">Select State</option>
               </select>
             </div>
 
             <div class="form-group col-md-3">
-              <label for="zip-code-input" class="required">Zip Code</label>
+              <label for="zip-code-input" class="required control-label">Zip Code</label>
               <input is="iron-input" type="text" bind-value="{{property.location.postal}}" id="zip-code-input"
                      autocomplete="off" class="form-control" required allowed-pattern="[0-9]" pattern="[0-9]{5}"
                      prevent-invalid-input placeholder="Enter zip code"/>
@@ -153,7 +153,7 @@ The `ll-property-information-edit` handles creating and editing of property info
 
           <div class="row">
             <div class="form-group col-md-12">
-              <label for="description" class="required">Description
+              <label for="description" class="required control-label">Description
                 <span id="description-tooltip" class="entypo circled-help"></span>
                 <paper-tooltip for="description-tooltip" class="tooltip">There is a tooltip in the mock, but no text.
                 </paper-tooltip>
@@ -170,13 +170,13 @@ The `ll-property-information-edit` handles creating and editing of property info
             <div class="col-md-5 vertical-rule-right col-no-left-gutter">
 
               <div class="form-group col-md-6">
-                <label for="bedroom-count-input" class="required">Bedrooms</label>
+                <label for="bedroom-count-input" class="required control-label">Bedrooms</label>
                 <input is="iron-input" type="number" min="0" class="form-control" bind-value="{{property.bedroomCount}}"
                        id="bedroom-count-input" required placeholder="Number of bedrooms"/>
               </div>
 
               <div class="form-group col-md-6">
-                <label for="bathroom-count-input" class="required">Bathrooms</label>
+                <label for="bathroom-count-input" class="required control-label">Bathrooms</label>
                 <input is="iron-input" type="number" min="0" step=".25" bind-value="{{property.bathroomCount}}"
                        id="bathroom-count-input" class="form-control" required placeholder="Total number of bathrooms"/>
               </div>
@@ -186,21 +186,21 @@ The `ll-property-information-edit` handles creating and editing of property info
             <div class="col-md-7 col-no-right-gutter">
 
               <div class="form-group col-md-4">
-                <label for="full-bathroom-input" class="required">Full Bathrooms</label>
+                <label for="full-bathroom-input" class="required control-label">Full Bathrooms</label>
                 <input is="iron-input" type="number" min="0" bind-value="{{property.fullBathrooms}}"
                        id="full-bathroom-input" class="form-control" required
                        placeholder="Total number of full bathrooms"/>
               </div>
 
               <div class="form-group col-md-4">
-                <label for="three-quarter-bathroom-input" class="required">3/4 Bathrooms</label>
+                <label for="three-quarter-bathroom-input" class="required control-label">3/4 Bathrooms</label>
                 <input is="iron-input" type="number" min="0" bind-value="{{property.threeQuarterBathrooms}}"
                        id="three-quarter-bathroom-input" class="form-control" required
                        placeholder="Total number of 3/4 bathrooms"/>
               </div>
 
               <div class="form-group col-md-4">
-                <label for="half-bathroom-input" class="required">1/2 Bathrooms</label>
+                <label for="half-bathroom-input" class="required control-label">1/2 Bathrooms</label>
                 <input is="iron-input" type="number" min="0" bind-value="{{property.halfBathrooms}}"
                        id="half-bathroom-input" class="form-control" required
                        placeholder="Total number of 1/2 bathrooms"/>
@@ -227,7 +227,7 @@ The `ll-property-information-edit` handles creating and editing of property info
             </div>
 
             <div class="form-group col-md-4">
-              <label for="occupancy-input" class="required">Occupancy</label>
+              <label for="occupancy-input" class="required control-label">Occupancy</label>
               <input is="iron-input" type="number" min="0" bind-value="{{property.occupancy}}" id="occupancy-input"
                      class="form-control" required placeholder="Maximum occupancy"/>
             </div>
@@ -247,7 +247,7 @@ The `ll-property-information-edit` handles creating and editing of property info
           <div class="row">
 
             <div class="form-group col-md-4">
-              <label for="building-category-input" class="required">Building Category</label>
+              <label for="building-category-input" class="required control-label">Building Category</label>
               <select id="building-category-input" value="{{property.buildingCategory::change}}" class="form-control"
                       required>
                 <option value="" selected="selected" disabled="disabled">- - -</option>
@@ -255,14 +255,14 @@ The `ll-property-information-edit` handles creating and editing of property info
             </div>
 
             <div class="form-group col-md-4">
-              <label for="building-type-input" class="required">Building Type</label>
+              <label for="building-type-input" class="required control-label">Building Type</label>
               <select id="building-type-input" value="{{property.buildingType::change}}" class="form-control" required>
                 <option value="" selected="selected" disabled="disabled">- - -</option>
               </select>
             </div>
 
             <div class="form-group col-md-4">
-              <label class="required">Available for booking?</label>
+              <label class="required control-label">Available for booking?</label>
 
               <div class="checkbox">
                 <label for="available-input"><input type="checkbox" id="available-input"
@@ -275,7 +275,7 @@ The `ll-property-information-edit` handles creating and editing of property info
 
           <!--<div class="row">-->
           <!--<div class="form-group col-md-4">-->
-          <!--<label for="currency-code-input" class="required">Currency <span class="help-block">(Coming Soon)</span></label>-->
+          <!--<label for="currency-code-input" class="required control-label">Currency <span class="help-block">(Coming Soon)</span></label>-->
           <!--<input is="iron-input type="text" maxlength="3" bind-value="{{property.currencyCode}}" id="currency-code-input" class="form-control" required placeholder="Allowed Currency"/>-->
           <!--</div>-->
           <!--</div>-->
