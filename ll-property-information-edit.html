@@ -469,18 +469,40 @@ The `ll-property-information-edit` handles creating and editing of property info
        * @private
        */
       _validateForm: function() {
+        var _this = this;
         var result = this.$['post-form'].validate();
-        Polymer.dom(this.$['post-form']).querySelectorAll('[is=iron-input][required]').forEach(function(ipt){
-          if(!ipt.validate()) {
+        Polymer.dom(this.$['post-form']).querySelectorAll('[is=iron-input][required]').forEach(function(input) {
+          if(!_this._validateIronInput(input)) {
             result = false;
           }
-          var par = _this._getAncestorFormGroup(ipt);
-          if(par) {
-            par.classList.toggle('has-error', ipt.invalid);
+        });
+        Polymer.dom(this.$['post-form']).querySelectorAll('select[required]').forEach(function(box) {
+          if(!_this._validateSelectBox(box)) {
+            result = false;
           }
         });
         return result;
       },
+
+      _validateIronInput: function(input) {
+        var isValid = input.validate();
+        this._toggleErrorClass(input, isValid);
+        return isValid;
+      },
+
+      _validateSelectBox: function(box) {
+        var isValid = !_.isEmpty(box.value);
+        this._toggleErrorClass(box, isValid);
+        return isValid;
+      },
+
+      _toggleErrorClass: function(input, isValid) {
+        var par = this._getAncestorFormGroup(input);
+        if(par) {
+          par.classList.toggle('has-error', !isValid);
+        }
+      },
+
       /**
        * Return first ancestor of element that has the class 'form-group.'
        * Return null if none found.
