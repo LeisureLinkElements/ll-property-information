@@ -345,6 +345,9 @@ A helper element for defining a check-in policy
             policyIsInvalid = _this._policyHasInvalidDates(policy);
             if (policyIsInvalid) result = true;
             policyCollection.toggleClass('error', policyIsInvalid, policyElement);
+            Polymer.dom(policyElement).querySelectorAll('[is=ll-date-input]').forEach(function(dateInput){
+              _this._toggleFormGroupErrorClass(dateInput, !policyIsInvalid);
+            });
           }
         });
         return result;
