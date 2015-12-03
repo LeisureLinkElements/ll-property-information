@@ -9,6 +9,7 @@
 <link rel="import" href="../iron-validatable-behavior/iron-validatable-behavior.html">
 <link rel="import" href="../ll-collection-behavior/ll-collection-behavior.html">
 <link rel="import" href="../ll-date-input/ll-date-input.html">
+<link rel="import" href="form-group-validation-ui-behavior.html">
 <!-- using shared styles in an element -->
 <link rel="import" href="../ll-theme/shared-styles.html">
 
@@ -241,7 +242,7 @@ A helper element for defining a check-in policy
 
       },
 
-      behaviors: [LeisureLinkBehaviors.CollectionBehavior, Polymer.IronFormElementBehavior, Polymer.IronValidatableBehavior],
+      behaviors: [LeisureLinkBehaviors.CollectionBehavior, Polymer.IronFormElementBehavior, Polymer.IronValidatableBehavior, FormGroupValidationUiBehavior],
 
       attached: function() {
         if(_.isEmpty(this.policies)) this._addNewPolicy();

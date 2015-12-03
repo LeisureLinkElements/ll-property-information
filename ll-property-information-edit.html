@@ -5,6 +5,7 @@
 <link rel="import" href="../iron-autogrow-textarea/iron-autogrow-textarea.html">
 <link rel="import" href="../paper-tooltip/paper-tooltip.html">
 <link rel="import" href="check-in-policies.html">
+<link rel="import" href="form-group-validation-ui-behavior.html">
 <link rel="import" href="../ll-time-input/ll-time-input.html">
 <link rel="import" href="../lodash/lodash.js">
 <!-- using shared styles in an element -->
@@ -396,6 +397,8 @@ The `ll-property-information-edit` handles creating and editing of property info
         }
       },
 
+      behaviors: [FormGroupValidationUiBehavior],
+
       _initProperty: function () {
         var emptyProperty = {
           description: '',
@@ -486,41 +489,14 @@ The `ll-property-information-edit` handles creating and editing of property info
 
       _validateIronInput: function(input) {
         var isValid = input.validate();
-        this._toggleErrorClass(input, isValid);
+        this._toggleFormGroupErrorClass(input, isValid);
         return isValid;
       },
 
       _validateSelectBox: function(box) {
         var isValid = !_.isEmpty(box.value);
-        this._toggleErrorClass(box, isValid);
+        this._toggleFormGroupErrorClass(box, isValid);
         return isValid;
-      },
-
-      _toggleErrorClass: function(input, isValid) {
-        var par = this._getAncestorFormGroup(input);
-        if(par) {
-          par.classList.toggle('has-error', !isValid);
-        }
-      },
-
-      /**
-       * Return first ancestor of element that has the class 'form-group.'
-       * Return null if none found.
-       * Recursive function.
-       *
-       * @param {Object} element
-       * @returns {Object} or null
-       * @private
-       */
-      _getAncestorFormGroup: function(element) {
-        var par = Polymer.dom(element).parentNode;
-        if (par && par.classList && par.classList.contains('form-group')) {
-          return par;
-        } else if(par) {
-          return this._getAncestorFormGroup(par);
-        } else {
-          return null;
-        }
       },
       _editCancelClicked: function () {
         this.property = this._originalProperty;
