@@ -130,6 +130,17 @@ Example:
         <p>[[_toProperCase(property.buildingType)]]</p>
       </ll-definition-list>
 
+      <ll-definition-list title="LOCATION:" hidden$="[[!property.geoLocation]]">
+        <p>
+          <span>[[property.geoLocation.latitude]]</span> lat.
+          <span>[[property.geoLocation.longitude]]</span> long.
+        </p>
+      </ll-definition-list>
+
+
+      <!--<ll-definition-list title="CURRENCY:" hidden$="[[!property.currencyCode]]">-->
+      <!--<p>[[property.currencyCode]]</p>-->
+      <!--</ll-definition-list>-->
       <ll-definition-list title="IS BOOKING AVAILABLE:">
         <p>
           <template is="dom-if" if="[[property.isAvailableForBooking]]" restamp>
@@ -139,13 +150,6 @@ Example:
           <template is="dom-if" if="[[!property.isAvailableForBooking]]" restamp>
             <span class="entypo cross"></span>
           </template>
-        </p>
-      </ll-definition-list>
-
-      <ll-definition-list title="LOCATION:" hidden$="{{!property.geoLocation}}">
-        <p>
-          <span>{{property.geoLocation.latitude}}</span> lat.
-          <span>{{property.geoLocation.longitude}}</span> long.
         </p>
       </ll-definition-list>
 
