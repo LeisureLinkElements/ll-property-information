@@ -33,7 +33,7 @@ Example:
       color: red;
     }
 
-    .view-header hr{
+    .view-header hr {
       clear: both;
     }
 
@@ -63,7 +63,9 @@ Example:
   <template>
     <div class="view-header">
       <span class="title pull-left"><h3>Property Information</h3></span>
-      <button style="margin-top: 1px; left: -1px; position: relative;" class="btn btn-default pull-right" on-tap="_editProperty">Edit Information</button>
+      <button style="margin-top: 1px; left: -1px; position: relative;" class="btn btn-default pull-right"
+              on-tap="_editProperty">Edit Information
+      </button>
       <hr/>
     </div>
     <div>
@@ -143,7 +145,7 @@ Example:
       </ll-definition-list>
 
       <!--<ll-definition-list title="CURRENCY:" hidden$="{{!property.currencyCode}}">-->
-        <!--<p>{{property.currencyCode}}</p>-->
+      <!--<p>{{property.currencyCode}}</p>-->
       <!--</ll-definition-list>-->
 
       <ll-definition-list title="LL UNIT ID:" hidden$="{{!property.unitId}}">
@@ -164,7 +166,7 @@ Example:
 
     is: 'll-property-information-view',
 
-    factoryImpl: function(property) {
+    factoryImpl: function (property) {
       if (!property) {
         throw new Error('Must supply a property');
       }
@@ -204,7 +206,7 @@ Example:
         type: Object,
         notify: true,
         reflectToAttribute: true,
-        value: function() {
+        value: function () {
           return {};
         }
       },
@@ -222,34 +224,34 @@ Example:
 
     // Element Lifecycle
 
-    ready: function() {
+    ready: function () {
       this.property.isAvailableForBooking = this.property.isAvailableForBooking || false;
     },
 
     // Element Behavior
-    _backToProperties: function() {
+    _backToProperties: function () {
       this.fire('ll-property-information-view-back-to-properties');
     },
 
-    _editProperty: function() {
+    _editProperty: function () {
       this.fire('ll-property-information-view-edit-property');
     },
 
-    _createProperty: function() {
+    _createProperty: function () {
       this.fire('ll-property-information-view-create-property');
     },
 
-    _goToPropertyPhotos: function() {
+    _goToPropertyPhotos: function () {
       this.fire('ll-property-information-view-property-photos');
     },
 
-    _computeLocale: function(location) {
+    _computeLocale: function (location) {
       if (!location) return '';
       return (location.city + ' ' + location.stateCode + ' ' + location.postalCode);
     },
     //TODO - Create a shared library for these type of functions, as this is copy-pasta from the edit.html view
-    _toProperCase: function(text) {
-      if(text) {
+    _toProperCase: function (text) {
+      if (text) {
         var step = text.replace(/([A-Z])/g, " $1");
         return step.charAt(0).toUpperCase() + step.slice(1);
       }

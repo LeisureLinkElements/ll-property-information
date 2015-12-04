@@ -13,15 +13,15 @@
 
 <script>
 
-  describe('ll-property-information-edit', function() {
+  describe('ll-property-information-edit', function () {
 
-    it('should throw an error if property is not supplied in edit mode', function() {
-      expect(function() {
+    it('should throw an error if property is not supplied in edit mode', function () {
+      expect(function () {
         new LLPropertyInformationEdit(undefined, true);
       }).to.throw('Cannot be in edit mode');
     });
 
-    describe('Edit Mode', function() {
+    describe('Edit Mode', function () {
       var property = {
         name: '7858 Aster Lane',
         isAvailableForBooking: true,
@@ -49,54 +49,54 @@
         },
         currencyCode: 'USD',
         checkInInformationRanges: [{
-          startDate:'2015-02-01T00:00:00Z',
-          endDate:'2015-02-28T00:00:00Z'
-        },{
-          startDate:'2015-05-01T00:00:00Z',
-          endDate:'2015-06-01T00:00:00Z'
-        },{
-          startDate:'2015-03-01T00:00:00Z',
-          endDate:'2015-04-01T00:00:00Z'
+          startDate: '2015-02-01T00:00:00Z',
+          endDate: '2015-02-28T00:00:00Z'
+        }, {
+          startDate: '2015-05-01T00:00:00Z',
+          endDate: '2015-06-01T00:00:00Z'
+        }, {
+          startDate: '2015-03-01T00:00:00Z',
+          endDate: '2015-04-01T00:00:00Z'
         }]
       };
 
       var myEl = new LLPropertyInformationEdit(property, true);
       document.body.appendChild(myEl);
 
-      describe('view', function() {
+      describe('view', function () {
 
-        it('should have 4 action elements for buttons and dom-if templates', function() {
+        it('should have 4 action elements for buttons and dom-if templates', function () {
           expect(myEl.$$('.actions').children).to.have.length(4);
         });
 
       });
 
-      describe('check-in policies', function(){
+      describe('check-in policies', function () {
 
-        it('should have 3 check-in policies', function() {
+        it('should have 3 check-in policies', function () {
           var policyElements = Polymer.dom(myEl.$.checkInPolicies.root).querySelectorAll('.policy');
           expect(policyElements).to.have.length(3);
         });
 
-        it('should validate check-in policies', function() {
+        it('should validate check-in policies', function () {
           expect(myEl.$.checkInPolicies.invalid).to.be.false;
         });
 
-        it('should sort check-in policies by start date', function() {
+        it('should sort check-in policies by start date', function () {
           var policyElements = Polymer.dom(myEl.$.checkInPolicies.root).querySelectorAll('.policy');
           var policy = myEl.$.checkInPolicies.$.policies.itemForElement(policyElements[2]);
           expect(policy.startDate).to.eql('2015-05-01T00:00:00Z');
         });
 
-        it('should add a new policy with start date one day after last end date when link clicked', function(done) {
-          myEl.$.checkInPolicies.addEventListener('dom-change', function(){
+        it('should add a new policy with start date one day after last end date when link clicked', function (done) {
+          myEl.$.checkInPolicies.addEventListener('dom-change', function () {
             expect(_.last(myEl.$.checkInPolicies.policies).startDate).to.eql('2015-06-02T00:00:00Z');
             done();
           });
           myEl.$.checkInPolicies._addNewPolicy();
         });
 
-        it('should invalidate check-in policies', function() {
+        it('should invalidate check-in policies', function () {
           myEl.$.checkInPolicies.policies[0].startDate = '2015-07-01T00:00:00Z';
           myEl.$.checkInPolicies.validate();
           expect(myEl.$.checkInPolicies.invalid).to.be.true;
@@ -104,10 +104,10 @@
 
       });
 
-      describe('events', function() {
+      describe('events', function () {
 
-        it('should fire an event when cancel is clicked', function(done) {
-          myEl.addEventListener('ll-property-information-edit-back-to-properties', function(event) {
+        it('should fire an event when cancel is clicked', function (done) {
+          myEl.addEventListener('ll-property-information-edit-back-to-properties', function (event) {
             expect(event).to.be.ok;
             done();
           });
@@ -115,8 +115,8 @@
           myEl._createCancelClicked();
         });
 
-        it('should fire an event when edit button is clicked in edit mode', function(done) {
-          myEl.addEventListener('ll-property-information-edit-post-edit', function(event) {
+        it('should fire an event when edit button is clicked in edit mode', function (done) {
+          myEl.addEventListener('ll-property-information-edit-post-edit', function (event) {
             expect(event.detail).to.have.property('property');
             done();
           });
@@ -124,8 +124,8 @@
           myEl._postEditClicked();
         });
 
-        it('should fire an event when clicking view create mode', function(done) {
-          myEl.addEventListener('ll-property-information-edit-create-property', function(event) {
+        it('should fire an event when clicking view create mode', function (done) {
+          myEl.addEventListener('ll-property-information-edit-create-property', function (event) {
             expect(event).to.be.ok;
             done();
           });
@@ -133,8 +133,8 @@
           myEl._createPropertyClicked();
         });
 
-        it('should throw an error when clicking post create button when in edit mode', function() {
-          expect(function() {
+        it('should throw an error when clicking post create button when in edit mode', function () {
+          expect(function () {
             myEl._postCreateClicked();
           }).to.throw(/Cannot post create in edit mode/);
         });
@@ -142,21 +142,21 @@
       });
     });
 
-    describe('Create Mode', function() {
+    describe('Create Mode', function () {
       var myEl = new LLPropertyInformationEdit();
 
-      describe('view', function() {
+      describe('view', function () {
 
-        it('should have 4 action elements for buttons and dom-if templates', function() {
+        it('should have 4 action elements for buttons and dom-if templates', function () {
           expect(myEl.$$('.actions').children).to.have.length(4);
         });
 
       });
 
-      describe('events', function() {
+      describe('events', function () {
 
-        it('should fire an event when create post is clicked in create mode', function(done) {
-          myEl.addEventListener('ll-property-information-edit-post-create', function(event) {
+        it('should fire an event when create post is clicked in create mode', function (done) {
+          myEl.addEventListener('ll-property-information-edit-post-create', function (event) {
             expect(event.detail).to.have.property('property');
             done();
           });
@@ -164,8 +164,8 @@
           myEl._postCreateClicked();
         });
 
-        it('should fire an event when cancel is clicked', function(done) {
-          myEl.addEventListener('ll-property-information-edit-view-property', function(event) {
+        it('should fire an event when cancel is clicked', function (done) {
+          myEl.addEventListener('ll-property-information-edit-view-property', function (event) {
             expect(event).to.be.ok;
             done();
           });
@@ -173,14 +173,14 @@
           myEl._editCancelClicked();
         });
 
-        it('should throw an error when clicking post edit in create mode', function() {
-          expect(function() {
+        it('should throw an error when clicking post edit in create mode', function () {
+          expect(function () {
             myEl._postEditClicked();
           }).to.throw(/edit mode/);
         });
 
-        it('should throw an error when clicking view create mode', function() {
-          expect(function() {
+        it('should throw an error when clicking view create mode', function () {
+          expect(function () {
             myEl._createPropertyClicked();
           }).to.throw(/edit mode/);
         });

@@ -471,29 +471,29 @@ The `ll-property-information-edit` handles creating and editing of property info
        * @returns {Boolean}
        * @private
        */
-      _validateForm: function() {
+      _validateForm: function () {
         var _this = this;
         var result = this.$['post-form'].validate();
-        Polymer.dom(this.$['post-form']).querySelectorAll('[is=iron-input][required]').forEach(function(input) {
-          if(!_this._validateIronInput(input)) {
+        Polymer.dom(this.$['post-form']).querySelectorAll('[is=iron-input][required]').forEach(function (input) {
+          if (!_this._validateIronInput(input)) {
             result = false;
           }
         });
-        Polymer.dom(this.$['post-form']).querySelectorAll('select[required]').forEach(function(box) {
-          if(!_this._validateSelectBox(box)) {
+        Polymer.dom(this.$['post-form']).querySelectorAll('select[required]').forEach(function (box) {
+          if (!_this._validateSelectBox(box)) {
             result = false;
           }
         });
         return result;
       },
 
-      _validateIronInput: function(input) {
+      _validateIronInput: function (input) {
         var isValid = input.validate();
         this._toggleFormGroupErrorClass(input, isValid);
         return isValid;
       },
 
-      _validateSelectBox: function(box) {
+      _validateSelectBox: function (box) {
         var isValid = !_.isEmpty(box.value);
         this._toggleFormGroupErrorClass(box, isValid);
         return isValid;

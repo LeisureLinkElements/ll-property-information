@@ -6,9 +6,9 @@
    */
   FormGroupValidationUiBehavior = {
 
-    _toggleFormGroupErrorClass: function(input, isValid) {
+    _toggleFormGroupErrorClass: function (input, isValid) {
       var par = this._getAncestorFormGroup(input);
-      if(par) {
+      if (par) {
         par.classList.toggle('has-error', !isValid);
       }
     },
@@ -22,11 +22,11 @@
      * @returns {Object} or null
      * @private
      */
-    _getAncestorFormGroup: function(element) {
+    _getAncestorFormGroup: function (element) {
       var par = Polymer.dom(element).parentNode;
       if (par && par.classList && par.classList.contains('form-group')) {
         return par;
-      } else if(par) {
+      } else if (par) {
         return this._getAncestorFormGroup(par);
       } else {
         return null;
