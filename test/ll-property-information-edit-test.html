@@ -70,7 +70,6 @@
         });
 
       });
-
       describe('check-in policies', function () {
 
         it('should have 3 check-in policies', function () {
@@ -140,6 +139,20 @@
         });
 
       });
+
+      describe('form validation ui', function() {
+
+        it('should find an ancestor element with the css class "form-group"', function () {
+          expect(myEl._getAncestorFormGroup(myEl.$['city-input'])).to.be.ok;
+        });
+
+        it('should correctly toggle the "has-error" css class of an ancestor element with the css class "form-group"', function () {
+          myEl._toggleFormGroupErrorClass(myEl.$['city-input'], false);
+          expect(myEl._getAncestorFormGroup(myEl.$['city-input']).classList.contains('has-error')).to.be.true;
+        });
+
+      });
+
     });
 
     describe('Create Mode', function () {
