@@ -60,6 +60,13 @@ The `ll-property-information-edit` handles creating and editing of property info
       margin-right: 15px;
     }
 
+    .actions #delete-property {
+      display: none;
+    }
+    :host.can-delete .actions #delete-property {
+      display: inline-block;
+    }
+
     .checkbox {
       margin-top: 5px;
     }
@@ -291,6 +298,7 @@ The `ll-property-information-edit` handles creating and editing of property info
 
             <template is="dom-if" if="{{isEdit}}" restamp>
               <button type="button" class="btn btn-link" on-tap="_editCancelClicked">Cancel</button>
+              <button type="button" id="delete-property" on-tap="_deletePropertyClicked" class="btn btn-destructive">Delete Property</button>
               <button type="submit" class="btn btn-primary">Save Changes</button>
             </template>
 
@@ -313,12 +321,13 @@ The `ll-property-information-edit` handles creating and editing of property info
     LLPropertyInformationEdit = Polymer({
       is: 'll-property-information-edit',
 
-      factoryImpl: function (property, isEdit) {
+      factoryImpl: function (property, isEdit, canDelete) {
         if (!property && isEdit) {
           throw new Error('Cannot be in edit mode without a property supplied');
         }
         if (property) this.property = property;
         this.isEdit = isEdit || false;
+        this.canDelete = canDelete || false;
       },
 
       attached: function () {
@@ -352,6 +361,14 @@ The `ll-property-information-edit` handles creating and editing of property info
        * @property {Object} property - The property being mutated
        */
 
+      /**
+       * Fired when Delete button is clicked on edit form
+       *
+       * @event ll-property-information-edit-delete-property
+       * @type
+       * @property {Object} property - The property to be deleted
+       */
+
       properties: {
         /**
          * Default value is not set here because _initProperty method is called on ready
@@ -361,6 +378,13 @@ The `ll-property-information-edit` handles creating and editing of property info
          */
         property: {
           type: Object
+        },
+        /**
+         * Boolean flag that is used to show or hide the delete button on the Edit Page
+         */
+        canDelete: {
+          type:Boolean,
+          value: false
         },
         /**
          * Whether or not the view should render in edit mode from the @prop property
@@ -413,6 +437,7 @@ The `ll-property-information-edit` handles creating and editing of property info
       _initForm: function () {
         this.$['available-input'].checked = this.property.isAvailableForBooking;
         this.$['post-form'].onsubmit = this._handlePost.bind(this);
+        this.toggleClass('can-delete', this.canDelete);
 
         var self = this;
 
@@ -473,6 +498,12 @@ The `ll-property-information-edit` handles creating and editing of property info
           throw new Error('Cannot view create mode when not in edit mode');
         }
         this.fire('ll-property-information-edit-create-property');
+      },
+      _deletePropertyClicked: function() {
+        if (!this.isEdit) {
+          throw new Error('Cannot delete a property when not in edit mode');
+        }
+        this.fire('ll-property-information-edit-delete-property', {unitId: this.property.unitId});
       },
       _postCreateClicked: function () {
         if (this.isEdit) {

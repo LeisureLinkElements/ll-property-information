@@ -30,7 +30,7 @@ Example
     </template>
 
     <template is="dom-if" id="view-mode" if="{{_inEditMode}}" restamp>
-      <ll-property-information-edit property="{{_property}}" is-edit></ll-property-information-edit>
+      <ll-property-information-edit property="{{_property}}" is-edit can-delete="{{canDelete}}"></ll-property-information-edit>
     </template>
 
     <template is="dom-if" id="create-mode" if="{{_inCreateMode}}" restamp>
@@ -137,6 +137,13 @@ Example
         mode: {
           type: String,
           value: 'view'
+        },
+        /**
+         * Boolean flag that is used to show or hide the delete button on the Edit Page
+         */
+        canDelete: {
+          type: Boolean,
+          value: false
         },
         _property: {
           type: Object,
