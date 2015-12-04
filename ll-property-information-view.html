@@ -2,6 +2,7 @@
 <link rel="import" href="../ll-theme/ll-theme.html">
 <link rel="import" href="./ll-definition-list.html">
 <link rel="import" href="../lodash/lodash.js">
+<script src="../moment/min/moment.min.js"></script>
 
 An element providing the view for property information such as property name, address, description, etc.
 
@@ -255,7 +256,22 @@ Example:
         var step = text.replace(/([A-Z])/g, " $1");
         return step.charAt(0).toUpperCase() + step.slice(1);
       }
-
+    },
+    _timeIsoToAmPm: function(iso) {
+      var m = moment(iso, 'HH:mm:ss');
+      if (m.isValid()) {
+        return m.format('h:mm A');
+      } else {
+        return '';
+      }
+    },
+    _dateIsoToHuman: function(iso) {
+      var m = moment(iso, 'YYYY-MM-DDTHH:mm:ss[Z]');
+      if (m.isValid()) {
+        return m.format('M/D/YY');
+      } else {
+        return '';
+      }
     }
 
   });
