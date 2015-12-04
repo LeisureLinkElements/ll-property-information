@@ -137,10 +137,34 @@ Example:
         </p>
       </ll-definition-list>
 
+      <ll-definition-list title="CHECK-IN TIME:" hidden$="[[!property.checkInTime]]">
+        <p>[[_timeIsoToAmPm(property.checkInTime)]]</p>
+      </ll-definition-list>
+
+      <ll-definition-list title="CHECK-OUT TIME:" hidden$="[[!property.checkOutTime]]">
+        <p>[[_timeIsoToAmPm(property.checkOutTime)]]</p>
+      </ll-definition-list>
+
+      <ll-definition-list title="CHECK-IN POLICIES:" hidden$="[[!property.checkInInformationRanges]]">
+        <template is="dom-repeat" items="[[property.checkInInformationRanges]]" id="policies">
+          <p>
+            [[item.name]]
+            <br>
+            [[_dateIsoToHuman(item.startDate)]] - [[_dateIsoToHuman(item.endDate)]]
+            <span hidden$="[[!item.instructions]]">
+              <br>Instructions: [[item.instructions]]
+            </span>
+            <span hidden$="[[!item.addendum]]">
+              <br>Addendum: [[item.addendum]]
+            </span>
+          </p>
+        </template>
+      </ll-definition-list>
 
       <!--<ll-definition-list title="CURRENCY:" hidden$="[[!property.currencyCode]]">-->
       <!--<p>[[property.currencyCode]]</p>-->
       <!--</ll-definition-list>-->
+
       <ll-definition-list title="IS BOOKING AVAILABLE:">
         <p>
           <template is="dom-if" if="[[property.isAvailableForBooking]]" restamp>
