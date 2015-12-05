@@ -29,7 +29,8 @@
       get-url="http://www.google.com/"
       edit-url="#"
       create-url="#"
-      mode="edit"></ll-property-information>
+      mode="edit"
+      can-delete></ll-property-information>
 </div>
 
 <script>
@@ -84,6 +85,10 @@
   function logData() {
     console.log(propertyInfo._property);
   }
+
+  document.addEventListener('ll-property-information-edit-delete-property', function(e) {
+    console.log('Event to Delete: ', e.detail);
+  });
 
 </script>
 

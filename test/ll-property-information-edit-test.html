@@ -66,7 +66,15 @@
       describe('view', function() {
 
         it('should have 4 action elements for buttons and dom-if templates', function() {
-          expect(myEl.$$('.actions').children).to.have.length(4);
+          expect(myEl.$$('.actions').children).to.have.length(5);
+        });
+
+        it('should be created with the Delete button hidden by default', function() {
+          expect(myEl.canDelete).to.be.false;
+        });
+
+        it('should hide the Delete button if canDelete is false', function() {
+          expect(getComputedStyle(myEl.$$('#delete-property')).display).to.be.eql('none');
         });
 
       });
@@ -139,6 +147,71 @@
           }).to.throw(/Cannot post create in edit mode/);
         });
 
+      });
+    });
+
+    describe('Edit Mode - Can Delete', function() {
+      var property = {
+        name: '7858 Aster Lane',
+        isAvailableForBooking: true,
+        buildingCategory: 'condo',
+        buildingType: 'townhome',
+        geoLocation: {
+          latitude: 49.235,
+          longitude: 23.246
+        },
+        bedroomCount: 5,
+        bathroomCount: 5,
+        fullBathrooms: 3,
+        threeQuarterBathrooms: 0,
+        halfBathrooms: 2,
+        occupancy: 12,
+        description: 'This should be a long description but nah',
+        amenities: ['fireplace', 'jacuzzi', 'steam shower'],
+        address: {
+          address1: '7857 Aster Lane',
+          address2: '',
+          city: 'Park City',
+          stateCode: 'UT',
+          postalCode: '84060',
+          countyCode: 'US'
+        },
+        currencyCode: 'USD',
+        checkInInformationRanges: [{
+          startDate:'2015-02-01T00:00:00Z',
+          endDate:'2015-02-28T00:00:00Z'
+        },{
+          startDate:'2015-05-01T00:00:00Z',
+          endDate:'2015-06-01T00:00:00Z'
+        },{
+          startDate:'2015-03-01T00:00:00Z',
+          endDate:'2015-04-01T00:00:00Z'
+        }],
+        unitId: '311_xxx'
+      };
+
+      var myEl = new LLPropertyInformationEdit(property, true, true);
+      document.body.appendChild(myEl);
+
+      describe('delete enabled', function() {
+
+
+        it('should be created with the canDelete property set to true', function() {
+          expect(myEl.canDelete).to.be.true;
+        });
+
+        it('should show the Delete button', function() {
+          expect(getComputedStyle(myEl.$$('#delete-property')).display).to.be.eql('inline-block');
+        });
+
+        it('should raise an event when the Delete button is clicked', function(done) {
+          myEl.addEventListener('ll-property-information-edit-delete-property', function(event) {
+            expect(event.detail).to.have.property('unitId', '311_xxx');
+            done();
+          });
+
+          myEl._deletePropertyClicked();
+        });
       });
     });
 
