@@ -22,8 +22,10 @@ Example
   <template>
 
     <iron-ajax id="get" url="{{getUrl}}" handle-as="json" on-response="_handleGet"></iron-ajax>
-    <iron-ajax id="create" url="{{createUrl}}" method="POST" handle-as="json" content-type="application/json" on-response="_handleCreate"></iron-ajax>
-    <iron-ajax id="edit" url="{{editUrl}}" method="PUT" content-type="application/json" handle-as="json" on-response="_handleEdit"></iron-ajax>
+    <iron-ajax id="create" url="{{createUrl}}" method="POST" handle-as="json" content-type="application/json"
+               on-response="_handleCreate"></iron-ajax>
+    <iron-ajax id="edit" url="{{editUrl}}" method="PUT" content-type="application/json" handle-as="json"
+               on-response="_handleEdit"></iron-ajax>
 
     <template is="dom-if" if="{{_inViewMode}}" restamp>
       <ll-property-information-view property="{{_property}}"></ll-property-information-view>
@@ -40,13 +42,13 @@ Example
 
   <script>
     var viewMap = {
-      "view": function(component) {
+      "view": function (component) {
         component._viewInformation();
       },
-      "edit": function(component) {
+      "edit": function (component) {
         component._editProperty();
       },
-      "create": function(component) {
+      "create": function (component) {
         component._createProperty();
       }
     };
@@ -54,7 +56,7 @@ Example
     LLPropertyInformation = Polymer({
       is: 'll-property-information',
 
-      factoryImpl: function(mode, getUrl, editUrl, createUrl) {
+      factoryImpl: function (mode, getUrl, editUrl, createUrl) {
         this.mode = mode || this.mode;
         this.getUrl = getUrl || this.getUrl;
         this.editUrl = editUrl || this.editUrl;
@@ -63,15 +65,15 @@ Example
         this.validateAndSetMode();
       },
 
-      ready: function() {
-        if(this.mode !== 'create'){
+      ready: function () {
+        if (this.mode !== 'create') {
           this.$.get.generateRequest();
         }
 
         this.validateAndSetMode();
       },
 
-      validateAndSetMode: function() {
+      validateAndSetMode: function () {
         if (['view', 'edit', 'create'].indexOf(this.mode) < 0) {
           throw new Error('Mode must be one of: "view", "edit", or "create"');
         }
@@ -164,31 +166,31 @@ Example
         }
       },
 
-      _handleGet: function(e, detail) {
-        this._property = detail.response || { location: {} };
+      _handleGet: function (e, detail) {
+        this._property = detail.response || {location: {}};
       },
-      _handleEdit: function() {
-        this.fire('ll-property-information-edited', { property: this._property });
+      _handleEdit: function () {
+        this.fire('ll-property-information-edited', {property: this._property});
         this._viewInformation();
       },
-      _handleCreate: function(e, detail) {
-        this.fire('ll-property-information-created', { property: detail.response });
+      _handleCreate: function (e, detail) {
+        this.fire('ll-property-information-created', {property: detail.response});
         this._backToProperties();
       },
 
-      _viewInformation: function(evt) {
+      _viewInformation: function (evt) {
         this._editMode = this._createMode = false;
         if (evt && evt.detail && evt.detail.property) {
           this._property = evt.detail.property;
         }
       },
 
-      _editProperty: function() {
+      _editProperty: function () {
         this._editMode = true;
         this._createMode = false;
       },
 
-      _postEdit: function(evt) {
+      _postEdit: function (evt) {
         var property = evt.detail.property;
         var edit = this.$.edit;
         property.pmcId = this.pmcId;
@@ -200,12 +202,12 @@ Example
         edit.generateRequest();
       },
 
-      _createProperty: function() {
+      _createProperty: function () {
         this._editMode = false;
         this._createMode = true;
       },
 
-      _postCreate: function(evt) {
+      _postCreate: function (evt) {
         var property = evt.detail.property;
         var create = this.$.create;
         property.pmcId = this.pmcId;
@@ -216,19 +218,19 @@ Example
         create.generateRequest();
       },
 
-      _backToProperties: function() {
+      _backToProperties: function () {
         this.fire('ll-property-information-back-to-properties');
       },
 
-      _isInEditMode: function(editMode, createMode) {
+      _isInEditMode: function (editMode, createMode) {
         return editMode && !createMode;
       },
 
-      _isInViewMode: function(editMode, createMode) {
+      _isInViewMode: function (editMode, createMode) {
         return !editMode && !createMode;
       },
 
-      _isInCreateMode: function(editMode, createMode) {
+      _isInCreateMode: function (editMode, createMode) {
         return !editMode && createMode;
       },
       /**
@@ -237,7 +239,7 @@ Example
        * @returns {Object}
        * @private
        */
-      _convertPropertyStrings: function(property) {
+      _convertPropertyStrings: function (property) {
         property.bedroomCount = parseInt(property.bedroomCount) || 0;
         property.bathroomCount = parseInt(property.bathroomCount) || 0;
         property.fullBathrooms = parseInt(property.fullBathrooms) || 0;

@@ -29,7 +29,7 @@
       get-url="http://www.google.com/"
       edit-url="#"
       create-url="#"
-      mode="edit"></ll-property-information>
+      mode="view"></ll-property-information>
 </div>
 
 <script>
@@ -57,30 +57,21 @@
       threeQuarterBathrooms: 1,
       halfBathrooms: 1,
       amenities: ['Roof', 'Bar', 'Bed'],
-      buildingCategory: 'condo',
       buildingType: 'townhome',
       isAvailableForBooking: true,
       unitId: '8sdf8s_J',
       checkInTime: '15:00:00',
       checkOutTime: '10:00:00',
-      checkInInformationRanges: [{}]
+      checkInInformationRanges: [{
+        name:'Summer',
+        startDate:'2016-05-01T00:00:00',
+        endDate:'2016-08-31T00:00:00',
+        instructions:'Key under gnome',
+        addendum:'Be careful when tipping gnome.'
+      }]
     };
   }
 
-  /**
-   * Some checkInInformationRanges to test with:
-   *
-   * {
-        startDate:'2015-02-01T00:00:00Z',
-        endDate:''
-      },{
-        startDate:'2015-03-01T00:00:00Z',
-        endDate:'2015-04-01T00:00:00Z'
-      },{
-        startDate:'2015-05-01T00:00:00Z',
-        endDate:'2015-06-01T00:00:00Z'
-      }
-   */
   function logData() {
     console.log(propertyInfo._property);
   }

@@ -2,6 +2,7 @@
 <link rel="import" href="../ll-theme/ll-theme.html">
 <link rel="import" href="./ll-definition-list.html">
 <link rel="import" href="../lodash/lodash.js">
+<script src="../moment/min/moment.min.js"></script>
 
 An element providing the view for property information such as property name, address, description, etc.
 
@@ -33,7 +34,7 @@ Example:
       color: red;
     }
 
-    .view-header hr{
+    .view-header hr {
       clear: both;
     }
 
@@ -58,96 +59,126 @@ Example:
       position: relative;
     }
 
+    address, ul {
+      margin-bottom:1em;
+    }
+
   </style>
 
   <template>
     <div class="view-header">
       <span class="title pull-left"><h3>Property Information</h3></span>
-      <button style="margin-top: 1px; left: -1px; position: relative;" class="btn btn-default pull-right" on-tap="_editProperty">Edit Information</button>
+      <button style="margin-top: 1px; left: -1px; position: relative;" class="btn btn-default pull-right"
+              on-tap="_editProperty">Edit Information
+      </button>
       <hr/>
     </div>
     <div>
       <ll-definition-list title="PROPERTY NAME:">
-        <p>{{property.name}}</p>
+        <p>[[property.name]]</p>
       </ll-definition-list>
 
       <ll-definition-list title="ADDRESS:">
         <address>
-          <div>{{property.location.address}}</div>
-          <div>{{property.location.address2}}</div>
-          <div>{{_locale}}</div>
+          <div>[[property.location.address]]</div>
+          <div>[[property.location.address2]]</div>
+          <div>[[_locale]]</div>
         </address>
       </ll-definition-list>
 
       <ll-definition-list title="DESCRIPTION">
-        <p>{{property.description}}</p>
+        <p>[[property.description]]</p>
       </ll-definition-list>
 
-      <ll-definition-list title="BEDROOMS:" hidden$="{{!property.bedroomCount}}">
-        <p>{{property.bedroomCount}}</p>
+      <ll-definition-list title="BEDROOMS:" hidden$="[[!property.bedroomCount]]">
+        <p>[[property.bedroomCount]]</p>
       </ll-definition-list>
 
-      <ll-definition-list title="OCCUPANCY:" hidden$="{{!property.occupancy}}">
-        <p>{{property.occupancy}}</p>
+      <ll-definition-list title="OCCUPANCY:" hidden$="[[!property.occupancy]]">
+        <p>[[property.occupancy]]</p>
       </ll-definition-list>
 
-      <ll-definition-list title="TOTAL BATHROOMS:" hidden$="{{!property.bathroomCount}}">
-        <p>{{property.bathroomCount}}</p>
+      <ll-definition-list title="TOTAL BATHROOMS:" hidden$="[[!property.bathroomCount]]">
+        <p>[[property.bathroomCount]]</p>
       </ll-definition-list>
 
-      <ll-definition-list title="FULL BATHROOMS:" hidden$="{{!property.fullBathrooms}}">
-        <p>{{property.fullBathrooms}}</p>
+      <ll-definition-list title="FULL BATHROOMS:" hidden$="[[!property.fullBathrooms]]">
+        <p>[[property.fullBathrooms]]</p>
       </ll-definition-list>
 
-      <ll-definition-list title="3/4 BATHROOMS:" hidden$="{{!property.threeQuarterBathrooms}}">
-        <p>{{property.threeQuarterBathrooms}}</p>
+      <ll-definition-list title="3/4 BATHROOMS:" hidden$="[[!property.threeQuarterBathrooms]]">
+        <p>[[property.threeQuarterBathrooms]]</p>
       </ll-definition-list>
 
-      <ll-definition-list title="1/2 BATHROOMS:" hidden$="{{!property.halfBathrooms}}">
-        <p>{{property.halfBathrooms}}</p>
+      <ll-definition-list title="1/2 BATHROOMS:" hidden$="[[!property.halfBathrooms]]">
+        <p>[[property.halfBathrooms]]</p>
       </ll-definition-list>
 
-      <ll-definition-list title="AMENITIES:" hidden$="{{!property.amenities}}">
+      <ll-definition-list title="AMENITIES:" hidden$="[[!property.amenities]]">
         <ul class="list-inline">
-          <template is="dom-repeat" items="{{property.amenities}}">
-            <li>{{item}}</li>
+          <template is="dom-repeat" items="[[property.amenities]]">
+            <li>[[item]]</li>
           </template>
         </ul>
       </ll-definition-list>
 
-      <ll-definition-list title="BUILDING CATEGORY:" hidden$="{{!property.buildingCategory}}">
-        <p>{{_toProperCase(property.buildingCategory)}}</p>
+      <ll-definition-list title="BUILDING CATEGORY:" hidden$="[[!property.buildingCategory]]">
+        <p>[[_toProperCase(property.buildingCategory)]]</p>
       </ll-definition-list>
 
-      <ll-definition-list title="BUILDING TYPE:" hidden$="{{!property.buildingType}}">
-        <p>{{_toProperCase(property.buildingType)}}</p>
+      <ll-definition-list title="BUILDING TYPE:" hidden$="[[!property.buildingType]]">
+        <p>[[_toProperCase(property.buildingType)]]</p>
       </ll-definition-list>
+
+      <ll-definition-list title="LOCATION:" hidden$="[[!property.geoLocation]]">
+        <p>
+          <span>[[property.geoLocation.latitude]]</span> lat.
+          <span>[[property.geoLocation.longitude]]</span> long.
+        </p>
+      </ll-definition-list>
+
+      <ll-definition-list title="CHECK-IN TIME:" hidden$="[[!property.checkInTime]]">
+        <p>[[_timeIsoToAmPm(property.checkInTime)]]</p>
+      </ll-definition-list>
+
+      <ll-definition-list title="CHECK-OUT TIME:" hidden$="[[!property.checkOutTime]]">
+        <p>[[_timeIsoToAmPm(property.checkOutTime)]]</p>
+      </ll-definition-list>
+
+      <ll-definition-list title="CHECK-IN POLICIES:" hidden$="[[!property.checkInInformationRanges]]">
+        <template is="dom-repeat" items="[[property.checkInInformationRanges]]" id="policies">
+          <p>
+            [[item.name]]
+            <br>
+            [[_dateIsoToHuman(item.startDate)]] - [[_dateIsoToHuman(item.endDate)]]
+            <span hidden$="[[!item.instructions]]">
+              <br>Instructions: [[item.instructions]]
+            </span>
+            <span hidden$="[[!item.addendum]]">
+              <br>Addendum: [[item.addendum]]
+            </span>
+          </p>
+        </template>
+      </ll-definition-list>
+
+      <!--<ll-definition-list title="CURRENCY:" hidden$="[[!property.currencyCode]]">-->
+      <!--<p>[[property.currencyCode]]</p>-->
+      <!--</ll-definition-list>-->
 
       <ll-definition-list title="IS BOOKING AVAILABLE:">
         <p>
-          <template is="dom-if" if="{{property.isAvailableForBooking}}" restamp>
+          <template is="dom-if" if="[[property.isAvailableForBooking]]" restamp>
             <span class="entypo check"></span>
           </template>
 
-          <template is="dom-if" if="{{!property.isAvailableForBooking}}" restamp>
+          <template is="dom-if" if="[[!property.isAvailableForBooking]]" restamp>
             <span class="entypo cross"></span>
           </template>
         </p>
       </ll-definition-list>
 
-      <ll-definition-list title="LOCATION:" hidden$="{{!property.geoLocation}}">
-        <p>
-          <span>{{property.geoLocation.latitude}}</span> lat.
-          <span>{{property.geoLocation.longitude}}</span> long.
-        </p>
-      </ll-definition-list>
-
-      <!--<ll-definition-list title="CURRENCY:" hidden$="{{!property.currencyCode}}">-->
-        <!--<p>{{property.currencyCode}}</p>-->
-      <!--</ll-definition-list>-->
-
-      <ll-definition-list title="LL UNIT ID:" hidden$="{{!property.unitId}}">
-        <p>{{property.unitId}}</p>
+      <ll-definition-list title="LL UNIT ID:" hidden$="[[!property.unitId]]">
+        <p>[[property.unitId]]</p>
       </ll-definition-list>
 
     </div>
@@ -164,7 +195,7 @@ Example:
 
     is: 'll-property-information-view',
 
-    factoryImpl: function(property) {
+    factoryImpl: function (property) {
       if (!property) {
         throw new Error('Must supply a property');
       }
@@ -199,12 +230,13 @@ Example:
        * @property {String} location.postal
        * @property {String} location.country
        * @property {String} currencyCode
+       * @property {Array.<Object>} checkInInformationRanges
        */
       property: {
         type: Object,
         notify: true,
         reflectToAttribute: true,
-        value: function() {
+        value: function () {
           return {};
         }
       },
@@ -222,38 +254,53 @@ Example:
 
     // Element Lifecycle
 
-    ready: function() {
+    ready: function () {
       this.property.isAvailableForBooking = this.property.isAvailableForBooking || false;
     },
 
     // Element Behavior
-    _backToProperties: function() {
+    _backToProperties: function () {
       this.fire('ll-property-information-view-back-to-properties');
     },
 
-    _editProperty: function() {
+    _editProperty: function () {
       this.fire('ll-property-information-view-edit-property');
     },
 
-    _createProperty: function() {
+    _createProperty: function () {
       this.fire('ll-property-information-view-create-property');
     },
 
-    _goToPropertyPhotos: function() {
+    _goToPropertyPhotos: function () {
       this.fire('ll-property-information-view-property-photos');
     },
 
-    _computeLocale: function(location) {
+    _computeLocale: function (location) {
       if (!location) return '';
       return (location.city + ' ' + location.stateCode + ' ' + location.postalCode);
     },
     //TODO - Create a shared library for these type of functions, as this is copy-pasta from the edit.html view
-    _toProperCase: function(text) {
-      if(text) {
+    _toProperCase: function (text) {
+      if (text) {
         var step = text.replace(/([A-Z])/g, " $1");
         return step.charAt(0).toUpperCase() + step.slice(1);
       }
-
+    },
+    _timeIsoToAmPm: function(iso) {
+      var m = moment(iso, 'HH:mm:ss');
+      if (m.isValid()) {
+        return m.format('h:mm A');
+      } else {
+        return '';
+      }
+    },
+    _dateIsoToHuman: function(iso) {
+      var m = moment(iso, 'YYYY-MM-DDTHH:mm:ss[Z]');
+      if (m.isValid()) {
+        return m.format('M/D/YY');
+      } else {
+        return '';
+      }
     }
 
   });

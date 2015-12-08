@@ -1,0 +1,36 @@
+<script>
+  /**
+   * Provides method to toggle the 'has-error' class of the first ancestor of an element that has the 'form-group' class.
+   *
+   * @polymerBehavior
+   */
+  FormGroupValidationUiBehavior = {
+
+    _toggleFormGroupErrorClass: function (input, isValid) {
+      var par = this._getAncestorFormGroup(input);
+      if (par) {
+        par.classList.toggle('has-error', !isValid);
+      }
+    },
+
+    /**
+     * Return first ancestor of element that has the class 'form-group.'
+     * Return null if none found.
+     * Recursive function.
+     *
+     * @param {Object} element
+     * @returns {Object} or null
+     * @private
+     */
+    _getAncestorFormGroup: function (element) {
+      var par = Polymer.dom(element).parentNode;
+      if (par && par.classList && par.classList.contains('form-group')) {
+        return par;
+      } else if (par) {
+        return this._getAncestorFormGroup(par);
+      } else {
+        return null;
+      }
+    }
+  };
+</script>

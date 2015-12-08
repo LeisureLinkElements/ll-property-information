@@ -9,6 +9,7 @@
 <link rel="import" href="../iron-validatable-behavior/iron-validatable-behavior.html">
 <link rel="import" href="../ll-collection-behavior/ll-collection-behavior.html">
 <link rel="import" href="../ll-date-input/ll-date-input.html">
+<link rel="import" href="form-group-validation-ui-behavior.html">
 <!-- using shared styles in an element -->
 <link rel="import" href="../ll-theme/shared-styles.html">
 
@@ -175,14 +176,14 @@ A helper element for defining a check-in policy
             </div>
             <div class="row">
               <div class="form-group col-md-3">
-                <label for="startDate" class="required">Start Date</label>
+                <label for="startDate" class="required control-label">Start Date</label>
                 <input is="ll-date-input" data-data="{{item.startDate}}" data-data-format="[[dateDataFormat]]"
                        id="startDate"
                        class="form-control"
                        placeholder="Select Date"/>
               </div>
               <div class="form-group col-md-3">
-                <label for="endDate" class="required">End Date</label>
+                <label for="endDate" class="required control-label">End Date</label>
                 <input is="ll-date-input" data-data="{{item.endDate}}" data-data-format="[[dateDataFormat]]"
                        id="endDate"
                        class="form-control"
@@ -196,13 +197,13 @@ A helper element for defining a check-in policy
             </div>
             <div class="row">
               <div class="form-group col-md-6">
-                <label for="instructions" class="required">Instructions</label>
+                <label for="instructions">Instructions</label>
                 <iron-autogrow-textarea id="instructions"
                                         bind-value="{{item.instructions}}" rows="2"
                                         max-rows="6"></iron-autogrow-textarea>
               </div>
               <div class="form-group col-md-6">
-                <label for="addendum" class="required">Addendum</label>
+                <label for="addendum">Addendum</label>
                 <iron-autogrow-textarea id="addendum"
                                         bind-value="{{item.addendum}}" rows="2"
                                         max-rows="6"></iron-autogrow-textarea>
@@ -241,10 +242,10 @@ A helper element for defining a check-in policy
 
       },
 
-      behaviors: [LeisureLinkBehaviors.CollectionBehavior, Polymer.IronFormElementBehavior, Polymer.IronValidatableBehavior],
+      behaviors: [LeisureLinkBehaviors.CollectionBehavior, Polymer.IronFormElementBehavior, Polymer.IronValidatableBehavior, FormGroupValidationUiBehavior],
 
-      attached: function() {
-        if(_.isEmpty(this.policies)) this._addNewPolicy();
+      attached: function () {
+        if (_.isEmpty(this.policies)) this._addNewPolicy();
       },
 
       /**
@@ -310,7 +311,7 @@ A helper element for defining a check-in policy
         this.cleanUp();
         if (this._policiesHaveInvalidDates()) {
           result = false;
-          this.errorMessage = 'One or more check-in policies have invalid dates.';
+          this.errorMessage = 'One or more check-in policies have invalid date ranges.';
         } else if (this._policiesOverlap()) {
           result = false;
           this.errorMessage = 'One or more check-in policies have overlapping dates.';
@@ -344,6 +345,9 @@ A helper element for defining a check-in policy
             policyIsInvalid = _this._policyHasInvalidDates(policy);
             if (policyIsInvalid) result = true;
             policyCollection.toggleClass('error', policyIsInvalid, policyElement);
+            Polymer.dom(policyElement).querySelectorAll('[is=ll-date-input]').forEach(function (dateInput) {
+              _this._toggleFormGroupErrorClass(dateInput, !policyIsInvalid);
+            });
           }
         });
         return result;
