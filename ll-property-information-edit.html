@@ -60,13 +60,6 @@ The `ll-property-information-edit` handles creating and editing of property info
       margin-right: 15px;
     }
 
-    .actions #delete-property {
-      display: none;
-    }
-    :host.can-delete .actions #delete-property {
-      display: inline-block;
-    }
-
     .checkbox {
       margin-top: 5px;
     }
@@ -298,13 +291,13 @@ The `ll-property-information-edit` handles creating and editing of property info
 
             <template is="dom-if" if="{{isEdit}}" restamp>
               <button type="button" class="btn btn-link" on-tap="_editCancelClicked">Cancel</button>
-              <button type="button" id="delete-property" on-tap="_deletePropertyClicked" class="btn btn-destructive">Delete Property</button>
+              <button type="button" class="btn btn-destructive" on-tap="_deletePropertyClicked" hidden$="[[!canDelete]]">Delete Property</button>
               <button type="submit" class="btn btn-primary">Save Changes</button>
             </template>
 
             <template is="dom-if" if="{{!isEdit}}" restamp>
               <button type="button" class="btn btn-link" on-tap="_createCancelClicked">Cancel</button>
-              <button type="submit" class="btn btn-primary">Create property</span>
+              <button type="submit" class="btn btn-primary">Create Property</span>
               </button>
             </template>
           </div>
@@ -437,7 +430,6 @@ The `ll-property-information-edit` handles creating and editing of property info
       _initForm: function () {
         this.$['available-input'].checked = this.property.isAvailableForBooking;
         this.$['post-form'].onsubmit = this._handlePost.bind(this);
-        this.toggleClass('can-delete', this.canDelete);
 
         var self = this;
 

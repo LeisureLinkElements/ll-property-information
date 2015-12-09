@@ -74,7 +74,8 @@
         });
 
         it('should hide the Delete button if canDelete is false', function() {
-          expect(getComputedStyle(myEl.$$('#delete-property')).display).to.be.eql('none');
+          var btn = myEl.$$('.btn-destructive');
+          expect(getComputedStyle(btn).display).to.be.eql('none');
         });
 
       });
@@ -201,7 +202,8 @@
         });
 
         it('should show the Delete button', function() {
-          expect(getComputedStyle(myEl.$$('#delete-property')).display).to.be.eql('inline-block');
+          var btn = myEl.$$('.btn-destructive');
+          expect(getComputedStyle(btn).display).to.be.eql('inline-block');
         });
 
         it('should raise an event when the Delete button is clicked', function(done) {
