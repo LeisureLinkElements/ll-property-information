@@ -203,6 +203,8 @@ Example
 
         property = this._convertPropertyStrings(property);
 
+        //Incomplete implementation, schema does not support this property
+        delete property.checkInInformationRanges;
         edit.body = property;
         edit.generateRequest();
       },
@@ -219,6 +221,8 @@ Example
 
         property = this._convertPropertyStrings(property);
 
+        //Incomplete implementation, schema does not support this property
+        delete property.checkInInformationRanges;
         create.body = property;
         create.generateRequest();
       },
