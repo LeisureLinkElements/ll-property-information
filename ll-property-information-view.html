@@ -107,6 +107,18 @@ Example:
         <p>{{property.halfBathrooms}}</p>
       </ll-definition-list>
 
+      <ll-definition-list title="CHECKIN:" hidden$="{{!property.checkInTime}}">
+        <p>{{property.checkInTime}}</p>
+      </ll-definition-list>
+
+      <ll-definition-list title="CHECKOUT:" hidden$="{{!property.checkOutTime}}">
+        <p>{{property.checkOutTime}}</p>
+      </ll-definition-list>
+
+      <ll-definition-list title="INSTRUCTIONS" hidden$="{{!property.instructions}}">
+        <p>{{property.instructions}}</p>
+      </ll-definition-list>
+
       <ll-definition-list title="AMENITIES:" hidden$="{{!property.amenities}}">
         <ul class="list-inline">
           <template is="dom-repeat" items="{{property.amenities}}">

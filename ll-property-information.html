@@ -198,13 +198,12 @@ Example
       _postEdit: function(evt) {
         var property = evt.detail.property;
         var edit = this.$.edit;
+
         property.pmcId = this.pmcId;
         property.unitId = this.unitId;
 
         property = this._convertPropertyStrings(property);
 
-        //Incomplete implementation, schema does not support this property
-        delete property.checkInInformationRanges;
         edit.body = property;
         edit.generateRequest();
       },
@@ -249,12 +248,11 @@ Example
        * @private
        */
       _convertPropertyStrings: function(property) {
-        property.bedroomCount = parseInt(property.bedroomCount) || 0;
-        property.bathroomCount = parseInt(property.bathroomCount) || 0;
-        property.fullBathrooms = parseInt(property.fullBathrooms) || 0;
-        property.halfBathrooms = parseInt(property.halfBathrooms) || 0;
-        property.threeQuarterBathrooms = parseInt(property.threeQuarterBathrooms) || 0;
-        property.occupancy = parseInt(property.occupancy) || 0;
+        property.bedroomCount = parseInt(property.bedroomCount, 10) || 0;
+        property.fullBathrooms = parseInt(property.fullBathrooms, 10) || 0;
+        property.halfBathrooms = parseInt(property.halfBathrooms, 10) || 0;
+        property.threeQuarterBathrooms = parseInt(property.threeQuarterBathrooms, 10) || 0;
+        property.occupancy = parseInt(property.occupancy, 10) || 0;
         return property;
       }
     });
