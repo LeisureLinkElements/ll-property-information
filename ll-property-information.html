@@ -178,8 +178,8 @@ Example
         this.fire('ll-property-information-edited', { property: this._property });
         this._viewInformation();
       },
-      _handleCreate: function(e, detail) {
-        this.fire('ll-property-information-created', { property: detail.response });
+      _handleCreate: function(evt) {
+        this.fire('ll-property-information-created', { property: evt.detail.response });
         this._backToProperties();
       },
 
